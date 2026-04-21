@@ -181,3 +181,19 @@ jobs:
             esac
           fi
           sudo rm -rf "$GITHUB_WORKSPACE"/* "$ZK_HOME"/*
+
+      - name: Telegram Notification
+        run: |
+          echo "✅ Successfully to build $ZK_NAME !" >> $GITHUB_STEP_SUMMARY
+          TG_TEXT="✅ Successfully to build $ZK_NAME !"
+          PAYLOAD=$(jq -n \
+            --arg chat  "2030539146" \
+            --arg text  "$TG_TEXT" \
+            '{
+              chat_id:      $chat,
+              text:         $text
+            }')
+          curl -s -X POST \
+            "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD"
