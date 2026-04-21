@@ -163,10 +163,9 @@ jobs:
 
       - name: Telegram Notification
         run: |
-          echo "✅ Successfully to build $ZK_NAME !" >> $GITHUB_STEP_SUMMARY
-          TG_TEXT="✅ Successfully to build $ZK_NAME !"
+          TG_TEXT=$(echo -e "✅ Successfully to build:\n➡️ $ZK_NAME")
           PAYLOAD=$(jq -n \
-            --arg chat  "2030539146" \
+            --arg chat  "-1002030539146" \
             --arg text  "$TG_TEXT" \
             '{
               chat_id:      $chat,
