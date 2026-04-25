@@ -7,7 +7,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 67W",
         "front": "16MP",
-        "rear": "108MP / 8MP / 5MP",
+        "rear": "108MP + 8MP + 5MP",
         "color": "Meteorite Gray, Moonlight White, Celestial Blue"
     },
     "air": {
@@ -18,7 +18,7 @@
         "display": "IPS LCD, 6.74in, 90Hz",
         "battery": "5000mAH - 18W",
         "front": "5MP",
-        "rear": "50MP / 0.08MP",
+        "rear": "50MP + 0.08MP",
         "color": "Starlight Black, Startrail Green, Startrail Silver"
     },
     "alioth": {
@@ -29,7 +29,7 @@
         "display": "Super AMOLED, 6.67in, 120Hz",
         "battery": "4520mAH - 33W",
         "front": "20MP",
-        "rear": "48MP / 8MP / 5MP",
+        "rear": "48MP + 8MP + 5MP",
         "color": "Black, White, Aurora"
     },
     "amethyst": {
@@ -40,7 +40,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "6200mAH - 90W",
         "front": "20MP",
-        "rear": "50MP / 50MP / 8MP",
+        "rear": "50MP + 50MP + 8MP",
         "color": "Black, White, Green"
     },
     "annibale": {
@@ -51,7 +51,7 @@
         "display": "AMOLED, 6.59in, 120Hz",
         "battery": "7100mAH - 100W",
         "front": "20MP",
-        "rear": "50MP / 50MP / 8MP",
+        "rear": "50MP + 50MP + 8MP",
         "color": "Black, White, Blue, Purple"
     },
     "arctic": {
@@ -73,7 +73,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "5065mAH - 67W",
         "front": "16MP",
-        "rear": "64MP / 8MP / 2MP",
+        "rear": "64MP + 8MP + 2MP",
         "color": "Black, Gray, Silver, Bruce Lee Yellow"
     },
     "aristotle": {
@@ -84,7 +84,7 @@
         "display": "AMOLED, 6.67in, 144Hz",
         "battery": "5000mAH - 67W",
         "front": "20MP",
-        "rear": "50MP / 50MP / 12MP",
+        "rear": "50MP + 50MP + 12MP",
         "color": "Alpine Blue, Meadow Green, Black"
     },
     "aurora": {
@@ -95,7 +95,7 @@
         "display": "LTPO AMOLED, 6.73in, 120Hz",
         "battery": "5000mAH - 90W",
         "front": "32MP",
-        "rear": "50MP / 50MP / 50MP / 50MP",
+        "rear": "50MP + 50MP + 50MP + 50MP",
         "color": "Black, Blue, White, Titanium Gray"
     },
     "babylon": {
@@ -106,7 +106,7 @@
         "display": "Foldable LTPO OLED+, 8.03in, 120Hz",
         "battery": "4800mAH - 67W",
         "front": "20MP",
-        "rear": "50MP / 10MP / 10MP / 12MP",
+        "rear": "50MP + 10MP + 10MP + 12MP",
         "color": "Black, Gold"
     },
     "beryl": {
@@ -117,7 +117,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "5110mAH - 45W",
         "front": "16MP",
-        "rear": "50MP / 2MP",
+        "rear": "50MP + 2MP",
         "color": "Black, White, Green"
     },
     "bixi": {
@@ -128,7 +128,7 @@
         "display": "Foldable LTPO AMOLED, 6.86in, 120Hz",
         "battery": "5165mAH - 67W",
         "front": "32MP",
-        "rear": "50MP / 50MP",
+        "rear": "50MP + 50MP",
         "color": "hite, Purple, Green, Checkered Gold"
     },
     "breeze": {
@@ -139,7 +139,7 @@
         "display": "IPS LCD, 6.79in, 120Hz",
         "battery": "5030mAH - 33W",
         "front": "8MP",
-        "rear": "50MP / 2MP",
+        "rear": "50MP + 2MP",
         "color": "Black, Blue, Silver"
     },
     "cas": {
@@ -150,7 +150,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "4500mAH - 120W",
         "front": "20MP",
-        "rear": "48MP / 48MP / 12MP / 20MP",
+        "rear": "48MP + 48MP + 12MP + 20MP",
         "color": "Obsidian Black, Mercury Silver, Transparent Edition"
     },
     "cetus": {
@@ -161,7 +161,7 @@
         "display": "Foldable AMOLED, 8.01in",
         "battery": "5020mAH - 67W",
         "front": "20MP",
-        "rear": "108MP / 8MP / 13MP",
+        "rear": "108MP + 8MP + 13MP",
         "color": "Black, Ceramic"
     },
     "charoite": {
@@ -172,7 +172,7 @@
         "display": "AMOLED, 6.77in, 120Hz",
         "battery": "6500mAH - 45W",
         "front": "32MP",
-        "rear": "200MP / 8MP",
+        "rear": "200MP + 8MP",
         "color": "Black, Glacier Blue, Titanium"
     },
     "chenfeng": {
@@ -182,8 +182,8 @@
         "rom": "256GB / 512GB",
         "display": "AMOLED, 6.55in, 120Hz",
         "battery": "4700mAH - 67W",
-        "front": "32MP / 32MP",
-        "rear": "50MP / 50MP / 12MP",
+        "front": "32MP + 32MP",
+        "rear": "50MP + 50MP + 12MP",
         "color": "Black, Pink, Blue, Green"
     },
     "cmi": {
@@ -194,7 +194,7 @@
         "display": "Super AMOLED, 6.67in, 90Hz",
         "battery": "4500mAH - 50W",
         "front": "20MP",
-        "rear": "108MP / 12MP / 8MP / 20MP",
+        "rear": "108MP + 12MP + 8MP + 20MP",
         "color": "Alpine White, Solstice Grey"
     },
     "corot": {
@@ -205,7 +205,7 @@
         "display": "OLED, 6.67in, 144Hz",
         "battery": "5000mAH - 120W",
         "front": "20MP",
-        "rear": "50MP / 8MP / 2MP",
+        "rear": "50MP + 8MP + 2MP",
         "color": "Black, White, Green"
     },
     "creek": {
@@ -227,7 +227,7 @@
         "display": "AMOLED, 6.55in, 90Hz",
         "battery": "4250mAH - 33W",
         "front": "16MP",
-        "rear": "64MP / 8MP / 5MP",
+        "rear": "64MP + 8MP + 5MP",
         "color": "Boba Black (Vinyl Black), Peach Pink (Tuscany Coral), Bubblegum Blue (Jazz Blue)"
     },
     "cupid": {
@@ -238,7 +238,7 @@
         "display": "AMOLED, 6.28in, 120Hz",
         "battery": "4500mAH - 67W",
         "front": "32MP",
-        "rear": "50MP / 13MP / 5MP",
+        "rear": "50MP + 13MP + 5MP",
         "color": "Gray, Blue, Purple, Green"
     },
     "dada": {
@@ -249,7 +249,7 @@
         "display": "LTPO OLED, 6.36in, 120Hz",
         "battery": "5400mAH - 90W",
         "front": "32MP",
-        "rear": "50MP / 50MP / 50MP",
+        "rear": "50MP + 50MP + 50MP",
         "color": "Black, White, Silver, Green, Lilac"
     },
     "dali": {
@@ -260,7 +260,7 @@
         "display": "OLED, 6.83in, 144Hz",
         "battery": "7410mAH - 100W",
         "front": "20MP",
-        "rear": "50MP / 8MP",
+        "rear": "50MP + 8MP",
         "color": "Gray, White, Blue, Green"
     },
     "dash": {
@@ -271,7 +271,7 @@
         "display": "AMOLED, 6.83in, 120Hz",
         "battery": "9000mAH - 100W",
         "front": "20MP",
-        "rear": "50MP / 8MP",
+        "rear": "50MP + 8MP",
         "color": "Black, White, Blue, Orange"
     },
     "daumier": {
@@ -282,7 +282,7 @@
         "display": "LTPO2 AMOLED, 6.73in, 120Hz",
         "battery": "5160mAH - 67W",
         "front": "32MP",
-        "rear": "50MP / 13MP / 5MP",
+        "rear": "50MP + 13MP + 5MP",
         "color": "Gray, Blue"
     },
     "degas": {
@@ -293,7 +293,7 @@
         "display": "AMOLED, 6.67in, 144Hz",
         "battery": "5000mAH - 67W",
         "front": "32MP",
-        "rear": "50MP / 50MP / 12MP",
+        "rear": "50MP + 50MP + 12MP",
         "color": "Titan Gray, Titan Blue, Titan Black, Lemon Green"
     },
     "dew": {
@@ -315,7 +315,7 @@
         "display": "LTPO AMOLED, 6.73in, 120Hz",
         "battery": "6100mAH - 90W",
         "front": "32MP",
-        "rear": "50MP / 50MP / 50MP",
+        "rear": "50MP + 50MP + 50MP",
         "color": "Black, Blue"
     },
     "diting": {
@@ -326,7 +326,7 @@
         "display": "OLED, 6.67in, 144Hz",
         "battery": "5000mAH - 120W",
         "front": "20MP",
-        "rear": "108MP / 8MP / 2MP",
+        "rear": "108MP + 8MP + 2MP",
         "color": "Black, Gray, Blue, Mercedes AMG"
     },
     "duchamp": {
@@ -337,7 +337,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "5500mAH - 90W",
         "front": "16MP",
-        "rear": "64MP / 8MP / 2MP",
+        "rear": "64MP + 8MP + 2MP",
         "color": "Black, White, Mint"
     },
     "earth": {
@@ -348,7 +348,7 @@
         "display": "IPS LCD, 6.71in",
         "battery": "5000mAH - 10W",
         "front": "5MP",
-        "rear": "50MP / 0.08MP",
+        "rear": "50MP + 0.08MP",
         "color": "Black, Blue, Mint, Violet"
     },
     "emerald": {
@@ -359,7 +359,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 67W",
         "front": "16MP",
-        "rear": "200MP / 8MP / 2MP",
+        "rear": "200MP + 8MP + 2MP",
         "color": "Midnight Black, Lavender Purple, Forest Green"
     },
     "evergo": {
@@ -370,7 +370,7 @@
         "display": "IPS LCD, 6.6in, 90Hz",
         "battery": "5000mAH - 33W",
         "front": "16MP",
-        "rear": "50MP / 8MP",
+        "rear": "50MP + 8MP",
         "color": "Mysterious Black, Milky Way Blue, Mint Green"
     },
     "evergreen": {
@@ -381,7 +381,7 @@
         "display": "IPS LCD, 6.6in, 90Hz",
         "battery": "5000mAH - 33W",
         "front": "16MP",
-        "rear": "50MP / 8MP",
+        "rear": "50MP + 8MP",
         "color": "Poco Yellow, Power Black, Cool Blue"
     },
     "fire": {
@@ -392,7 +392,7 @@
         "display": "IPS LCD, 6.79in, 90Hz",
         "battery": "5000mAH - 18W",
         "front": "8MP",
-        "rear": "50MP / 8MP / 2MP",
+        "rear": "50MP + 8MP + 2MP",
         "color": "Midnight Black, Sky Blue, Polar Silver"
     },
     "flame": {
@@ -403,7 +403,7 @@
         "display": "IPS LCD, 6.88in, 120Hz",
         "battery": "5160mAH - 18W",
         "front": "5MP",
-        "rear": "13MP / 2MP",
+        "rear": "13MP + 2MP",
         "color": "Midnight Black, Sage Green, Starry Blue, Purple"
     },
     "fleur": {
@@ -414,7 +414,7 @@
         "display": "AMOLED, 6.43in, 90Hz",
         "battery": "5000mAH - 33W",
         "front": "16MP",
-        "rear": "108MP / 8MP / 2MP / 2MP",
+        "rear": "108MP + 8MP + 2MP + 2MP",
         "color": "Graphite Gray, Pearl White, Twilight Blue"
     },
     "flourite": {
@@ -425,7 +425,7 @@
         "display": "AMOLED, 6.83in, 120Hz",
         "battery": "7000mAH - 90W",
         "front": "32MP",
-        "rear": "50MP / 50MP / 8MP",
+        "rear": "50MP + 50MP + 8MP",
         "color": "Midnight Black, Smoky Purple, Sky Blue, Cedar White"
     },
     "fuxi": {
@@ -436,7 +436,7 @@
         "display": "OLED, 6.36in, 120Hz",
         "battery": "4500mAH - 67W",
         "front": "32MP",
-        "rear": "50MP / 10MP / 12MP",
+        "rear": "50MP + 10MP + 12MP",
         "color": "White, Black, Flora Green, Mountain Blue, Red, Blue, Yellow, Green, Gray"
     },
     "gale": {
@@ -447,7 +447,7 @@
         "display": "IPS LCD, 6.74in, 90Hz",
         "battery": "5000mAH - 18W",
         "front": "8MP",
-        "rear": "50MP / 2MP / 0.08MP",
+        "rear": "50MP + 2MP + 0.08MP",
         "color": "Midnight Black, Navy Blue, Glacier White, Clover Green"
     },
     "garnet": {
@@ -458,7 +458,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "5100mAH - 67W",
         "front": "16MP",
-        "rear": "200MP / 8MP / 2MP",
+        "rear": "200MP + 8MP + 2MP",
         "color": "Black, White, Violet, Blue"
     },
     "goku": {
@@ -468,8 +468,8 @@
         "rom": "256GB / 512GB / 1TB",
         "display": "Foldable LTPO AMOLED, 7.98in, 120Hz",
         "battery": "5100mAH - 67W",
-        "front": "16MP / 16MP",
-        "rear": "50MP / 50MP / 10MP / 12MP",
+        "front": "16MP + 16MP",
+        "rear": "50MP + 50MP + 10MP + 12MP",
         "color": "Black, White, Blue"
     },
     "gold": {
@@ -480,7 +480,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 33W",
         "front": "16MP",
-        "rear": "100MP / 2MP",
+        "rear": "100MP + 2MP",
         "color": "Black, White, Blue"
     },
     "goya": {
@@ -491,7 +491,7 @@
         "display": "AMOLED, 6.83in, 120Hz",
         "battery": "5500mAH - 67W",
         "front": "32MP",
-        "rear": "50MP / 50MP / 12MP",
+        "rear": "50MP + 50MP + 12MP",
         "color": "Black, Gray, Rose Gold"
     },
     "haotian": {
@@ -502,7 +502,7 @@
         "display": "LTPO AMOLED, 6.73in, 120Hz",
         "battery": "6100mAH - 90W",
         "front": "32MP",
-        "rear": "50MP / 50MP / 50MP",
+        "rear": "50MP + 50MP + 50MP",
         "color": "Black, White, Silver, Green"
     },
     "haydn": {
@@ -513,7 +513,7 @@
         "display": "Super AMOLED, 6.67in, 120Hz",
         "battery": "4520mAH - 33W",
         "front": "20MP",
-        "rear": "64MP / 8MP / 5MP",
+        "rear": "64MP + 8MP + 5MP",
         "color": "Black, White, Aurora"
     },
     "houji": {
@@ -524,7 +524,7 @@
         "display": "LTPO OLED, 6.36in, 120Hz",
         "battery": "4610mAH - 90W",
         "front": "32MP",
-        "rear": "50MP / 50MP / 50MP",
+        "rear": "50MP + 50MP + 50MP",
         "color": "Black, Silver, Pink, Green"
     },
     "ingres": {
@@ -535,7 +535,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "4700mAH - 120W",
         "front": "20MP",
-        "rear": "64MP / 8MP / 2MP",
+        "rear": "64MP + 8MP + 2MP",
         "color": "Black, Gray, Blue, AMG"
     },
     "ishtar": {
@@ -546,7 +546,7 @@
         "display": "LTPO3 AMOLED, 6.73in, 120Hz",
         "battery": "5000mAH - 90W",
         "front": "32MP",
-        "rear": "50.3MP / 50MP / 50MP / 50MP",
+        "rear": "50.3MP + 50MP + 50MP + 50MP",
         "color": "Black, Olive Green, White"
     },
     "klee": {
@@ -557,7 +557,7 @@
         "display": "AMOLED, 6.59in, 120Hz",
         "battery": "7560mAH - 100W",
         "front": "20MP",
-        "rear": "50MP / 8MP",
+        "rear": "50MP + 8MP",
         "color": "Black, White, Mint"
     },
     "klimt": {
@@ -568,7 +568,7 @@
         "display": "AMOLED, 6.83in, 144Hz",
         "battery": "5500mAH - 90W",
         "front": "32MP",
-        "rear": "50MP / 50MP / 12MP",
+        "rear": "50MP + 50MP + 12MP",
         "color": "Black, Gray, Mocha Gold"
     },
     "kunzite": {
@@ -579,7 +579,7 @@
         "display": "AMOLED, 6.77in, 120Hz",
         "battery": "5800mAH - 45W",
         "front": "8MP",
-        "rear": "50MP / 2MP",
+        "rear": "50MP + 2MP",
         "color": "Midnight Black, Star White, Sky Blue"
     },
     "lake": {
@@ -590,7 +590,7 @@
         "display": "IPS LCD, 6.88in, 120Hz",
         "battery": "5160mAH - 18W",
         "front": "13MP",
-        "rear": "50MP / 2MP / 0.08MP",
+        "rear": "50MP + 2MP + 0.08MP",
         "color": "Midnight Black, Sage Green, Dreamy Purple, Starry Blue"
     },
     "lapis": {
@@ -601,7 +601,7 @@
         "display": "AMOLED, 6.83in, 120Hz",
         "battery": "7000mAH - 45W",
         "front": "20MP",
-        "rear": "50MP / 8MP",
+        "rear": "50MP + 8MP",
         "color": "Midnight Black, Cloud Purple, Sky blue, Cedar White"
     },
     "light": {
@@ -612,7 +612,7 @@
         "display": "IPS LCD, 6.58in, 90Hz",
         "battery": "5000mAH - 18W",
         "front": "5MP",
-        "rear": "50MP / 2MP",
+        "rear": "50MP + 2MP",
         "color": "Gray, Silver, Atlantic Blue"
     },
     "lightcm": {
@@ -623,7 +623,7 @@
         "display": "IPS LCD, 6.58in, 90Hz",
         "battery": "5000mAH - 18W",
         "front": "5MP",
-        "rear": "13MP / 2MP",
+        "rear": "13MP + 2MP",
         "color": "Black, Blue, Gray"
     },
     "lisa": {
@@ -634,7 +634,7 @@
         "display": "AMOLED, 6.55in, 90Hz",
         "battery": "4250mAH - 33W",
         "front": "20MP",
-        "rear": "64MP / 8MP / 5MP",
+        "rear": "64MP + 8MP + 5MP",
         "color": "Truffle Black (Vinyl Black), Bubblegum Blue (Jazz Blue), Peach Pink (Tuscany Coral), Snowflake White (Diamond Dazzle)"
     },
     "luming": {
@@ -645,7 +645,7 @@
         "display": "AMOLED, 6.55in, 120Hz",
         "battery": "6000mAH - 67W",
         "front": "50MP",
-        "rear": "50MP / 50MP / 12MP",
+        "rear": "50MP + 50MP + 12MP",
         "color": "Gray, Rose Gold, Violet, White, Brown"
     },
     "malachite": {
@@ -656,7 +656,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5500mAH - 45W",
         "front": "20MP",
-        "rear": "50MP / 8MP / 2MP",
+        "rear": "50MP + 8MP + 2MP",
         "color": "Black, White, Purple, Green"
     },
     "manet": {
@@ -667,7 +667,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "5000mAH - 120W",
         "front": "16MP",
-        "rear": "50MP / 50MP / 12MP",
+        "rear": "50MP + 50MP + 12MP",
         "color": "Black, Silver, Blue/Green, Lamborgini Green, Lamborgini Yellow"
     },
     "marble": {
@@ -678,7 +678,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "5000mAH - 67W",
         "front": "16MP",
-        "rear": "64MP / 8MP / 2MP",
+        "rear": "64MP + 8MP + 2MP",
         "color": "Black, Blue, White, Harry Potter Edition"
     },
     "matisse": {
@@ -689,7 +689,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "5000mAH - 120W",
         "front": "20MP",
-        "rear": "108MP / 8MP / 2MP",
+        "rear": "108MP + 8MP + 2MP",
         "color": "Black, Gray, Blue, Green"
     },
     "mayfly": {
@@ -700,7 +700,7 @@
         "display": "AMOLED, 6.28in, 120Hz",
         "battery": "4500mAH - 67W",
         "front": "32MP",
-        "rear": "50MP / 13MP / 5MP",
+        "rear": "50MP + 13MP + 5MP",
         "color": "Gray, White, Purple, Green"
     },
     "miro": {
@@ -711,7 +711,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "6000mAH - 120W",
         "front": "20MP",
-        "rear": "50MP / 50MP / 32MP",
+        "rear": "50MP + 50MP + 32MP",
         "color": "Black, White, Mint, Lamborgini Green, Lamborgini Black"
     },
     "mona": {
@@ -722,7 +722,7 @@
         "display": "OLED, 6.55in, 120Hz",
         "battery": "4500mAH - 55W",
         "front": "32MP",
-        "rear": "64MP / 8MP / 2MP",
+        "rear": "64MP + 8MP + 2MP",
         "color": "Black, Blue, Pink"
     },
     "mondrian": {
@@ -733,7 +733,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "5500mAH - 67W",
         "front": "16MP",
-        "rear": "64MP / 8MP / 2MP",
+        "rear": "64MP + 8MP + 2MP",
         "color": "Black, White, Blue, Green"
     },
     "moon": {
@@ -744,7 +744,7 @@
         "display": "IPS LCD, 6.79in, 90Hz",
         "battery": "5030mAH - 33W",
         "front": "13MP",
-        "rear": "108MP / 2MP",
+        "rear": "108MP + 2MP",
         "color": "Midnight Black, Sandy Gold, Ocean Blue, Pink"
     },
     "moonstone": {
@@ -755,7 +755,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 33W",
         "front": "13MP",
-        "rear": "48MP / 8MP / 2MP",
+        "rear": "48MP + 8MP + 2MP",
         "color": "Green, Blue, Black"
     },
     "munch": {
@@ -766,7 +766,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "4500mAH - 67W",
         "front": "20MP",
-        "rear": "48MP / 8MP / 2MP",
+        "rear": "48MP + 8MP + 2MP",
         "color": "Black, Gray, Blue, Green"
     },
     "myron": {
@@ -777,7 +777,7 @@
         "display": "LTPO AMOLED, 6.9in, 120Hz",
         "battery": "7560mAH - 100W",
         "front": "32MP",
-        "rear": "50MP x3",
+        "rear": "50MP + 50MP + 50MP",
         "color": "Black, White, Denim Blue, Lamborgini White"
     },
     "nezha": {
@@ -788,7 +788,7 @@
         "display": "LTPO AMOLED, 6.9in, 120Hz",
         "battery": "6800mAH - 90W",
         "front": "50MP",
-        "rear": "200MP / 50MP / 50MP",
+        "rear": "200MP + 50MP + 50MP",
         "color": "Black, White, Starry Green, Purple"
     },
     "nuwa": {
@@ -799,7 +799,7 @@
         "display": "LTPO OLED, 6.73in, 120Hz",
         "battery": "4820mAH - 120W",
         "front": "32MP",
-        "rear": "50.3MP / 50MP / 50MP",
+        "rear": "50.3MP + 50MP + 50MP",
         "color": "Ceramic White, Ceramic Black, Ceramic Flora Green, Mountain Blue"
     },
     "obsidian": {
@@ -810,7 +810,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5500mAH - 45W",
         "front": "32MP",
-        "rear": "200MP / 8MP / 2MP",
+        "rear": "200MP + 8MP + 2MP",
         "color": "Midnight Black, Aurora Purple, Ocean Blue"
     },
     "odin": {
@@ -821,7 +821,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "4500mAH - 120W",
         "front": "20MP",
-        "rear": "108MP / 8MP / 13MP",
+        "rear": "108MP + 8MP + 13MP",
         "color": "Ceramic Black, Ceramic White, Shadow Gray"
     },
     "onyx": {
@@ -832,7 +832,7 @@
         "display": "AMOLED, 6.83in, 120Hz",
         "battery": "7550mAH - 90W",
         "front": "20MP",
-        "rear": "50MP / 8MP",
+        "rear": "50MP + 8MP",
         "color": "Black, White, Green, Harry Potter edition"
     },
     "opal": {
@@ -843,7 +843,7 @@
         "display": "IPS LCD, 6.6in, 90Hz",
         "battery": "5000mAH - 33W",
         "front": "13MP",
-        "rear": "50MP / 8MP / 2MP",
+        "rear": "50MP + 8MP + 2MP",
         "color": "Midnight Black, Twilight Blue, Star Blue"
     },
     "pandora": {
@@ -854,7 +854,7 @@
         "display": "LTPO AMOLED, 6.3in, 120Hz",
         "battery": "6300mAH - 100W",
         "front": "50MP",
-        "rear": "50MP x3",
+        "rear": "50MP + 50MP + 50MP",
         "color": "Black, White, Purple, Green"
     },
     "pearl": {
@@ -865,7 +865,7 @@
         "display": "IPS LCD, 6.6in, 144Hz",
         "battery": "5080mAH - 67W",
         "front": "16MP",
-        "rear": "64MP / 8MP / 2MP",
+        "rear": "64MP + 8MP + 2MP",
         "color": "Blue, White, Black"
     },
     "peridot": {
@@ -876,7 +876,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 90W",
         "front": "20MP",
-        "rear": "50MP / 8MP",
+        "rear": "50MP + 8MP",
         "color": "Black, Green, Titanium, Harry Potter"
     },
     "pissarro": {
@@ -887,7 +887,7 @@
         "display": "Super AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 67W",
         "front": "16MP",
-        "rear": "108MP / 8MP / 2MP",
+        "rear": "108MP + 8MP + 2MP",
         "color": "Mirage Blue, Phantom White, Stealth Black"
     },
     "pissarro_in": {
@@ -898,7 +898,7 @@
         "display": "Super AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 67W",
         "front": "16MP",
-        "rear": "108MP / 8MP / 2MP",
+        "rear": "108MP + 8MP + 2MP",
         "color": "Mirage Blue, Phantom White, Stealth Black"
     },
     "plato": {
@@ -909,7 +909,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 120W",
         "front": "20MP",
-        "rear": "108MP / 8MP / 2MP",
+        "rear": "108MP + 8MP + 2MP",
         "color": "Black, Silver, Blue"
     },
     "popsicle": {
@@ -920,7 +920,7 @@
         "display": "LTPO AMOLED, 6.9in, 120Hz",
         "battery": "7500mAH - 100W",
         "front": "50MP",
-        "rear": "50MP x3",
+        "rear": "50MP + 50MP + 50MP",
         "color": "Black, White, Purple, Green"
     },
     "prague": {
@@ -931,7 +931,7 @@
         "display": "LTPO AMOLED, 6.83in, 165Hz",
         "battery": "8550mAH - 100W",
         "front": "20MP",
-        "rear": "50MP / 8MP",
+        "rear": "50MP + 8MP",
         "color": "Silver, Blue, Black"
     },
     "psyche": {
@@ -942,7 +942,7 @@
         "display": "AMOLED, 6.28in, 120Hz",
         "battery": "4500mAH - 67W",
         "front": "32MP",
-        "rear": "50MP / 13MP / 5MP",
+        "rear": "50MP + 13MP + 5MP",
         "color": "Gray, Blue, Purple"
     },
     "pudding": {
@@ -953,7 +953,7 @@
         "display": "LTPO AMOLED, 6.3in, 120Hz",
         "battery": "7000mAH - 100W",
         "front": "50MP",
-        "rear": "50MP x3",
+        "rear": "50MP + 50MP + 50MP",
         "color": "Black, Blue, Pink, White"
     },
     "redwood": {
@@ -964,7 +964,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "5000mAH - 67W",
         "front": "16MP",
-        "rear": "108MP / 8MP / 2MP",
+        "rear": "108MP + 8MP + 2MP",
         "color": "Black, Blue, Green"
     },
     "rembrandt": {
@@ -975,7 +975,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "5500mAH - 67W",
         "front": "20MP",
-        "rear": "48MP / 8MP / 2MP",
+        "rear": "48MP + 8MP + 2MP",
         "color": "Black, White, Green"
     },
     "renoir": {
@@ -986,7 +986,7 @@
         "display": "AMOLED, 6.55in, 90Hz",
         "battery": "4250mAH - 33W",
         "front": "20MP",
-        "rear": "64MP / 8MP / 5MP",
+        "rear": "64MP + 8MP + 5MP",
         "color": "Truffle Black, Mint Green, Citrus Yellow"
     },
     "rock": {
@@ -997,7 +997,7 @@
         "display": "IPS LCD, 6.58in, 90Hz",
         "battery": "5000mAH - 18W",
         "front": "5MP",
-        "rear": "50MP / 2MP / 2MP",
+        "rear": "50MP + 2MP + 2MP",
         "color": "Black, Green, Yellow"
     },
     "rodin": {
@@ -1008,7 +1008,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "6550mAH - 90W",
         "front": "20MP",
-        "rear": "50MP / 8MP",
+        "rear": "50MP + 8MP",
         "color": "Black, White, Blue"
     },
     "rothko": {
@@ -1019,7 +1019,7 @@
         "display": "OLED, 6.67in, 144Hz",
         "battery": "5500mAH - 120W",
         "front": "20MP",
-        "rear": "50MP / 8MP / 2MP",
+        "rear": "50MP + 8MP + 2MP",
         "color": "Black, White, Violet, Green Championship Edition, Orange Championship Edition"
     },
     "rubens": {
@@ -1030,7 +1030,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "5500mAH - 67W",
         "front": "20MP",
-        "rear": "48MP / 8MP / 2MP",
+        "rear": "48MP + 8MP + 2MP",
         "color": "Black, Gray, Blue, Green"
     },
     "ruby": {
@@ -1041,7 +1041,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "5000mAH - 67W",
         "front": "16MP",
-        "rear": "50MP / 8MP / 2MP",
+        "rear": "50MP + 8MP + 2MP",
         "color": "Black, Blue, White, Violet"
     },
     "ruyi": {
@@ -1052,7 +1052,7 @@
         "display": "Foldable LTPO AMOLED, 6.86in, 120Hz",
         "battery": "4780mAH - 67W",
         "front": "32MP",
-        "rear": "50MP / 50MP",
+        "rear": "50MP + 50MP",
         "color": "Black, White, Purple"
     },
     "sapphire": {
@@ -1063,7 +1063,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 33W",
         "front": "16MP",
-        "rear": "108MP / 8MP / 2MP",
+        "rear": "108MP + 8MP + 2MP",
         "color": "Graphite black (Stealth Black), Arctic White, Ocean Teal, Prism Gold"
     },
     "sapphiren": {
@@ -1074,7 +1074,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 33W",
         "front": "16MP",
-        "rear": "108MP / 8MP / 2MP",
+        "rear": "108MP + 8MP + 2MP",
         "color": "Graphite black (Stealth Black), Arctic White, Ocean Teal, Prism Gold"
     },
     "sea": {
@@ -1085,7 +1085,7 @@
         "display": "AMOLED, 6.43in, 90Hz",
         "battery": "5000mAH - 33W",
         "front": "16MP",
-        "rear": "108MP / 8MP / 2MP",
+        "rear": "108MP + 8MP + 2MP",
         "color": "Onyx Black, Ice Blue, Pearl Green"
     },
     "serenity": {
@@ -1107,7 +1107,7 @@
         "display": "LTPO AMOLED, 6.73in, 120Hz",
         "battery": "4880mAH - 120W",
         "front": "32MP",
-        "rear": "50MP / 50MP / 50MP",
+        "rear": "50MP + 50MP + 50MP",
         "color": "Black, Silver, Titanium, Green"
     },
     "sky": {
@@ -1118,7 +1118,7 @@
         "display": "IPS LCD, 6.79in, 90Hz",
         "battery": "5000mAH - 18W",
         "front": "5MP",
-        "rear": "50MP / 2MP",
+        "rear": "50MP + 2MP",
         "color": "Black, Blue, Silver"
     },
     "socrates": {
@@ -1129,7 +1129,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "5000mAH - 120W",
         "front": "16MP",
-        "rear": "54MP / 8MP / 2MP",
+        "rear": "54MP + 8MP + 2MP",
         "color": "Black, White, Mint, Champion Black"
     },
     "somalia": {
@@ -1151,7 +1151,7 @@
         "display": "AMOLED, 6.43in, 90Hz",
         "battery": "5000mAH - 33W",
         "front": "13MP",
-        "rear": "50MP / 8MP / 2MP / 2MP",
+        "rear": "50MP + 8MP + 2MP + 2MP",
         "color": "Graphite Gray, Pearl White, Star Blue"
     },
     "spesn": {
@@ -1162,7 +1162,7 @@
         "display": "AMOLED, 6.43in, 90Hz",
         "battery": "5000mAH - 33W",
         "front": "13MP",
-        "rear": "50MP / 8MP / 2MP / 2MP",
+        "rear": "50MP + 8MP + 2MP + 2MP",
         "color": "Graphite Gray, Pearl White, Star Blue"
     },
     "spinel": {
@@ -1195,7 +1195,7 @@
         "display": "AMOLED, 6.81in, 120Hz",
         "battery": "5000mAH - 67W",
         "front": "20MP",
-        "rear": "50MP / 8MP / 13MP",
+        "rear": "50MP + 8MP + 13MP",
         "color": "Black, Green, Purple"
     },
     "sunstone": {
@@ -1206,7 +1206,7 @@
         "display": "Samsung AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 33W",
         "front": "8MP",
-        "rear": "48MP / 2MP",
+        "rear": "48MP + 2MP",
         "color": "Black, White, Blue"
     },
     "sweet": {
@@ -1217,7 +1217,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5020mAH - 33W",
         "front": "16MP",
-        "rear": "108MP / 8MP / 5MP / 2MP",
+        "rear": "108MP + 8MP + 5MP + 2MP",
         "color": "Onyx Gray, Glacier Blue, Gradient Bronze"
     },
     "sweet_k6a": {
@@ -1228,7 +1228,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 67W",
         "front": "16MP",
-        "rear": "108MP / 8MP / 2MP / 2MP",
+        "rear": "108MP + 8MP + 2MP + 2MP",
         "color": "Star Blue, Graphite Gray, Polar White, Ice blue"
     },
     "tanzanite": {
@@ -1239,7 +1239,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5500mAH - 33W",
         "front": "20MP",
-        "rear": "108MP / 2MP / 2MP",
+        "rear": "108MP + 2MP + 2MP",
         "color": "Midnight Black, Mist Purple, Ocean Blue, Lime Green"
     },
     "taoyao": {
@@ -1250,7 +1250,7 @@
         "display": "AMOLED, 6.55in, 120Hz",
         "battery": "4300mAH - 67W",
         "front": "32MP",
-        "rear": "108MP / 8MP / 2MP",
+        "rear": "108MP + 8MP + 2MP",
         "color": "Black, Lite Green, Lite Pink"
     },
     "tapas": {
@@ -1261,7 +1261,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 33W",
         "front": "13MP",
-        "rear": "50MP / 8MP / 2MP",
+        "rear": "50MP + 8MP + 2MP",
         "color": "Onyx Gray, Mint Green, Ice Blue"
     },
     "thor": {
@@ -1272,7 +1272,7 @@
         "display": "LTPO2 AMOLED, 6.73in, 120Hz",
         "battery": "4860mAH - 67W",
         "front": "32MP",
-        "rear": "50.3MP / 48MP / 48MP",
+        "rear": "50.3MP + 48MP + 48MP",
         "color": "Black, Dark Green"
     },
     "thyme": {
@@ -1283,7 +1283,7 @@
         "display": "AMOLED, 6.67in, 90Hz",
         "battery": "4780mAH - 33W",
         "front": "20MP",
-        "rear": "108MP / 13MP / 2MP / 2MP",
+        "rear": "108MP + 13MP + 2MP + 2MP",
         "color": "Titanium Black, Ice Blue, Pearl White"
     },
     "topaz": {
@@ -1294,7 +1294,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 33W",
         "front": "13MP",
-        "rear": "50MP / 8MP / 2MP",
+        "rear": "50MP + 8MP + 2MP",
         "color": "Onyx Gray, Mint Green, Ice Blue"
     },
     "tornado": {
@@ -1316,7 +1316,7 @@
         "display": "Super AMOLED, 6.67in, 90Hz",
         "battery": "4780mAH - 30W",
         "front": "20MP",
-        "rear": "108MP / 13MP / 2MP / 2MP",
+        "rear": "108MP + 13MP + 2MP + 2MP",
         "color": "Coral Green, Twilight Grey, Peach Gold"
     },
     "unicorn": {
@@ -1327,7 +1327,7 @@
         "display": "LTPO AMOLED, 6.73in, 120Hz",
         "battery": "4600mAH - 120W",
         "front": "32MP",
-        "rear": "50MP / 50MP / 50MP",
+        "rear": "50MP + 50MP + 50MP",
         "color": "Gray, White, Purple, Green"
     },
     "vayu": {
@@ -1338,7 +1338,7 @@
         "display": "IPS LCD, 6.67in, 120Hz",
         "battery": "5160mAH - 33W",
         "front": "20MP",
-        "rear": "48MP / 8MP / 2MP / 2MP",
+        "rear": "48MP + 8MP + 2MP + 2MP",
         "color": "Phantom Black, Frost Blue, Metal Bronze"
     },
     "venus": {
@@ -1349,7 +1349,7 @@
         "display": "AMOLED, 6.81in, 120Hz",
         "battery": "4600mAH - 55W",
         "front": "20MP",
-        "rear": "108MP / 13MP / 5MP",
+        "rear": "108MP + 13MP + 5MP",
         "color": "Horizon Blue, Cloud White, Midnight Gray, Special Edition Blue, Gold, Violet"
     },
     "vermeer": {
@@ -1360,7 +1360,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "5000mAH - 120W",
         "front": "16MP",
-        "rear": "50MP / 8MP / 2MP",
+        "rear": "50MP + 8MP + 2MP",
         "color": "Black, Silver, Blue/Green, Purple"
     },
     "veux": {
@@ -1371,7 +1371,7 @@
         "display": "Super AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 67W",
         "front": "16MP",
-        "rear": "108MP / 8MP / 2MP",
+        "rear": "108MP + 8MP + 2MP",
         "color": "Graphite Gray, Polar White, Atlantic Blue"
     },
     "vida": {
@@ -1382,7 +1382,7 @@
         "display": "Super AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 67W",
         "front": "16MP",
-        "rear": "108MP / 8MP / 2MP / 2MP",
+        "rear": "108MP + 8MP + 2MP + 2MP",
         "color": "Graphite Gray (Stealth Black), Polar White (Phantom White), Star Blue"
     },
     "vili": {
@@ -1393,7 +1393,7 @@
         "display": "AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 120W",
         "front": "16MP",
-        "rear": "108MP / 8MP / 5MP",
+        "rear": "108MP + 8MP + 5MP",
         "color": "Meteorite Gray, Moonlight White, Celestial Blue"
     },
     "viva": {
@@ -1404,7 +1404,7 @@
         "display": "Super AMOLED, 6.67in, 120Hz",
         "battery": "5000mAH - 67W",
         "front": "16MP",
-        "rear": "108MP / 8MP / 2MP / 2MP",
+        "rear": "108MP + 8MP + 2MP + 2MP",
         "color": "Graphite Gray (Stealth Black), Polar White (Phantom White), Star Blue"
     },
     "warm": {
@@ -1426,7 +1426,7 @@
         "display": "IPS LCD, 6.6in, 144Hz",
         "battery": "4400mAH - 120W",
         "front": "16MP",
-        "rear": "64MP / 8MP / 2MP",
+        "rear": "64MP + 8MP + 2MP",
         "color": "Blue, Silver, Black"
     },
     "xuanyuan": {
@@ -1437,7 +1437,7 @@
         "display": "LTPO AMOLED, 6.73in, 120Hz",
         "battery": "6000mAH - 90W",
         "front": "32MP",
-        "rear": "50MP / 50MP / 200MP / 50MP",
+        "rear": "50MP + 50MP + 200MP + 50MP",
         "color": "Black, White, Silver Chrome, Green"
     },
     "yuechu": {
@@ -1447,8 +1447,8 @@
         "rom": "256GB / 512GB / 1TB",
         "display": "AMOLED, 6.55in, 120Hz",
         "battery": "4500mAH - 67W",
-        "front": "32MP / 32MP",
-        "rear": "50MP / 8MP / 2MP",
+        "front": "32MP + 32MP",
+        "rear": "50MP + 8MP + 2MP",
         "color": "Purple, Mint, Gold, Gray"
     },
     "zeus": {
@@ -1459,7 +1459,7 @@
         "display": "LTPO AMOLED, 6.73in, 120Hz",
         "battery": "4600mAH - 120W",
         "front": "32MP",
-        "rear": "50MP / 50MP / 50MP",
+        "rear": "50MP + 50MP + 50MP",
         "color": "Gray, Blue, Purple, Green"
     },
     "zijin": {
@@ -1470,7 +1470,7 @@
         "display": "OLED, 6.55in, 120Hz",
         "battery": "4500mAH - 55W",
         "front": "32MP",
-        "rear": "64MP / 8MP / 2MP",
+        "rear": "64MP + 8MP + 2MP",
         "color": "Black, Blue, Pink, Silver"
     },
     "zircon": {
@@ -1481,7 +1481,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "5000mAH - 120W",
         "front": "16MP",
-        "rear": "200MP / 8MP / 2MP",
+        "rear": "200MP + 8MP + 2MP",
         "color": "Black, White, Violet, Camo Green"
     },
     "ziyi": {
@@ -1491,8 +1491,8 @@
         "rom": "128GB / 256GB",
         "display": "AMOLED, 6.55in, 120Hz",
         "battery": "4500mAH - 67W",
-        "front": "32MP / 32MP",
-        "rear": "50MP / 20MP / 2MP",
+        "front": "32MP + 32MP",
+        "rear": "50MP + 20MP + 2MP",
         "color": "Black, Blue, Violet, Silver"
     },
     "zizhan": {
@@ -1503,7 +1503,7 @@
         "display": "Foldable LTPO2 OLED, 8.02in, 120Hz",
         "battery": "4500mAH - 67W",
         "front": "20MP",
-        "rear": "50MP / 8MP / 13MP",
+        "rear": "50MP + 8MP + 13MP",
         "color": "Black, Gold"
     },
     "zorn": {
@@ -1514,7 +1514,7 @@
         "display": "OLED, 6.67in, 120Hz",
         "battery": "6550mAH - 90W",
         "front": "20MP",
-        "rear": "50MP / 8MP",
+        "rear": "50MP + 8MP",
         "color": "Black, White, Mint, Blue"
     }
 }
