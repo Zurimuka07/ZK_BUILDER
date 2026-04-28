@@ -165,11 +165,11 @@ jobs:
             fi
           }
           if [ "$ROM_VER" = "V14" ]; then
-            upload_sf_file "$ROM_OUTPUT" "ZKUI14.0"
+            upload_sf_file "$ROM_OUTPUT" "ZKUI14"
             python upload.py --folder-id "1a2O_DmmxH6o4szRJaBQjSfYXjYvdlRUO" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
             echo "ZK_LINK=https://index.projectzk.online/0:/ZK-EU/ZKUI14" >> $GITHUB_ENV
           elif [ "$ROM_VER" = "OS2" ] || [ "$ROM_VER" = "OS2_A14" ]; then
-            upload_sf_file "$ROM_OUTPUT" "ZKOS2.2"
+            upload_sf_file "$ROM_OUTPUT" "ZKOS2"
             python upload.py --folder-id "1KV-VovIo3NgZlGNLM0Aj2RwmT3q4mTfy" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
             echo "ZK_LINK=https://index.projectzk.online/0:/ZK-EU/ZKOS2" >> $GITHUB_ENV
           elif [ "$ROM_VER" = "OS3" ] || [ "$ROM_VER" = "OS3_A15" ]; then
@@ -178,7 +178,7 @@ jobs:
                 python upload.py --folder-id "${{ secrets.PRIVATE_DRIVE_ID }}" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
                 ;;
               *)
-                upload_sf_file "$ROM_OUTPUT" "ZKOS3.3"
+                upload_sf_file "$ROM_OUTPUT" "ZKOS3"
                 python upload.py --folder-id "1fFNVQDoS4qnOIZP1xyoAiPYGUK2lUUNu" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
                 echo "ZK_LINK=https://index.projectzk.online/0:/ZK-EU/ZKOS3" >> $GITHUB_ENV
                 ;;
