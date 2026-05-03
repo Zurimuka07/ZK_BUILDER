@@ -63,7 +63,7 @@ jobs:
           if echo "$ROM_URL" | grep -q "drive.google.com"; then
             sudo apt-get install -y python3-pip > /dev/null 2>&1
             pip3 install gdown > /dev/null 2>&1
-            export ZK_NAME="ZK_XIAOMI_${DATE}"
+            export ZK_NAME="ZK_XIAOMI_EU${DATE}"
           else
             ROM_NAME="$(basename "${ROM_URL%/download}")"
             if [[ "$ROM_NAME" == *_OS* ]]; then
@@ -72,9 +72,9 @@ jobs:
                 DEVICE="${DEVICE_RAW^^}"
                 OS_VER="${BASH_REMATCH[2]}"
                 REGION="${BASH_REMATCH[3]}"
-                export ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_${DATE}"
+                export ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_EU${DATE}"
               else
-                export ZK_NAME="ZKOS_XIAOMI_${DATE}"
+                export ZK_NAME="ZKOS_XIAOMI_EU${DATE}"
               fi
             elif [[ "$ROM_NAME" == *_V14* ]]; then
               if [[ "$ROM_NAME" =~ ^xiaomi\.eu_multi_([A-Za-z0-9]+(_[A-Za-z0-9]+)?)_(V14\.[0-9.]+)\.([A-Z0-9]+)_v14-([0-9]+)\.zip$ ]]; then
@@ -82,9 +82,9 @@ jobs:
                 DEVICE="${DEVICE_RAW^^}"
                 OS_VER="${BASH_REMATCH[3]}"
                 REGION="${BASH_REMATCH[4]}"
-                export ZK_NAME="ZKUI_${DEVICE}_${OS_VER}.${REGION}_${DATE}"
+                export ZK_NAME="ZKUI_${DEVICE}_${OS_VER}.${REGION}_EU${DATE}"
               else
-                export ZK_NAME="ZKUI_XIAOMI_${DATE}"
+                export ZK_NAME="ZKUI_XIAOMI_EU${DATE}"
               fi
             else
               echo "Unable to set ZK ROM name"
