@@ -66,7 +66,7 @@ jobs:
               REGION="${BASH_REMATCH[3]}"
               ANDROID="${BASH_REMATCH[4]}"
               ROM_VER="${OS_VER%%.*}"
-              export ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_${DATE}"
+              export ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_CN${DATE}"
             elif [[ "$ROM_NAME" =~ ^([a-z0-9]+)_[a-z_]+-ota_full-(OS[0-9.]+)\.([A-Z0-9]+)-user-([0-9.]+)-.*\.zip$ ]]; then
               DEVICE_RAW="${BASH_REMATCH[1]}"
               DEVICE="${DEVICE_RAW^^}"
@@ -74,7 +74,7 @@ jobs:
               REGION="${BASH_REMATCH[3]}"
               ANDROID="${BASH_REMATCH[4]}"
               ROM_VER="${OS_VER%%.*}"
-              export ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_${DATE}"
+              export ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_MI${DATE}"
             else
               export ZK_NAME="ZKOS_${DATE}"
             fi
