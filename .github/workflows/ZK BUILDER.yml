@@ -109,6 +109,7 @@ jobs:
             FINAL_URL="https://cfhcable.dl.sourceforge.net/project/${project}/${path}?viasf=1"
             cd "$GITHUB_WORKSPACE/ROM" 
             timeout 1800 aria2c https://cfhcable.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || \
+            timeout 1800 aria2c https://pilotfiber.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || \
             timeout 1800 aria2c https://gigenet.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || exit 1
           fi
 
