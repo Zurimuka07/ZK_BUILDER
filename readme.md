@@ -5,5 +5,5 @@
   | Methods | Details |
   | :--- | :--- |
   | Vietcombank | 1056244481 |
-  | Buy Me A Coffee | [DONATE](https://buymeacoffee.com/zuri1503) |
+  | PayPal | [DONATE](https://paypal.com/zuri1503](https://www.paypal.com/paypalme/zuri1503) |
   ---
