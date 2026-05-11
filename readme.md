@@ -5,5 +5,5 @@
   | Methods | Details |
   | :--- | :--- |
   | Vietcombank | 1056244481 |
-  | PayPal | [DONATE](https://paypal.com/zuri1503](https://www.paypal.com/paypalme/zuri1503) |
+  | PayPal | [DONATE](https://www.paypal.com/paypalme/zuri1503) |
   ---
