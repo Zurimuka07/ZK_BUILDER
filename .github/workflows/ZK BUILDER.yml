@@ -1,8 +1,6 @@
 name: ZK BUILDER
-
 permissions:
   contents: write
-
 on:
   workflow_dispatch:
     inputs:
@@ -17,14 +15,12 @@ on:
         description: "FORCE EXT4"
         type: boolean
         default: 'false'
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout main
         uses: actions/checkout@v6.0.2
-
       - name: Check free disk space
         id: diskcheck
         run: |
@@ -35,7 +31,6 @@ jobs:
           else
             echo "need_cleanup=false" >> $GITHUB_OUTPUT
           fi
-
       - name: Maximize build disk space
         if: steps.diskcheck.outputs.need_cleanup == 'true'
         uses: AdityaGarg8/remove-unwanted-software@v5
@@ -47,7 +42,6 @@ jobs:
           remove-docker-images: 'true'
           remove-large-packages: 'true'
           remove-cached-tools: 'true'
-
       - name: Setup build environment
         run: |
           cd "$GITHUB_WORKSPACE"
@@ -94,25 +88,8 @@ jobs:
             echo "DEVICE=$DEVICE" >> $GITHUB_ENV
           fi
           echo "ZK_NAME=$ZK_NAME" >> $GITHUB_ENV
-
       - name: Download ROM files
-        run: |
-          cd "$GITHUB_WORKSPACE"
-          mkdir -p "$GITHUB_WORKSPACE/ROM" && cd "$GITHUB_WORKSPACE/ROM"
-          if echo "$ROM_URL" | grep -q "drive.google.com"; then
-            gdown --fuzzy -O "${ZK_NAME}.zip" "$ROM_URL" || exit 1
-          else
-            tmp="${ROM_URL#https://sourceforge.net/projects/}"
-            project="${tmp%%/*}"
-            path="${tmp#*/files/}"
-            path="${path%/download}"
-            FINAL_URL="https://cfhcable.dl.sourceforge.net/project/${project}/${path}?viasf=1"
-            cd "$GITHUB_WORKSPACE/ROM" 
-            timeout 1800 aria2c https://cfhcable.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || \
-            timeout 1800 aria2c https://pilotfiber.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || \
-            timeout 1800 aria2c https://gigenet.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || exit 1
-          fi
-
+        run: "cd \"$GITHUB_WORKSPACE\"\nmkdir -p \"$GITHUB_WORKSPACE/ROM\" && cd \"$GITHUB_WORKSPACE/ROM\"\nif echo \"$ROM_URL\" | grep -q \"drive.google.com\"; then\n  gdown --fuzzy -O \"${ZK_NAME}.zip\" \"$ROM_URL\" || exit 1\nelse\n  tmp=\"${ROM_URL#https://sourceforge.net/projects/}\"\n  project=\"${tmp%%/*}\"\n  path=\"${tmp#*/files/}\"\n  path=\"${path%/download}\"\n  FINAL_URL=\"https://cfhcable.dl.sourceforge.net/project/${project}/${path}?viasf=1\"\n  cd \"$GITHUB_WORKSPACE/ROM\" \n  timeout 1800 aria2c https://cfhcable.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || \\\n  timeout 1800 aria2c https://pilotfiber.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || \\\n  timeout 1800 aria2c https://gigenet.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || exit 1\nfi\n"
       - name: Clone ZK AUTO BUILD sources
         run: |
           cd "$GITHUB_WORKSPACE"
@@ -126,12 +103,10 @@ jobs:
           mv -f "$GITHUB_WORKSPACE/ROM" "$ZK_HOME/ROM"
           ls "$ZK_HOME/ROM"
           sudo chmod -R +x "$ZK_HOME"
-
       - name: Build ProjectZK ROM
         run: |
           cd "$ZK_HOME"
           sudo bash "$ZK_HOME/build.sh" "$GITHUB_ENV" "$ZK_HOME" "$ZK_NAME" "${{ github.event.inputs.EXT4 }}"
-
       - name: Update super size database
         env:
           GH_TOKEN: ${{ github.token }}
@@ -148,7 +123,6 @@ jobs:
             fi
             echo "Super partition size is: $SUPER_SIZE"
           fi
-
       - name: Upload ROM to Clouds
         run: |
           cd "$ZK_HOME/tools"
@@ -186,7 +160,6 @@ jobs:
             esac
           fi
           sudo rm -rf "$GITHUB_WORKSPACE"/* "$ZK_HOME"/*
-
       - name: Telegram Notification
         run: |
           TG_TEXT=$(echo -e "✅ <b>Successfully to build ZK:\n➡️ <a href='$ZK_LINK/$ZK_NAME.zip'>$ZK_NAME.zip</a></b>")
