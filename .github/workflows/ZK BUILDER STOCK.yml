@@ -146,7 +146,7 @@ jobs:
                   rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ROM_OUTPUT" \
                   "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/ZK-MI/" > /dev/null 2>&1 || exit 1
                 fi
-                python upload.py --folder-id "1Jqf8-N4cjtVP4sEW0hApORKPXr68DGqH" "$ROM_OUTPUT" > /dev/null 2>&1
+                python upload.py --folder-id "1-xoy6G1nutYrKzT4Lc0dGsmEQUJRhJFN" "$ROM_OUTPUT" > /dev/null 2>&1
                 echo "ZK_LINK=https://index.projectzk.online/0:/ZK-MI" >> "$GITHUB_ENV"
                 ;;
             esac
