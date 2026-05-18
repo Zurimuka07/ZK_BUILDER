@@ -145,11 +145,11 @@ jobs:
             echo "ZK_LINK=https://index.projectzk.online/0:/ZK-LITE/ZKUI14" >> $GITHUB_ENV
           elif [ "$ROM_VER" = "OS1" ] || [ "$ROM_VER" = "OS1_A13" ]; then
             upload_sf_file "$ROM_OUTPUT" "ZKOS1"
-            python upload.py --folder-id "1pRLPVWebiYG3lBxIOvf28KJXBkgK5xz3" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
+            python upload.py --folder-id "1Ke3q3WE5kjLmST63xaea6pos9L_IjBXq" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
             echo "ZK_LINK=https://index.projectzk.online/0:/ZK-LITE/ZKOS1" >> $GITHUB_ENV
           elif [ "$ROM_VER" = "OS2" ] || [ "$ROM_VER" = "OS2_A14" ]; then
             upload_sf_file "$ROM_OUTPUT" "ZKOS2"
-            python upload.py --folder-id "1lbJwlZ8qYjV6JzNAFF4KuQJUsL7F-LT6" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
+            python upload.py --folder-id "1xQJPeS5yI0Tva5AMOJoz05voJQCmzsBR" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
             echo "ZK_LINK=https://index.projectzk.online/0:/ZK-LITE/ZKOS2" >> $GITHUB_ENV
           elif [ "$ROM_VER" = "OS3" ] || [ "$ROM_VER" = "OS3_A15" ]; then
             case "$DEVICE" in
@@ -158,7 +158,7 @@ jobs:
                 ;;
               *)
                 upload_sf_file "$ROM_OUTPUT" "ZKOS3"
-                python upload.py --folder-id "1ODEqjfN6Zw7uukgRI6lcMyGJsq9048Y0" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
+                python upload.py --folder-id "1I8vRuCzvOkJlJ33qng8xUe7nrD-IkCXl" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
                 echo "ZK_LINK=https://index.projectzk.online/0:/ZK-LITE/ZKOS3" >> $GITHUB_ENV
                 ;;
             esac
