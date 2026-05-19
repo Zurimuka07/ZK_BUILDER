@@ -112,7 +112,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           cd "$GITHUB_WORKSPACE"
-          if [ -n "$SUPER_SIZE" ] && [ -n "$DEVICE" ]; then
+          if [ "$ROM_VER" != "V14" ] && [ -n "$SUPER_SIZE" ] && [ -n "$DEVICE" ]; then
             super_json="super_size.json"
             aria2c -o $super_json https://github.com/zuri1503/ZK_BUILDER/releases/latest/download/super_size.json > /dev/null 2>&1
             if ! jq -e --arg m "$DEVICE" '.[$m]' "$super_json" >/dev/null; then
@@ -162,6 +162,13 @@ jobs:
                 echo "ZK_LINK=https://index.projectzk.online/0:/ZK-LITE/ZKOS3" >> $GITHUB_ENV
                 ;;
             esac
+          fi
+          if [ -f "$ZK_HOME/modem_ww.img" ]; then
+            rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ZK_HOME/modem_ww.img" \
+            "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/modem/$DEVICE/" > /dev/null 2>&1 || exit 1
+          elif [ -f "$ZK_HOME/modemfirmware_ww.img" ]; then
+            rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ZK_HOME/modemfirmware_ww.img" \
+            "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/modem/$DEVICE/" > /dev/null 2>&1 || exit 1
           fi
           sudo rm -rf "$GITHUB_WORKSPACE"/* "$ZK_HOME"/*
       - name: Telegram Notification
