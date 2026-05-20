@@ -144,7 +144,7 @@
     },
     "cas": {
         "device_name": "XIAOMI Mi 10 Ultra",
-        "soc": "Snapdragon 865 5G (7 nm+)",
+        "soc": "Snapdragon 865 5G",
         "ram": "8GB / 12GB / 16GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "OLED, 6.67in, 120Hz",
@@ -188,7 +188,7 @@
     },
     "cmi": {
         "device_name": "XIAOMI Mi 10 Pro",
-        "soc": "Snapdragon 865 5G (7 nm+)",
+        "soc": "Snapdragon 865 5G",
         "ram": "8GB / 12GB",
         "rom": "256GB / 512GB",
         "display": "Super AMOLED, 6.67in, 90Hz",
@@ -1310,7 +1310,7 @@
     },
     "umi": {
         "device_name": "XIAOMI Mi 10",
-        "soc": "Snapdragon 865 5G (7 nm+)",
+        "soc": "Snapdragon 865 5G",
         "ram": "8GB / 6GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "Super AMOLED, 6.67in, 90Hz",
