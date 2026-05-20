@@ -80,9 +80,8 @@ jobs:
       - name: Download ROM files
         run: |
           cd "$GITHUB_WORKSPACE"
-          mkdir -p "$GITHUB_WORKSPACE/ROM" && cd "$GITHUB_WORKSPACE/ROM"
-          timeout 9000 aria2c -s16 -x16 -j$(nproc) -c -U "Mozilla/5.0" \
-          -o "${ZK_NAME}.zip" "${{ github.event.inputs.URL }}" || exit 1
+          ls "$GITHUB_WORKSPACE"
+          ls "$GITHUB_WORKSPACE/assets"
           super_json="$GITHUB_WORKSPACE/assets/super_size.json"
           if jq -e --arg m "$DEVICE" '.[$m]' "$super_json" >/dev/null; then
             echo "Use super size from super_size.json"
@@ -102,6 +101,9 @@ jobs:
               echo "No super size found!" && exit 1
             fi
           fi
+          mkdir -p "$GITHUB_WORKSPACE/ROM" && cd "$GITHUB_WORKSPACE/ROM"
+          timeout 9000 aria2c -s16 -x16 -j$(nproc) -c -U "Mozilla/5.0" \
+          -o "${ZK_NAME}.zip" "${{ github.event.inputs.URL }}" || exit 1
           echo "Super partition size is: $super_size"
           echo "SUPER_SIZE=$super_size" >> $GITHUB_ENV
       - name: Clone ZK AUTO BUILD sources
