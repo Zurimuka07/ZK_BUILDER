@@ -9,7 +9,7 @@ on:
         required: true
         type: string
 jobs:
-  running:
+  get_super_size:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,29 +21,37 @@ jobs:
         run: |
           cd "$GITHUB_WORKSPACE"
           super_json="super_size.json"
-          gh release download super-size -n $super_json 2>/dev/null || echo "{}" > $super_json
+          
+          echo "Downloading super_size.json..."
+          curl -sL -f "https://github.com/zuri1503/ZK_BUILDER/releases/download/super-size/super_size.json" -o "$super_json" || echo "{}" > "$super_json"
+          
           IFS=';' read -ra URL_ARRAY <<< "${{ github.event.inputs.URLS }}"
           for url in "${URL_ARRAY[@]}"; do
             url=$(echo "$url" | xargs)
             if [ -z "$url" ]; then continue; fi
+            
             filename=$(basename "${url%%\?*}")
             echo "======================================"
             echo "Processing link: $filename"
+            
             if [[ "$filename" =~ ^([a-zA-Z0-9]+)_images_ ]]; then
-              DEVICE="${BASH_REMATCH[1],,}"
+              DEVICE_LOWER="${BASH_REMATCH[1],,}"
+              DEVICE_UPPER="${BASH_REMATCH[1]^^}"
             else
               echo "Cannot detect device from $filename. Skipping."
               continue
             fi
-            echo "Device detected: $DEVICE"
-            if jq -e --arg m "$DEVICE" '.[$m]' "$super_json" >/dev/null; then
-              echo "$DEVICE already exists in JSON. Skipping."
+            
+            if jq -e --arg ml "$DEVICE_LOWER" --arg mu "$DEVICE_UPPER" 'has($ml) or has($mu)' "$super_json" >/dev/null; then
+              echo "$DEVICE_LOWER already exists in JSON. Skipping."
               continue
             fi
-            echo "Downloading ROM for $DEVICE..."
+            
+            echo "Downloading ROM for $DEVICE_LOWER..."
             ext="${filename##*.}"
             tmp_rom="FASTBOOT.$ext"
             aria2c -s16 -x16 -j$(nproc) -c -U "Mozilla/5.0" -o "$tmp_rom" "$url" || { echo "Download failed"; rm -f "$tmp_rom"; continue; }
+            
             echo "Extracting super.img..."
             mkdir -p FASTBOOT_EXTRACT
             if [[ "$ext" == "tgz" || "$ext" == "tar.gz" ]]; then
@@ -55,21 +63,25 @@ jobs:
               rm -rf "$tmp_rom" FASTBOOT_EXTRACT
               continue
             fi
+            
             SUPER_IMG=$(find FASTBOOT_EXTRACT -name "super.img" | head -n 1)
             if [ -z "$SUPER_IMG" ]; then
               echo "super.img not found in this ROM."
               rm -rf "$tmp_rom" FASTBOOT_EXTRACT
               continue
             fi
+            
             echo "Converting and calculating size..."
             simg2img "$SUPER_IMG" "raw_super.img" 2>/dev/null || cp "$SUPER_IMG" "raw_super.img"
             super_size=$(stat -c %s "raw_super.img")
-            echo "Size of super.img for $DEVICE: $super_size bytes"
-            jq --arg m "$DEVICE" --argjson s "$super_size" '. + {($m): {super_size: $s}}' "$super_json" > tmp.json && mv tmp.json "$super_json"
+            echo "Size of super.img for $DEVICE_LOWER: $super_size bytes"
+            
+            jq --arg m "$DEVICE_LOWER" --argjson s "$super_size" '. + {($m): {super_size: $s}}' "$super_json" > tmp.json && mv tmp.json "$super_json"
             rm -rf "$tmp_rom" FASTBOOT_EXTRACT "raw_super.img"
           done
+          
           echo "======================================"
-          echo "Current super_size.json:"
+          echo "Final super_size.json:"
           cat "$super_json"
       - env:
           GH_TOKEN: ${{ github.token }}
