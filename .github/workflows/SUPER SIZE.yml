@@ -1,0 +1,131 @@
+name: SUPER SIZE
+permissions:
+  contents: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      URLS:
+        description: "FASTBOOT ROM URL"
+        required: true
+        type: string
+
+jobs:
+  get_super_size:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+
+      - name: Maximize build disk space
+        uses: AdityaGarg8/remove-unwanted-software@v5
+        with:
+          remove-dotnet: 'true'
+          remove-android: 'true'
+          remove-haskell: 'true'
+          remove-codeql: 'true'
+          remove-docker-images: 'true'
+          remove-large-packages: 'true'
+          remove-cached-tools: 'true'
+
+      - name: Setup build environment
+        run: |
+          sudo apt-get update > /dev/null 2>&1
+          sudo apt-get install -y aria2 android-sdk-libsparse-utils jq tar unzip > /dev/null 2>&1
+
+      - name: Process URLs and Update super_size.json
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd "$GITHUB_WORKSPACE"
+          super_json="super_size.json"
+          
+          # Tải file super_size.json hiện tại từ Release mới nhất (nếu có), nếu chưa có thì tạo file trống {}
+          gh release download super-size -n $super_json 2>/dev/null || echo "{}" > $super_json
+          
+          # Đọc chuỗi URL, phân tách bằng dấu ';'
+          IFS=';' read -ra URL_ARRAY <<< "${{ github.event.inputs.URLS }}"
+          
+          for url in "${URL_ARRAY[@]}"; do
+            # Cắt khoảng trắng dư thừa
+            url=$(echo "$url" | xargs)
+            if [ -z "$url" ]; then continue; fi
+            
+            # Lấy tên file từ URL
+            filename=$(basename "${url%%\?*}")
+            echo "======================================"
+            echo "Đang xử lý link: $filename"
+            
+            # Trích xuất mã thiết bị từ tên file (Ví dụ: marble_images_OS1.0... -> MARBLE)
+            if [[ "$filename" =~ ^([a-zA-Z0-9]+)_images_ ]]; then
+              DEVICE="${BASH_REMATCH[1]^^}"
+            else
+              echo "⚠️ Không thể nhận diện mã thiết bị từ $filename. Bỏ qua..."
+              continue
+            fi
+            
+            echo "📌 Thiết bị nhận diện: $DEVICE"
+            
+            # Kiểm tra xem thiết bị đã có trong super_size.json chưa
+            if jq -e --arg m "$DEVICE" '.[$m]' "$super_json" >/dev/null; then
+              echo "⏩ $DEVICE đã tồn tại super_size trong JSON. Bỏ qua tải ROM!"
+              continue
+            fi
+            
+            echo "⬇️ Chưa có $DEVICE. Tiến hành tải ROM..."
+            
+            # Xác định định dạng file để đặt tên lưu tạm
+            ext="${filename##*.}"
+            tmp_rom="FASTBOOT.$ext"
+            
+            aria2c -s16 -x16 -j$(nproc) -c -U "Mozilla/5.0" -o "$tmp_rom" "$url" || { echo "❌ Lỗi tải ROM"; rm -f "$tmp_rom"; continue; }
+            
+            echo "📦 Đang trích xuất super.img..."
+            mkdir -p FASTBOOT_EXTRACT
+            
+            # Xử lý giải nén tuỳ theo đuôi file (tgz / zip) - CHỈ giải nén super.img để tiết kiệm bộ nhớ
+            if [[ "$ext" == "tgz" || "$ext" == "tar.gz" ]]; then
+              tar -xzf "$tmp_rom" -C "FASTBOOT_EXTRACT" --wildcards "*/images/super.img*" 2>/dev/null || tar -xzf "$tmp_rom" -C "FASTBOOT_EXTRACT"
+            elif [[ "$ext" == "zip" ]]; then
+              unzip -q -j "$tmp_rom" "*/images/super.img" -d "FASTBOOT_EXTRACT" 2>/dev/null || unzip -q "$tmp_rom" -d "FASTBOOT_EXTRACT"
+            else
+              echo "⚠️ Định dạng không hỗ trợ ($ext)."
+              rm -rf "$tmp_rom" FASTBOOT_EXTRACT
+              continue
+            fi
+            
+            # Tìm file super.img vừa được giải nén
+            SUPER_IMG=$(find FASTBOOT_EXTRACT -name "super.img" | head -n 1)
+            
+            if [ -z "$SUPER_IMG" ]; then
+              echo "❌ Không tìm thấy super.img trong ROM này!"
+              rm -rf "$tmp_rom" FASTBOOT_EXTRACT
+              continue
+            fi
+            
+            echo "⚙️ Đang convert và tính toán kích thước..."
+            # Dùng simg2img chuyển từ sparse sang raw img. Nếu file đã là raw img thì simg2img sẽ báo lỗi, khi đó ta fallback copy luôn file gốc
+            simg2img "$SUPER_IMG" "raw_super.img" 2>/dev/null || cp "$SUPER_IMG" "raw_super.img"
+            
+            # Lấy dung lượng file
+            super_size=$(stat -c %s "raw_super.img")
+            echo "✅ Kích thước super.img của $DEVICE là: $super_size bytes"
+            
+            # Thêm/Cập nhật vào super_size.json
+            jq --arg m "$DEVICE" --argjson s "$super_size" '. + {($m): {super_size: $s}}' "$super_json" > tmp.json && mv tmp.json "$super_json"
+            
+            # Dọn dẹp ổ đĩa cho vòng lặp tiếp theo (Cực kỳ quan trọng để không bị Full Disk)
+            rm -rf "$tmp_rom" FASTBOOT_EXTRACT "raw_super.img"
+          done
+          
+          echo "======================================"
+          echo "Dữ liệu super_size.json hiện tại:"
+          cat "$super_json"
+
+      - name: Upload super_size.json to Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # Đảm bảo Release 'super-size' đã tồn tại, nếu chưa có, lệnh upload sẽ tạo mới (hoặc bạn có thể tự tạo thẻ tag release là 'super-size')
+          gh release upload super-size super_size.json --clobber
+          echo "✅ Đã upload super_size.json lên Github Release thành công!"
