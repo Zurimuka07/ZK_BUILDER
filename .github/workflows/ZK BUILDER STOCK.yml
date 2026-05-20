@@ -1,6 +1,4 @@
 name: ZK BUILDER STOCK
-permissions:
-  contents: write
 on:
   workflow_dispatch:
     inputs:
@@ -80,15 +78,12 @@ jobs:
           echo "DEVICE=$DEVICE" >> $GITHUB_ENV
           echo "$ZK_NAME"
       - name: Download ROM files
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           cd "$GITHUB_WORKSPACE"
           mkdir -p "$GITHUB_WORKSPACE/ROM" && cd "$GITHUB_WORKSPACE/ROM"
           timeout 9000 aria2c -s16 -x16 -j$(nproc) -c -U "Mozilla/5.0" \
           -o "${ZK_NAME}.zip" "${{ github.event.inputs.URL }}" || exit 1
-          super_json="super_size.json"
-          aria2c -o $super_json https://github.com/zuri1503/ZK_BUILDER/releases/latest/download/super_size.json
+          super_json="$GITHUB_WORKSPACE/assets/super_size.json"
           if jq -e --arg m "$DEVICE" '.[$m]' "$super_json" >/dev/null; then
             echo "Use super size from super_size.json"
             super_size=$(jq -r --arg m "$DEVICE" '.[$m].super_size' "$super_json")
@@ -99,14 +94,12 @@ jobs:
               mkdir -p "FASTBOOT" && tar -xzf "FASTBOOT.tgz" -C "FASTBOOT" > /dev/null 2>&1 && rm -rf "FASTBOOT.tgz"
               simg2img FASTBOOT/*/images/super.img "FASTBOOT/super.img"
               super_size=$(stat -c %s "FASTBOOT/super.img") && rm -rf FASTBOOT
-            fi
-            if ! jq -e --arg m "$DEVICE" '.[$m]' "$super_json" >/dev/null; then
-              rm -rf $super_json && aria2c -o $super_json \
-              https://github.com/zuri1503/ZK_BUILDER/releases/latest/download/super_size.json
               jq --arg m "$DEVICE" --argjson s "$super_size" '. + {($m): {super_size: $s}}' \
               "${super_json:-/dev/null}" 2>/dev/null > tmp.json && mv tmp.json "$super_json"
-              gh release upload super-size super_size.json --clobber
+              echo "IS_SUPER_SIZE=true" >> $GITHUB_ENV
               echo "Added $DEVICE to super_size.json"
+            else
+              echo "No super size found!" && exit 1
             fi
           fi
           echo "Super partition size is: $super_size"
@@ -121,7 +114,6 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
           git clone -b stock --depth=1 git@github.com:zuri1503/ZK_AUTO_BUILD.git "$ZK_HOME"
-          echo "Unable to get ZKOS BASE"
           mkdir -p "$ZK_HOME/ROM"
           mv -f "$GITHUB_WORKSPACE/ROM/${ZK_NAME}.zip" "$ZK_HOME/ROM/${ZK_NAME}.zip"
           sudo chmod -R +x "$ZK_HOME"
@@ -165,6 +157,7 @@ jobs:
                 ;;
             esac
           fi
+          [ "$IS_SUPER_SIZE" = "true" ] && python upload.py --folder-id "16mqVvVIN6jB7SaSsl7VRHbGISnM524Fb" "$GITHUB_WORKSPACE/assets/super_size.json" || true
           sudo rm -rf "$ZK_HOME"
       - name: Telegram Notification
         run: |

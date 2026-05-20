@@ -1,6 +1,4 @@
 name: ZK BUILDER
-permissions:
-  contents: write
 on:
   workflow_dispatch:
     inputs:
@@ -108,18 +106,15 @@ jobs:
           cd "$ZK_HOME"
           sudo bash "$ZK_HOME/build.sh" "$GITHUB_ENV" "$ZK_HOME" "$ZK_NAME" "${{ github.event.inputs.EXT4 }}"
       - name: Update super size database
-        env:
-          GH_TOKEN: ${{ github.token }}
         run: |
           cd "$GITHUB_WORKSPACE"
           if [ "$ROM_VER" != "V14" ] && [ -n "$SUPER_SIZE" ] && [ -n "$DEVICE" ]; then
-            super_json="super_size.json"
-            aria2c -o $super_json https://github.com/zuri1503/ZK_BUILDER/releases/latest/download/super_size.json > /dev/null 2>&1
+            super_json="assets/super_size.json"
             if ! jq -e --arg m "$DEVICE" '.[$m]' "$super_json" >/dev/null; then
               jq --arg m "$DEVICE" --argjson s "$SUPER_SIZE" '. + {($m): {super_size: $s}}' \
               "${super_json:-/dev/null}" 2>/dev/null > tmp.json && mv tmp.json "$super_json"
-              gh release upload super-size super_size.json --clobber
               echo "Added $DEVICE to super_size.json"
+              echo "IS_SUPER_SIZE=true" >> $GITHUB_ENV
             fi
             echo "Super partition size is: $SUPER_SIZE"
           fi
@@ -166,6 +161,7 @@ jobs:
             rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ZK_HOME/modemfirmware_ww.img" \
             "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/modem/$DEVICE/" > /dev/null 2>&1 || exit 1
           fi
+          [ "$IS_SUPER_SIZE" = "true" ] && python upload.py --folder-id "16mqVvVIN6jB7SaSsl7VRHbGISnM524Fb" "$GITHUB_WORKSPACE/assets/super_size.json" || true
           sudo rm -rf "$GITHUB_WORKSPACE"/* "$ZK_HOME"/*
       - name: Telegram Notification
         run: |
