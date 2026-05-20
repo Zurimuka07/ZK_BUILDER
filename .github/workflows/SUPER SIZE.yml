@@ -22,8 +22,13 @@ jobs:
           cd "$GITHUB_WORKSPACE"
           super_json="super_size.json"
           
-          echo "Downloading super_size.json..."
-          curl -sL -f "https://github.com/zuri1503/ZK_BUILDER/releases/download/super-size/super_size.json" -o "$super_json" || echo "{}" > "$super_json"
+          echo "Downloading super_size.json using gh cli..."
+          # Download securely via GitHub CLI (works for private repos too)
+          gh release download super-size -p "super_size.json" --clobber 2>/dev/null || echo "{}" > "$super_json"
+          
+          echo "--- Current JSON content ---"
+          cat "$super_json"
+          echo "----------------------------"
           
           IFS=';' read -ra URL_ARRAY <<< "${{ github.event.inputs.URLS }}"
           for url in "${URL_ARRAY[@]}"; do
@@ -34,20 +39,27 @@ jobs:
             echo "======================================"
             echo "Processing link: $filename"
             
-            if [[ "$filename" =~ ^([a-zA-Z0-9]+)_images_ ]]; then
-              DEVICE_LOWER="${BASH_REMATCH[1],,}"
-              DEVICE_UPPER="${BASH_REMATCH[1]^^}"
-            else
+            # Extract the very first word before '_' (Standard Xiaomi fastboot rom format)
+            DEVICE_RAW=$(echo "$filename" | awk -F'_' '{print $1}')
+            
+            if [ -z "$DEVICE_RAW" ]; then
               echo "Cannot detect device from $filename. Skipping."
               continue
             fi
             
-            if jq -e --arg ml "$DEVICE_LOWER" --arg mu "$DEVICE_UPPER" 'has($ml) or has($mu)' "$super_json" >/dev/null; then
-              echo "$DEVICE_LOWER already exists in JSON. Skipping."
+            DEVICE_LOWER="${DEVICE_RAW,,}"
+            DEVICE_UPPER="${DEVICE_RAW^^}"
+            echo "Device detected: LOWER=$DEVICE_LOWER | UPPER=$DEVICE_UPPER"
+            
+            # Explicitly check json to avoid silent exit code failures
+            CHECK=$(jq --arg ml "$DEVICE_LOWER" --arg mu "$DEVICE_UPPER" 'if has($ml) or has($mu) then "yes" else "no" end' "$super_json" 2>/dev/null | tr -d '"')
+            
+            if [ "$CHECK" = "yes" ]; then
+              echo "✅ Model $DEVICE_LOWER already exists in JSON. SKIPPING DOWNLOAD."
               continue
             fi
             
-            echo "Downloading ROM for $DEVICE_LOWER..."
+            echo "⬇️ Model $DEVICE_LOWER not found in JSON. Downloading ROM..."
             ext="${filename##*.}"
             tmp_rom="FASTBOOT.$ext"
             aria2c -s16 -x16 -j$(nproc) -c -U "Mozilla/5.0" -o "$tmp_rom" "$url" || { echo "Download failed"; rm -f "$tmp_rom"; continue; }
@@ -76,12 +88,15 @@ jobs:
             super_size=$(stat -c %s "raw_super.img")
             echo "Size of super.img for $DEVICE_LOWER: $super_size bytes"
             
+            # Add to json
             jq --arg m "$DEVICE_LOWER" --argjson s "$super_size" '. + {($m): {super_size: $s}}' "$super_json" > tmp.json && mv tmp.json "$super_json"
+            
+            # Clean up disk
             rm -rf "$tmp_rom" FASTBOOT_EXTRACT "raw_super.img"
           done
           
           echo "======================================"
-          echo "Final super_size.json:"
+          echo "Final super_size.json to upload:"
           cat "$super_json"
       - env:
           GH_TOKEN: ${{ github.token }}
