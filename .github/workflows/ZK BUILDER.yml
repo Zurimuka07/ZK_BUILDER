@@ -83,11 +83,26 @@ jobs:
               exit 1
             fi
             echo "$ZK_NAME"
-            echo "DEVICE=$DEVICE" >> $GITHUB_ENV
+            echo "DEVICE=${DEVICE,,}" >> $GITHUB_ENV
           fi
           echo "ZK_NAME=$ZK_NAME" >> $GITHUB_ENV
       - name: Download ROM files
-        run: "cd \"$GITHUB_WORKSPACE\"\nmkdir -p \"$GITHUB_WORKSPACE/ROM\" && cd \"$GITHUB_WORKSPACE/ROM\"\nif echo \"$ROM_URL\" | grep -q \"drive.google.com\"; then\n  gdown --fuzzy -O \"${ZK_NAME}.zip\" \"$ROM_URL\" || exit 1\nelse\n  tmp=\"${ROM_URL#https://sourceforge.net/projects/}\"\n  project=\"${tmp%%/*}\"\n  path=\"${tmp#*/files/}\"\n  path=\"${path%/download}\"\n  FINAL_URL=\"https://cfhcable.dl.sourceforge.net/project/${project}/${path}?viasf=1\"\n  cd \"$GITHUB_WORKSPACE/ROM\" \n  timeout 1800 aria2c https://cfhcable.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || \\\n  timeout 1800 aria2c https://pilotfiber.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || \\\n  timeout 1800 aria2c https://gigenet.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || exit 1\nfi\n"
+        run: 
+          cd "$GITHUB_WORKSPACE"
+          mkdir -p "$GITHUB_WORKSPACE/ROM" && cd "$GITHUB_WORKSPACE/ROM"
+          if echo "$ROM_URL" | grep -q "drive.google.com"; then
+            gdown --fuzzy -O "${ZK_NAME}.zip" "$ROM_URL" || exit 1
+          else
+            tmp="${ROM_URL#https://sourceforge.net/projects/}"
+            project="${tmp%%/*}"
+            path="${tmp#*/files/}"
+            path="${path%/download}"
+            FINAL_URL="https://cfhcable.dl.sourceforge.net/project/${project}/${path}?viasf=1"
+            cd "$GITHUB_WORKSPACE/ROM" 
+            timeout 1800 aria2c https://cfhcable.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || \\
+            timeout 1800 aria2c https://pilotfiber.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || \\
+            timeout 1800 aria2c https://gigenet.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || exit 1
+          fi
       - name: Clone ZK AUTO BUILD sources
         run: |
           cd "$GITHUB_WORKSPACE"
@@ -99,7 +114,6 @@ jobs:
           ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
           git clone -b main --depth=1 git@github.com:zuri1503/ZK_AUTO_BUILD.git "$ZK_HOME"
           mv -f "$GITHUB_WORKSPACE/ROM" "$ZK_HOME/ROM"
-          ls "$ZK_HOME/ROM"
           sudo chmod -R +x "$ZK_HOME"
       - name: Build ProjectZK ROM
         run: |
@@ -144,7 +158,7 @@ jobs:
             echo "ZK_LINK=https://index.projectzk.online/0:/ZK-EU/ZKOS2" >> $GITHUB_ENV
           elif [ "$ROM_VER" = "OS3" ] || [ "$ROM_VER" = "OS3_A15" ]; then
             case "$DEVICE" in
-              "NEZHA" | "PANDORA" | "PUDDING" | "POPSICLE" | "MYRON")
+              "nezha" | "pandora" | "pudding" | "popsicle" | "myron")
                 python upload.py --folder-id "${{ secrets.PRIVATE_DRIVE_ID }}" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
                 ;;
               *)
@@ -161,7 +175,8 @@ jobs:
             rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ZK_HOME/modemfirmware_ww.img" \
             "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/modem/$DEVICE/" > /dev/null 2>&1 || exit 1
           fi
-          [ "$IS_SUPER_SIZE" = "true" ] && python upload.py --folder-id "16mqVvVIN6jB7SaSsl7VRHbGISnM524Fb" "$GITHUB_WORKSPACE/assets/super_size.json" || true
+          [ "$IS_SUPER_SIZE" = "true" ] && python upload.py --folder-id "16mqVvVIN6jB7SaSsl7VRHbGISnM524Fb" \
+          "$GITHUB_WORKSPACE/assets/super_size.json" || true
           sudo rm -rf "$GITHUB_WORKSPACE"/* "$ZK_HOME"/*
       - name: Telegram Notification
         run: |
@@ -175,7 +190,7 @@ jobs:
               parse_mode: "HTML"
             }')
           case "$DEVICE" in
-              "NEZHA" | "PANDORA" | "PUDDING" | "POPSICLE" | "MYRON")
+              "nezha" | "pandora" | "pudding" | "popsicle" | "myron")
                 :
                 ;;
               *)

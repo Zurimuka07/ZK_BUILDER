@@ -75,13 +75,11 @@ jobs:
             exit 1
           fi
           echo "ZK_NAME=$ZK_NAME" >> $GITHUB_ENV
-          echo "DEVICE=$DEVICE" >> $GITHUB_ENV
+          echo "DEVICE=${DEVICE,,}" >> $GITHUB_ENV
           echo "$ZK_NAME"
       - name: Download ROM files
         run: |
           cd "$GITHUB_WORKSPACE"
-          ls "$GITHUB_WORKSPACE"
-          ls "$GITHUB_WORKSPACE/assets"
           super_json="$GITHUB_WORKSPACE/assets/super_size.json"
           if jq -e --arg m "$DEVICE" '.[$m]' "$super_json" >/dev/null; then
             echo "Use super size from super_size.json"
@@ -132,7 +130,7 @@ jobs:
           sudo chmod 0600 key && sudo chmod 0644 token.pickle && sudo chmod 0644 upload.py
           if [ -f "$ZK_HOME/is_global" ]; then
             case "$DEVICE" in
-              "NEZHA" | "PANDORA" | "PUDDING" | "POPSICLE" | "MYRON")
+              "nezha" | "pandora" | "pudding" | "popsicle" | "myron")
                 python upload.py --folder-id "${{ secrets.PRIVATE_DRIVE_ID }}" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
                 ;;
               *)
@@ -146,7 +144,7 @@ jobs:
             esac
           else
             case "$DEVICE" in
-              "NEZHA" | "PANDORA" | "PUDDING" | "POPSICLE" | "MYRON")
+              "nezha" | "pandora" | "pudding" | "popsicle" | "myron")
                 python upload.py --folder-id "${{ secrets.PRIVATE_DRIVE_ID }}" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
                 ;;
               *)
@@ -159,7 +157,8 @@ jobs:
                 ;;
             esac
           fi
-          [ "$IS_SUPER_SIZE" = "true" ] && python upload.py --folder-id "16mqVvVIN6jB7SaSsl7VRHbGISnM524Fb" "$GITHUB_WORKSPACE/assets/super_size.json" || true
+          [ "$IS_SUPER_SIZE" = "true" ] && python upload.py --folder-id "16mqVvVIN6jB7SaSsl7VRHbGISnM524Fb" \
+          "$GITHUB_WORKSPACE/assets/super_size.json" || true
           sudo rm -rf "$ZK_HOME"
       - name: Telegram Notification
         run: |
