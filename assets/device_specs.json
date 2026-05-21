@@ -11,7 +11,7 @@
         "color": "Meteorite Gray, Moonlight White, Celestial Blue"
     },
     "air": {
-        "device_name": "REDMI 13C / R 5G / POCO M6 5G",
+        "device_name": "REDMI 13C / 13R 5G / POCO M6 5G",
         "soc": "Dimensity 6100+",
         "ram": "4GB / 6GB / 8GB",
         "rom": "128GB / 256GB",
@@ -1716,7 +1716,7 @@
         "color": "Graphite Gray, Aurora Green, Sky Blue"
     },
     "guitar": {
-        "device_name": "REDMI Pad 2 SE",
+        "device_name": "REDMI Pad 2 9.8 / SE / POCO Pad C1",
         "soc": "Snapdragon 6s Gen 2",
         "ram": "6GB",
         "rom": "128GB",
@@ -1794,7 +1794,7 @@
     },
     "turner": {
         "device_name": "REDMI K Pad / XIAOMI Pad Mini",
-        "soc": "Snapdragon 8 Gen 2",
+        "soc": "Dimensity 9400+",
         "ram": "8GB / 12GB",
         "rom": "256GB / 512GB",
         "display": "IPS LCD, 8.8in, 165Hz",
