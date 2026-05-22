@@ -8,6 +8,12 @@
   "aurora": {
     "super_size": 9663676416
   },
+  "babylon": {
+    "super_size": 9663676416
+  },
+  "byron": {
+    "super_size": 14495514624
+  },
   "chenfeng": {
     "super_size": 9126805504
   },
@@ -36,6 +42,9 @@
     "super_size": 9663676416
   },
   "garnet": {
+    "super_size": 9663676416
+  },
+  "goku": {
     "super_size": 9663676416
   },
   "guitar": {
@@ -110,6 +119,9 @@
   "ruan": {
     "super_size": 9126805504
   },
+  "ruyi": {
+    "super_size": 9663676416
+  },
   "sheng": {
     "super_size": 11811160064
   },
@@ -124,9 +136,6 @@
   },
   "thor": {
     "super_size": 9126805504
-  },
-  "turner": {
-    "super_size": 11811160064
   },
   "uke": {
     "super_size": 11274289152
@@ -154,14 +163,5 @@
   },
   "zorn": {
     "super_size": 11811160064
-  },
-  "ruyi": {
-    "super_size": 9663676416
-  },
-  "goku": {
-    "super_size": 9663676416
-  },
-  "babylon": {
-    "super_size": 9663676416
   }
 }
