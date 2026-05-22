@@ -130,7 +130,7 @@ jobs:
           sudo chmod 0600 key && sudo chmod 0644 token.pickle && sudo chmod 0644 upload.py
           if [ -f "$ZK_HOME/is_global" ]; then
             case "$DEVICE" in
-              "nezha" | "pandora" | "pudding" | "popsicle" | "myron")
+              "nezha" | "pandora" | "pudding" | "popsicle" | "myron" | "byron")
                 python upload.py --folder-id "${{ secrets.PRIVATE_DRIVE_ID }}" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
                 ;;
               *)
@@ -144,7 +144,7 @@ jobs:
             esac
           else
             case "$DEVICE" in
-              "nezha" | "pandora" | "pudding" | "popsicle" | "myron")
+              "nezha" | "pandora" | "pudding" | "popsicle" | "myron" | "byron")
                 python upload.py --folder-id "${{ secrets.PRIVATE_DRIVE_ID }}" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
                 ;;
               *)
