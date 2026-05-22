@@ -164,7 +164,7 @@ jobs:
             echo "ZK_LINK=https://index.projectzk.online/0:/ZK-LITE/ZKOS2" >> $GITHUB_ENV
           elif [ "$ROM_VER" = "OS3" ] || [ "$ROM_VER" = "OS3_A15" ]; then
             case "$DEVICE" in
-              "nezha" | "pandora" | "pudding" | "popsicle" | "myron")
+              "nezha" | "pandora" | "pudding" | "popsicle" | "myron" | "byron")
                 python upload.py --folder-id "${{ secrets.PRIVATE_DRIVE_ID }}" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
                 ;;
               *)
@@ -196,7 +196,7 @@ jobs:
               parse_mode: "HTML"
             }')
           case "$DEVICE" in
-              "nezha" | "pandora" | "pudding" | "popsicle" | "myron")
+              "nezha" | "pandora" | "pudding" | "popsicle" | "myron" | "byron")
                 :
                 ;;
               *)
