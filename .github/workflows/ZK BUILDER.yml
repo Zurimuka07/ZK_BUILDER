@@ -86,22 +86,68 @@ jobs:
             echo "DEVICE=${DEVICE,,}" >> $GITHUB_ENV
           fi
           echo "ZK_NAME=$ZK_NAME" >> $GITHUB_ENV
-      - name: Download ROM files
-        run: 
-          cd "$GITHUB_WORKSPACE"
-          mkdir -p "$GITHUB_WORKSPACE/ROM" && cd "$GITHUB_WORKSPACE/ROM"
-          if echo "$ROM_URL" | grep -q "drive.google.com"; then
-            gdown --fuzzy -O "${ZK_NAME}.zip" "$ROM_URL" || exit 1
-          else
-            tmp="${ROM_URL#https://sourceforge.net/projects/}"
-            project="${tmp%%/*}"
-            path="${tmp#*/files/}"
-            path="${path%/download}"
-            cd "$GITHUB_WORKSPACE/ROM" 
-            timeout 1800 aria2c https://cfhcable.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || \\
-            timeout 1800 aria2c https://pilotfiber.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || \\
-            timeout 1800 aria2c https://gigenet.dl.sourceforge.net/project/${project}/${path}?viasf=1 -o ${ZK_NAME}.zip || exit 1
-          fi
+      - name: Download ROM
+        run: |
+          DEST_DIR="$GITHUB_WORKSPACE/ROM"
+          DEST_FILE="$DEST_DIR/${ZK_NAME}.zip"
+          mkdir -p "$DEST_DIR"
+          download_gdrive() {
+            echo "::group::Downloading from Google Drive"
+            gdown --fuzzy -O "$DEST_FILE" "$ROM_URL"
+            echo "::endgroup::"
+          }
+          download_sourceforge() {
+            local sf_path
+            sf_path=$(python3 -c "
+          from urllib.parse import urlparse
+          import sys
+          p = urlparse('$ROM_URL')
+          parts = p.path.split('/')
+          proj  = parts[2]
+          fpath = '/'.join(parts[4:]).removesuffix('/download')
+          print(f'{proj}/{fpath}')
+          ") || { echo "Failed to parse SourceForge URL"; return 1; }
+            local mirrors=(
+              "https://cfhcable.dl.sourceforge.net/project"
+              "https://pilotfiber.dl.sourceforge.net/project"
+              "https://gigenet.dl.sourceforge.net/project"
+              "https://netcologne.dl.sourceforge.net/project"
+              "https://deac-riga.dl.sourceforge.net/project"
+            )
+            for mirror in "${mirrors[@]}"; do
+              local url="${mirror}/${sf_path}?viasf=1"
+              echo "::group::Trying mirror: $mirror"
+              if timeout 1800 aria2c \
+                  --max-tries=3 \
+                  --retry-wait=5 \
+                  --split=8 \
+                  --max-connection-per-server=8 \
+                  --console-log-level=warn \
+                  -o "$DEST_FILE" "$url"; then
+                echo "::endgroup::"
+                return 0
+              fi
+              echo "Mirror failed, trying next..."
+              echo "::endgroup::"
+              rm -f "$DEST_FILE"
+            done
+            echo "All SourceForge mirrors failed"
+            return 1
+          }
+          case "$ROM_URL" in
+            *"drive.google.com"*)
+              download_gdrive
+              ;;
+            *"sourceforge.net/projects/"*)
+              download_sourceforge
+              ;;
+            *)
+              echo "::error::Unsupported URL: $ROM_URL"
+              exit 1
+              ;;
+          esac
+          [ -s "$DEST_FILE" ] || { echo "::error::Downloaded file is missing or empty"; exit 1; }
+          echo "Download complete: $DEST_FILE ($(du -h "$DEST_FILE" | cut -f1))"
       - name: Clone ZK AUTO BUILD sources
         run: |
           cd "$GITHUB_WORKSPACE"
