@@ -58,7 +58,7 @@ jobs:
           DATE=$(TZ=UTC date +"%y%m%d")
           DEVICE=""
           if [[ "$ROM_URL" == *"drive.google.com"* ]]; then
-            ZK_NAME="ZK_XIAOMI_EU${DATE}"
+            ZK_NAME="ZK_XIAOMI_LITE${DATE}"
           else
             ROM_NAME="$(basename "${ROM_URL%/download}")"
             if [[ "$ROM_NAME" == *_OS* ]]; then
@@ -66,9 +66,9 @@ jobs:
                 DEVICE="${BASH_REMATCH[1]^^}"
                 OS_VER="${BASH_REMATCH[2]}"
                 REGION="${BASH_REMATCH[3]}"
-                ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_EU${DATE}"
+                ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_LITE${DATE}"
               else
-                ZK_NAME="ZKOS_XIAOMI_EU${DATE}"
+                ZK_NAME="ZKOS_XIAOMI_LITE${DATE}"
               fi
             else
               echo "::error::Unable to parse ROM name: $ROM_NAME"
@@ -192,7 +192,7 @@ jobs:
           }
           case "$ROM_VER" in
             OS1|OS1_A13)
-              sf_upload "$ROM_OUTPUT" "ZK-LITE/ZKOS2"
+              sf_upload "$ROM_OUTPUT" "ZK-LITE/ZKOS1"
               gd_upload "1Ke3q3WE5kjLmST63xaea6pos9L_IjBXq"
               echo "ZK_LINK=https://index.projectzk.online/0:/ZK-LITE/ZKOS2" >> $GITHUB_ENV
               ;;
@@ -223,7 +223,7 @@ jobs:
           set -euo pipefail
           PAYLOAD=$(jq -n \
             --arg chat "-1002030539146" \
-            --arg text "✅ <b>Successfully built ZK:\n➡️ <a href='${ZK_LINK}/${ZK_NAME}.zip'>${ZK_NAME}.zip</a></b>" \
+            --arg text "✅ <b>NEW BUILD: <a href='${ZK_LINK}/${ZK_NAME}.zip'>${ZK_NAME}.zip</a></b>" \
             '{ chat_id: $chat, text: $text, parse_mode: "HTML" }')
           curl -s -X POST \
             "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \

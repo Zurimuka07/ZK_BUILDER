@@ -242,7 +242,7 @@ jobs:
           set -euo pipefail
           PAYLOAD=$(jq -n \
             --arg chat "-1002030539146" \
-            --arg text "✅ <b>Successfully built ZK:\n➡️ <a href='${ZK_LINK}/${ZK_NAME}.zip'>${ZK_NAME}.zip</a></b>" \
+            --arg text "✅ <b>NEW BUILD: <a href='${ZK_LINK}/${ZK_NAME}.zip'>${ZK_NAME}.zip</a></b>" \
             '{ chat_id: $chat, text: $text, parse_mode: "HTML" }')
           curl -s -X POST \
             "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
