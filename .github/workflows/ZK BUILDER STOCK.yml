@@ -6,7 +6,7 @@ on:
         description: "OTA ROM URL"
         required: true
       URL2:
-        description: "FASTBOOT ROM URL"
+        description: "FASTBOOT ROM URL (optional, for super size)"
       SFU:
         description: "SF UPLOADER"
         type: boolean
@@ -14,19 +14,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      ROM_URL: ${{ github.event.inputs.URL }}
     steps:
-      - name: Checkout main
-        uses: actions/checkout@v6.0.2
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Check free disk space
         id: diskcheck
         run: |
           FREE_GB=$(df -BG / | awk 'NR==2 {gsub("G","",$4); print $4}')
           echo "Free disk space: ${FREE_GB}GB"
-          if [ "$FREE_GB" -lt 50 ]; then
-            echo "need_cleanup=true" >> $GITHUB_OUTPUT
-          else
-            echo "need_cleanup=false" >> $GITHUB_OUTPUT
-          fi
+          echo "need_cleanup=$( [ "$FREE_GB" -lt 50 ] && echo true || echo false )" >> $GITHUB_OUTPUT
       - name: Maximize build disk space
         if: steps.diskcheck.outputs.need_cleanup == 'true'
         uses: AdityaGarg8/remove-unwanted-software@v5
@@ -40,76 +38,117 @@ jobs:
           remove-cached-tools: 'true'
       - name: Setup build environment
         run: |
-          cd "$GITHUB_WORKSPACE"
+          set -euo pipefail
           sudo timedatectl set-timezone UTC
-          sudo apt-get update > /dev/null 2>&1
-          sudo apt-get install -y android-sdk-libsparse-utils aria2 device-tree-compiler erofs-utils g++ \
-          gcc git lz4 openjdk-17-jdk openjdk-17-jdk-headless openssh-client zipalign p7zip-full python-is-python3 \
-          python3 python3-pip xz-utils zip zlib1g-dev > /dev/null 2>&1
-          pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib > /dev/null 2>&1
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq \
+            android-sdk-libsparse-utils aria2 device-tree-compiler erofs-utils \
+            g++ gcc git lz4 \
+            openjdk-17-jdk openjdk-17-jdk-headless \
+            openssh-client p7zip-full \
+            python-is-python3 python3 python3-pip \
+            xz-utils zip zipalign zlib1g-dev
+          pip install --quiet \
+            google-api-python-client \
+            google-auth-httplib2 \
+            google-auth-oauthlib
           DATE=$(TZ=UTC date +"%y%m%d")
-          ROM_URL="${{ github.event.inputs.URL }}"
           ROM_NAME="$(basename "${ROM_URL%%\?*}")"
+          DEVICE=""
+          ROM_VER=""
+          ZK_NAME=""
+          IS_PRIVATE_DEVICE="false"
           if [[ "$ROM_NAME" == *"-OS"* ]]; then
             if [[ "$ROM_NAME" =~ ^([a-z0-9]+)-ota_full-(OS[0-9.]+)\.([A-Z0-9]+)-user-([0-9.]+)-.*\.zip$ ]]; then
-              DEVICE_RAW="${BASH_REMATCH[1]}"
-              DEVICE="${DEVICE_RAW^^}"
+              DEVICE="${BASH_REMATCH[1]^^}"
               OS_VER="${BASH_REMATCH[2]}"
               REGION="${BASH_REMATCH[3]}"
-              ANDROID="${BASH_REMATCH[4]}"
               ROM_VER="${OS_VER%%.*}"
-              export ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_CN${DATE}"
+              ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_CN${DATE}"
             elif [[ "$ROM_NAME" =~ ^([a-z0-9]+)_[a-z_]+-ota_full-(OS[0-9.]+)\.([A-Z0-9]+)-user-([0-9.]+)-.*\.zip$ ]]; then
-              DEVICE_RAW="${BASH_REMATCH[1]}"
-              DEVICE="${DEVICE_RAW^^}"
+              DEVICE="${BASH_REMATCH[1]^^}"
               OS_VER="${BASH_REMATCH[2]}"
               REGION="${BASH_REMATCH[3]}"
-              ANDROID="${BASH_REMATCH[4]}"
               ROM_VER="${OS_VER%%.*}"
-              export ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_MI${DATE}"
+              ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_MI${DATE}"
             else
-              export ZK_NAME="ZKOS_${DATE}"
+              echo "::warning::Regex did not match, using fallback name"
+              ZK_NAME="ZKOS_${DATE}"
             fi
           else
-            echo "Unable to set ZK ROM name"
+            echo "::error::Unable to parse ROM name: $ROM_NAME"
             exit 1
           fi
-          echo "ZK_NAME=$ZK_NAME" >> $GITHUB_ENV
-          echo "DEVICE=${DEVICE,,}" >> $GITHUB_ENV
-          echo "$ZK_NAME"
+          case "${DEVICE,,}" in
+            nezha|pandora|pudding|popsicle|myron|byron)
+              IS_PRIVATE_DEVICE="true" ;;
+          esac
+          {
+            echo "ZK_NAME=$ZK_NAME"
+            echo "DEVICE=${DEVICE,,}"
+            echo "ROM_VER=$ROM_VER"
+            echo "IS_PRIVATE_DEVICE=$IS_PRIVATE_DEVICE"
+          } >> $GITHUB_ENV
+          echo "Parsed → ZK_NAME=$ZK_NAME | DEVICE=${DEVICE,,} | ROM_VER=$ROM_VER | private=$IS_PRIVATE_DEVICE"
       - name: Download ROM files
         run: |
-          cd "$GITHUB_WORKSPACE"
+          set -euo pipefail
           super_json="$GITHUB_WORKSPACE/assets/super_size.json"
-          if jq -e --arg m "$DEVICE" '.[$m]' "$super_json" >/dev/null; then
-            echo "Use super size from super_size.json"
+          DEST_DIR="$GITHUB_WORKSPACE/ROM"
+          if jq -e --arg m "$DEVICE" '.[$m]' "$super_json" > /dev/null 2>&1; then
+            echo "Using cached super_size from super_size.json"
             super_size=$(jq -r --arg m "$DEVICE" '.[$m].super_size' "$super_json")
+          elif [ -n "${{ github.event.inputs.URL2 }}" ]; then
+            echo "::group::Downloading FASTBOOT ROM for super size"
+            timeout 9000 aria2c \
+              -s16 -x16 -j"$(nproc)" -c \
+              -U "Mozilla/5.0" \
+              --console-log-level=warn \
+              -d "$GITHUB_WORKSPACE" \
+              -o "FASTBOOT.tgz" \
+              "${{ github.event.inputs.URL2 }}" \
+              || { echo "::error::FASTBOOT download failed"; exit 1; }
+            echo "::endgroup::"
+            [ -s "$GITHUB_WORKSPACE/FASTBOOT.tgz" ] \
+              || { echo "::error::FASTBOOT.tgz is empty"; exit 1; }
+            mkdir -p FASTBOOT
+            tar -xzf FASTBOOT.tgz -C FASTBOOT > /dev/null 2>&1
+            rm -f FASTBOOT.tgz
+            simg2img FASTBOOT/*/images/super.img FASTBOOT/super.img \
+              || { echo "::error::simg2img failed"; exit 1; }
+            super_size=$(stat -c %s FASTBOOT/super.img)
+            rm -rf FASTBOOT
+            jq --arg m "$DEVICE" --argjson s "$super_size" \
+              '. + {($m): {super_size: $s}}' "$super_json" > tmp.json \
+              && mv tmp.json "$super_json"
+            echo "IS_SUPER_SIZE=true" >> $GITHUB_ENV
+            echo "Added $DEVICE -> super_size=$super_size to super_size.json"
           else
-            if [ -n "${{ github.event.inputs.URL2 }}" ]; then
-              timeout 9000 aria2c -s16 -x16 -j$(nproc) -c -U "Mozilla/5.0" \
-              -o "FASTBOOT.tgz" "${{ github.event.inputs.URL2 }}" || exit 1
-              mkdir -p "FASTBOOT" && tar -xzf "FASTBOOT.tgz" -C "FASTBOOT" > /dev/null 2>&1 && rm -rf "FASTBOOT.tgz"
-              simg2img FASTBOOT/*/images/super.img "FASTBOOT/super.img"
-              super_size=$(stat -c %s "FASTBOOT/super.img") && rm -rf FASTBOOT
-              jq --arg m "$DEVICE" --argjson s "$super_size" '. + {($m): {super_size: $s}}' \
-              "${super_json:-/dev/null}" 2>/dev/null > tmp.json && mv tmp.json "$super_json"
-              echo "IS_SUPER_SIZE=true" >> $GITHUB_ENV
-              echo "Added $DEVICE to super_size.json"
-            else
-              echo "No super size found!" && exit 1
-            fi
+            echo "::error::No super_size cached and no FASTBOOT URL provided"
+            exit 1
           fi
-          mkdir -p "$GITHUB_WORKSPACE/ROM" && cd "$GITHUB_WORKSPACE/ROM"
-          timeout 9000 aria2c -s16 -x16 -j$(nproc) -c -U "Mozilla/5.0" \
-          -o "${ZK_NAME}.zip" "${{ github.event.inputs.URL }}" || exit 1
-          echo "Super partition size is: $super_size"
           echo "SUPER_SIZE=$super_size" >> $GITHUB_ENV
+          echo "Super partition size: $super_size"
+          echo "::group::Downloading OTA ROM"
+          mkdir -p "$DEST_DIR"
+          timeout 9000 aria2c \
+            -s16 -x16 -j"$(nproc)" -c \
+            -U "Mozilla/5.0" \
+            --console-log-level=warn \
+            -d "$DEST_DIR" \
+            -o "${ZK_NAME}.zip" \
+            "$ROM_URL" \
+            || { echo "::error::OTA ROM download failed"; exit 1; }
+          echo "::endgroup::"
+          [ -s "$DEST_DIR/${ZK_NAME}.zip" ] \
+            || { echo "::error::Downloaded ROM is missing or empty"; exit 1; }
+          echo "Download complete: $(du -h "$DEST_DIR/${ZK_NAME}.zip" | cut -f1)"
       - name: Clone ZK AUTO BUILD sources
         run: |
-          cd "$GITHUB_WORKSPACE"
-          export ZK_HOME="/home/runner/work/ZK_AUTO_BUILD/ZK_AUTO_BUILD"
+          set -euo pipefail
+          ZK_HOME="/home/runner/work/ZK_AUTO_BUILD/ZK_AUTO_BUILD"
           echo "ZK_HOME=$ZK_HOME" >> $GITHUB_ENV
-          mkdir -p ~/.ssh
+          install -d -m 700 ~/.ssh
           echo "${{ secrets.PRIVATE_REPO_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
@@ -119,58 +158,58 @@ jobs:
           sudo chmod -R +x "$ZK_HOME"
       - name: Build ProjectZK ROM
         run: |
-          cd "$ZK_HOME"
+          set -euo pipefail
           sudo bash "$ZK_HOME/build.sh" "$GITHUB_ENV" "$ZK_HOME" "$ZK_NAME" "$SUPER_SIZE"
       - name: Upload ROM to Clouds
         run: |
+          set -euo pipefail
           cd "$ZK_HOME/tools"
           echo "${{ secrets.TOKEN_PICKLE2 }}" | base64 -d > token.pickle
-          echo "${{ secrets.UPLOADER }}" | base64 -d > upload.py
-          echo "${{ secrets.SF_SSH_KEY }}" > key
-          sudo chmod 0600 key && sudo chmod 0644 token.pickle && sudo chmod 0644 upload.py
+          echo "${{ secrets.UPLOADER }}"      | base64 -d > upload.py
+          echo "${{ secrets.SF_SSH_KEY }}"               > key
+          chmod 0600 key token.pickle upload.py
+          sf_upload() {
+            local src="$1" dest_path="$2"
+            [ "${{ github.event.inputs.SFU }}" = "true" ] || return 0
+            rsync -a --partial -q \
+              -e "ssh -i key -o StrictHostKeyChecking=no" \
+              "$src" \
+              "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/${dest_path}/" \
+              || { echo "::error::rsync failed → $dest_path"; exit 1; }
+            echo "Uploaded $(basename "$src") → SF:$dest_path"
+          }
+          gd_upload() {
+            local folder_id="$1"
+            python upload.py --folder-id "$folder_id" "$ROM_OUTPUT" > /dev/null 2>&1 \
+              || { echo "::error::GDrive upload failed (folder: $folder_id)"; exit 1; }
+          }
           if [ -f "$ZK_HOME/is_global" ]; then
-            case "$DEVICE" in
-              "nezha" | "pandora" | "pudding" | "popsicle" | "myron" | "byron")
-                python upload.py --folder-id "${{ secrets.PRIVATE_DRIVE_ID }}" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
-                ;;
-              *)
-                if [ "${{ github.event.inputs.SFU }}" = "true" ]; then
-                  rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ROM_OUTPUT" \
-                  "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/ZK-MI/" > /dev/null 2>&1 || exit 1
-                fi
-                python upload.py --folder-id "1-xoy6G1nutYrKzT4Lc0dGsmEQUJRhJFN" "$ROM_OUTPUT" > /dev/null 2>&1
-                echo "ZK_LINK=https://index.projectzk.online/0:/ZK-MI" >> "$GITHUB_ENV"
-                ;;
-            esac
+            SF_PATH="ZK-MI"
+            GD_FOLDER="1-xoy6G1nutYrKzT4Lc0dGsmEQUJRhJFN"
           else
-            case "$DEVICE" in
-              "nezha" | "pandora" | "pudding" | "popsicle" | "myron" | "byron")
-                python upload.py --folder-id "${{ secrets.PRIVATE_DRIVE_ID }}" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
-                ;;
-              *)
-                if [ "${{ github.event.inputs.SFU }}" = "true" ]; then
-                  rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ROM_OUTPUT" \
-                  "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/ZK-CN/" > /dev/null 2>&1 || exit 1
-                fi
-                python upload.py --folder-id "1PosY7KpdfuAquJjGDMpYSgYUNNKNLTyf" "$ROM_OUTPUT" > /dev/null 2>&1
-                echo "ZK_LINK=https://index.projectzk.online/0:/ZK-CN" >> "$GITHUB_ENV"
-                ;;
-            esac
+            SF_PATH="ZK-CN"
+            GD_FOLDER="1PosY7KpdfuAquJjGDMpYSgYUNNKNLTyf"
           fi
-          [ "$IS_SUPER_SIZE" = "true" ] && python upload.py --folder-id "16mqVvVIN6jB7SaSsl7VRHbGISnM524Fb" \
-          "$GITHUB_WORKSPACE/assets/super_size.json" || true
-          sudo rm -rf "$ZK_HOME"
+          if [ "$IS_PRIVATE_DEVICE" = "true" ]; then
+            gd_upload "${{ secrets.PRIVATE_DRIVE_ID }}"
+          else
+            sf_upload "$ROM_OUTPUT" "$SF_PATH"
+            gd_upload "$GD_FOLDER"
+            echo "ZK_LINK=https://index.projectzk.online/0:/${SF_PATH}" >> $GITHUB_ENV
+          fi
+          if [ "${IS_SUPER_SIZE:-}" = "true" ]; then
+            python upload.py --folder-id "16mqVvVIN6jB7SaSsl7VRHbGISnM524Fb" \
+              "$GITHUB_WORKSPACE/assets/super_size.json" > /dev/null 2>&1 || true
+          fi
+          rm -f key token.pickle upload.py
       - name: Telegram Notification
+        if: env.IS_PRIVATE_DEVICE != 'true' && env.ZK_LINK != ''
         run: |
-          TG_TEXT=$(echo -e "✅ <b>Successfully to build ZK:\n➡️ <a href='$ZK_LINK/$ZK_NAME.zip'>$ZK_NAME.zip</a></b>")
+          set -euo pipefail
           PAYLOAD=$(jq -n \
-            --arg chat  "-1002030539146" \
-            --arg text  "$TG_TEXT" \
-            '{
-              chat_id: $chat,
-              text: $text,
-              parse_mode: "HTML"
-            }')
+            --arg chat "-1002030539146" \
+            --arg text "✅ <b>Successfully built ZK:\n➡️ <a href='${ZK_LINK}/${ZK_NAME}.zip'>${ZK_NAME}.zip</a></b>" \
+            '{ chat_id: $chat, text: $text, parse_mode: "HTML" }')
           curl -s -X POST \
             "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
             -H "Content-Type: application/json" \

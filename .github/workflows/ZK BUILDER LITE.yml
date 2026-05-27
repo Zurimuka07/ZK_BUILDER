@@ -1,5 +1,4 @@
 name: ZK BUILDER LITE
-
 on:
   workflow_dispatch:
     inputs:
@@ -14,24 +13,20 @@ on:
         description: "FORCE EXT4"
         type: boolean
         default: 'false'
-
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
       ROM_URL: ${{ github.event.inputs.URL }}
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Check free disk space
         id: diskcheck
         run: |
           FREE_GB=$(df -BG / | awk 'NR==2 {gsub("G","",$4); print $4}')
           echo "Free disk space: ${FREE_GB}GB"
           echo "need_cleanup=$( [ "$FREE_GB" -lt 50 ] && echo true || echo false )" >> $GITHUB_OUTPUT
-
       - name: Maximize build disk space
         if: steps.diskcheck.outputs.need_cleanup == 'true'
         uses: AdityaGarg8/remove-unwanted-software@v5
@@ -43,12 +38,10 @@ jobs:
           remove-docker-images: 'true'
           remove-large-packages: 'true'
           remove-cached-tools: 'true'
-
       - name: Setup build environment
         run: |
           set -euo pipefail
           sudo timedatectl set-timezone UTC
-
           sudo apt-get update -qq
           sudo apt-get install -y -qq \
             android-sdk-libsparse-utils aria2 device-tree-compiler erofs-utils \
@@ -57,21 +50,17 @@ jobs:
             openssh-client p7zip-full \
             python-is-python3 python3 python3-pip \
             xz-utils zip zipalign zlib1g-dev
-
           pip install --quiet \
             gdown \
             google-api-python-client \
             google-auth-httplib2 \
             google-auth-oauthlib
-
           DATE=$(TZ=UTC date +"%y%m%d")
           DEVICE=""
-
           if [[ "$ROM_URL" == *"drive.google.com"* ]]; then
             ZK_NAME="ZK_XIAOMI_EU${DATE}"
           else
             ROM_NAME="$(basename "${ROM_URL%/download}")"
-
             if [[ "$ROM_NAME" == *_OS* ]]; then
               if [[ "$ROM_NAME" =~ ^xiaomi\.eu_([^_]+)_(OS[0-9.]+)\.([A-Z0-9]+)_([0-9]+)\.zip$ ]]; then
                 DEVICE="${BASH_REMATCH[1]^^}"
@@ -81,41 +70,25 @@ jobs:
               else
                 ZK_NAME="ZKOS_XIAOMI_EU${DATE}"
               fi
-
-            elif [[ "$ROM_NAME" == *_V14* ]]; then
-              if [[ "$ROM_NAME" =~ ^xiaomi\.eu_multi_([A-Za-z0-9]+(_[A-Za-z0-9]+)?)_(V14\.[0-9.]+)\.([A-Z0-9]+)_v14-([0-9]+)\.zip$ ]]; then
-                DEVICE="${BASH_REMATCH[1]^^}"
-                OS_VER="${BASH_REMATCH[3]}"
-                REGION="${BASH_REMATCH[4]}"
-                ZK_NAME="ZKUI_${DEVICE}_${OS_VER}.${REGION}_EU${DATE}"
-              else
-                ZK_NAME="ZKUI_XIAOMI_EU${DATE}"
-              fi
-
             else
               echo "::error::Unable to parse ROM name: $ROM_NAME"
               exit 1
             fi
-
             echo "DEVICE=${DEVICE,,}" >> $GITHUB_ENV
           fi
-
           echo "ZK_NAME=$ZK_NAME"                       >> $GITHUB_ENV
           echo "Parsed → ZK_NAME=$ZK_NAME | DEVICE=${DEVICE:-N/A}"
-
       - name: Download ROM
         run: |
           set -euo pipefail
           DEST_DIR="$GITHUB_WORKSPACE/ROM"
           DEST_FILE="$DEST_DIR/${ZK_NAME}.zip"
           mkdir -p "$DEST_DIR"
-
           download_gdrive() {
             echo "::group::Downloading from Google Drive"
             gdown --fuzzy -O "$DEST_FILE" "$ROM_URL"
             echo "::endgroup::"
           }
-
           download_sourceforge() {
             local sf_path
             sf_path=$(python3 - <<'EOF'
@@ -128,7 +101,6 @@ jobs:
           print(f"{proj}/{fpath}")
           EOF
             ) || { echo "::error::Failed to parse SourceForge URL"; return 1; }
-
             local -a mirrors=(
               "https://cfhcable.dl.sourceforge.net/project"
               "https://pilotfiber.dl.sourceforge.net/project"
@@ -136,7 +108,6 @@ jobs:
               "https://netcologne.dl.sourceforge.net/project"
               "https://deac-riga.dl.sourceforge.net/project"
             )
-
             for mirror in "${mirrors[@]}"; do
               echo "::group::Trying mirror: $mirror"
               if timeout 1800 aria2c \
@@ -154,46 +125,38 @@ jobs:
               echo "::endgroup::"
               rm -f "$DEST_FILE"
             done
-
             echo "::error::All SourceForge mirrors failed"
             return 1
           }
-
           case "$ROM_URL" in
             *"drive.google.com"*)       download_gdrive ;;
             *"sourceforge.net/projects/"*) download_sourceforge ;;
             *) echo "::error::Unsupported URL: $ROM_URL"; exit 1 ;;
           esac
-
           [ -s "$DEST_FILE" ] || { echo "::error::Downloaded file is missing or empty"; exit 1; }
           echo "Download complete: $DEST_FILE ($(du -h "$DEST_FILE" | cut -f1))"
-
       - name: Clone ZK AUTO BUILD sources
         run: |
           set -euo pipefail
           ZK_HOME="/home/runner/work/ZK_AUTO_BUILD/ZK_AUTO_BUILD"
           echo "ZK_HOME=$ZK_HOME" >> $GITHUB_ENV
-
           install -d -m 700 ~/.ssh
           echo "${{ secrets.PRIVATE_REPO_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
-
           git clone -b main --depth=1 git@github.com:zuri1503/ZK_AUTO_BUILD.git "$ZK_HOME"
           mv -f "$GITHUB_WORKSPACE/ROM" "$ZK_HOME/ROM"
           sudo chmod -R +x "$ZK_HOME"
-
       - name: Build ProjectZK ROM
         run: |
           set -euo pipefail
           sudo bash "$ZK_HOME/build.sh" \
             "$GITHUB_ENV" "$ZK_HOME" "$ZK_NAME" \
             "${{ github.event.inputs.EXT4 }}"
-
       - name: Update super size database
         run: |
           set -euo pipefail
-          if [ "$ROM_VER" != "V14" ] && [ -n "${SUPER_SIZE:-}" ] && [ -n "${DEVICE:-}" ]; then
+          if [ -n "${SUPER_SIZE:-}" ] && [ -n "${DEVICE:-}" ]; then
             super_json="$GITHUB_WORKSPACE/assets/super_size.json"
             if ! jq -e --arg m "$DEVICE" '.[$m]' "$super_json" > /dev/null; then
               jq --arg m "$DEVICE" --argjson s "$SUPER_SIZE" \
@@ -204,17 +167,14 @@ jobs:
             fi
             echo "Super partition size: $SUPER_SIZE"
           fi
-
       - name: Upload ROM to Clouds
         run: |
           set -euo pipefail
           cd "$ZK_HOME/tools"
-
           echo "${{ secrets.TOKEN_PICKLE2 }}" | base64 -d > token.pickle
           echo "${{ secrets.UPLOADER }}"      | base64 -d > upload.py
           echo "${{ secrets.SF_SSH_KEY }}"               > key
           chmod 0600 key token.pickle upload.py
-
           sf_upload() {
             local src="$1" dest_path="$2"
             [ "${{ github.event.inputs.SFU }}" = "true" ] || return 0
@@ -225,13 +185,11 @@ jobs:
               || { echo "::error::rsync failed: $src -> $dest_path"; exit 1; }
             echo "Uploaded $(basename "$src") -> SF:$dest_path"
           }
-
           gd_upload() {
             local folder_id="$1"
             python upload.py --folder-id "$folder_id" "$ROM_OUTPUT" > /dev/null 2>&1 \
               || { echo "::error::GDrive upload failed (folder: $folder_id)"; exit 1; }
           }
-
           case "$ROM_VER" in
             OS1|OS1_A13)
               sf_upload "$ROM_OUTPUT" "ZK-LITE/ZKOS2"
@@ -247,7 +205,6 @@ jobs:
               echo "::warning::Unknown ROM_VER=$ROM_VER, skipping upload"
               ;;
           esac
-
           for suffix in "" "_ww"; do
             for prefix in "modem" "modemfirmware"; do
               img="$ZK_HOME/${prefix}${suffix}.img"
@@ -255,14 +212,11 @@ jobs:
               sf_upload "$img" "ProjectZK/modem/$DEVICE"
             done
           done
-
           if [ "${IS_SUPER_SIZE:-}" = "true" ]; then
             python upload.py --folder-id "16mqVvVIN6jB7SaSsl7VRHbGISnM524Fb" \
               "$GITHUB_WORKSPACE/assets/super_size.json" > /dev/null 2>&1 || true
           fi
-
           rm -rf "$ZK_HOME/tools/key" "$ZK_HOME/tools/token.pickle" "$ZK_HOME/tools/upload.py"
-
       - name: Telegram Notification
         if: env.ZK_LINK != ''
         run: |
@@ -271,7 +225,6 @@ jobs:
             --arg chat "-1002030539146" \
             --arg text "✅ <b>Successfully built ZK:\n➡️ <a href='${ZK_LINK}/${ZK_NAME}.zip'>${ZK_NAME}.zip</a></b>" \
             '{ chat_id: $chat, text: $text, parse_mode: "HTML" }')
-
           curl -s -X POST \
             "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
             -H "Content-Type: application/json" \
