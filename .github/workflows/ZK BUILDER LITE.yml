@@ -1,4 +1,5 @@
 name: ZK BUILDER LITE
+
 on:
   workflow_dispatch:
     inputs:
@@ -13,22 +14,24 @@ on:
         description: "FORCE EXT4"
         type: boolean
         default: 'false'
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      ROM_URL: ${{ github.event.inputs.URL }}
+
     steps:
-      - name: Checkout main
-        uses: actions/checkout@v6.0.2
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Check free disk space
         id: diskcheck
         run: |
           FREE_GB=$(df -BG / | awk 'NR==2 {gsub("G","",$4); print $4}')
           echo "Free disk space: ${FREE_GB}GB"
-          if [ "$FREE_GB" -lt 50 ]; then
-            echo "need_cleanup=true" >> $GITHUB_OUTPUT
-          else
-            echo "need_cleanup=false" >> $GITHUB_OUTPUT
-          fi
+          echo "need_cleanup=$( [ "$FREE_GB" -lt 50 ] && echo true || echo false )" >> $GITHUB_OUTPUT
+
       - name: Maximize build disk space
         if: steps.diskcheck.outputs.need_cleanup == 'true'
         uses: AdityaGarg8/remove-unwanted-software@v5
@@ -40,82 +43,101 @@ jobs:
           remove-docker-images: 'true'
           remove-large-packages: 'true'
           remove-cached-tools: 'true'
+
       - name: Setup build environment
         run: |
-          cd "$GITHUB_WORKSPACE"
+          set -euo pipefail
           sudo timedatectl set-timezone UTC
-          sudo apt-get update > /dev/null 2>&1
-          sudo apt-get install -y android-sdk-libsparse-utils aria2 device-tree-compiler erofs-utils g++ \
-          gcc git lz4 openjdk-17-jdk openjdk-17-jdk-headless openssh-client p7zip-full python-is-python3 \
-          python3 python3-pip xz-utils zip zipalign zlib1g-dev > /dev/null 2>&1
-          pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib > /dev/null 2>&1
+
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq \
+            android-sdk-libsparse-utils aria2 device-tree-compiler erofs-utils \
+            g++ gcc git lz4 \
+            openjdk-17-jdk openjdk-17-jdk-headless \
+            openssh-client p7zip-full \
+            python-is-python3 python3 python3-pip \
+            xz-utils zip zipalign zlib1g-dev
+
+          pip install --quiet \
+            gdown \
+            google-api-python-client \
+            google-auth-httplib2 \
+            google-auth-oauthlib
+
           DATE=$(TZ=UTC date +"%y%m%d")
-          ROM_URL="${{ github.event.inputs.URL }}"
-          echo "ROM_URL=$ROM_URL" >> $GITHUB_ENV
-          if echo "$ROM_URL" | grep -q "drive.google.com"; then
-            sudo apt-get install -y python3-pip > /dev/null 2>&1
-            pip3 install gdown > /dev/null 2>&1
-            export ZK_NAME="ZK_XIAOMI_LITE${DATE}"
+          DEVICE=""
+
+          if [[ "$ROM_URL" == *"drive.google.com"* ]]; then
+            ZK_NAME="ZK_XIAOMI_EU${DATE}"
           else
             ROM_NAME="$(basename "${ROM_URL%/download}")"
+
             if [[ "$ROM_NAME" == *_OS* ]]; then
               if [[ "$ROM_NAME" =~ ^xiaomi\.eu_([^_]+)_(OS[0-9.]+)\.([A-Z0-9]+)_([0-9]+)\.zip$ ]]; then
-                DEVICE_RAW="${BASH_REMATCH[1]}"
-                DEVICE="${DEVICE_RAW^^}"
+                DEVICE="${BASH_REMATCH[1]^^}"
                 OS_VER="${BASH_REMATCH[2]}"
                 REGION="${BASH_REMATCH[3]}"
-                export ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_LITE${DATE}"
+                ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_EU${DATE}"
               else
-                export ZK_NAME="ZKOS_XIAOMI_LITE${DATE}"
+                ZK_NAME="ZKOS_XIAOMI_EU${DATE}"
               fi
+
             elif [[ "$ROM_NAME" == *_V14* ]]; then
               if [[ "$ROM_NAME" =~ ^xiaomi\.eu_multi_([A-Za-z0-9]+(_[A-Za-z0-9]+)?)_(V14\.[0-9.]+)\.([A-Z0-9]+)_v14-([0-9]+)\.zip$ ]]; then
-                DEVICE_RAW="${BASH_REMATCH[1]}"
-                DEVICE="${DEVICE_RAW^^}"
+                DEVICE="${BASH_REMATCH[1]^^}"
                 OS_VER="${BASH_REMATCH[3]}"
                 REGION="${BASH_REMATCH[4]}"
-                export ZK_NAME="ZKUI_${DEVICE}_${OS_VER}.${REGION}_LITE${DATE}"
+                ZK_NAME="ZKUI_${DEVICE}_${OS_VER}.${REGION}_EU${DATE}"
               else
-                export ZK_NAME="ZKUI_XIAOMI_LITE${DATE}"
+                ZK_NAME="ZKUI_XIAOMI_EU${DATE}"
               fi
+
             else
-              echo "Unable to set ZK ROM name"
+              echo "::error::Unable to parse ROM name: $ROM_NAME"
               exit 1
             fi
-            echo "$ZK_NAME"
+
             echo "DEVICE=${DEVICE,,}" >> $GITHUB_ENV
           fi
-          echo "ZK_NAME=$ZK_NAME" >> $GITHUB_ENV
+
+          echo "ZK_NAME=$ZK_NAME"                       >> $GITHUB_ENV
+          echo "Parsed → ZK_NAME=$ZK_NAME | DEVICE=${DEVICE:-N/A}"
+
       - name: Download ROM
         run: |
+          set -euo pipefail
           DEST_DIR="$GITHUB_WORKSPACE/ROM"
           DEST_FILE="$DEST_DIR/${ZK_NAME}.zip"
           mkdir -p "$DEST_DIR"
+
           download_gdrive() {
             echo "::group::Downloading from Google Drive"
             gdown --fuzzy -O "$DEST_FILE" "$ROM_URL"
             echo "::endgroup::"
           }
+
           download_sourceforge() {
             local sf_path
-            sf_path=$(python3 -c "
+            sf_path=$(python3 - <<'EOF'
           from urllib.parse import urlparse
-          import sys
-          p = urlparse('$ROM_URL')
-          parts = p.path.split('/')
+          import os, sys
+          p = urlparse(os.environ["ROM_URL"])
+          parts = p.path.split("/")
           proj  = parts[2]
-          fpath = '/'.join(parts[4:]).removesuffix('/download')
-          print(f'{proj}/{fpath}')
-          ") || { echo "Failed to parse SourceForge URL"; return 1; }
-            local mirrors=(
+          fpath = "/".join(parts[4:]).removesuffix("/download")
+          print(f"{proj}/{fpath}")
+          EOF
+            ) || { echo "::error::Failed to parse SourceForge URL"; return 1; }
+
+            local -a mirrors=(
               "https://cfhcable.dl.sourceforge.net/project"
               "https://pilotfiber.dl.sourceforge.net/project"
               "https://gigenet.dl.sourceforge.net/project"
               "https://netcologne.dl.sourceforge.net/project"
               "https://deac-riga.dl.sourceforge.net/project"
             )
+
             for mirror in "${mirrors[@]}"; do
-              local url="${mirror}/${sf_path}?viasf=1"
               echo "::group::Trying mirror: $mirror"
               if timeout 1800 aria2c \
                   --max-tries=3 \
@@ -123,7 +145,7 @@ jobs:
                   --split=8 \
                   --max-connection-per-server=8 \
                   --console-log-level=warn \
-                  -o "$DEST_FILE" "$url"; then
+                  -o "$DEST_FILE" "${mirror}/${sf_path}?viasf=1"; then
                 echo "::endgroup::"
                 return 0
               fi
@@ -131,125 +153,125 @@ jobs:
               echo "::endgroup::"
               rm -f "$DEST_FILE"
             done
-            echo "All SourceForge mirrors failed"
+
+            echo "::error::All SourceForge mirrors failed"
             return 1
           }
+
           case "$ROM_URL" in
-            *"drive.google.com"*)
-              download_gdrive
-              ;;
-            *"sourceforge.net/projects/"*)
-              download_sourceforge
-              ;;
-            *)
-              echo "::error::Unsupported URL: $ROM_URL"
-              exit 1
-              ;;
+            *"drive.google.com"*)       download_gdrive ;;
+            *"sourceforge.net/projects/"*) download_sourceforge ;;
+            *) echo "::error::Unsupported URL: $ROM_URL"; exit 1 ;;
           esac
+
+          [ -s "$DEST_FILE" ] || { echo "::error::Downloaded file is missing or empty"; exit 1; }
           echo "Download complete: $DEST_FILE ($(du -h "$DEST_FILE" | cut -f1))"
+
       - name: Clone ZK AUTO BUILD sources
         run: |
-          cd "$GITHUB_WORKSPACE"
-          export ZK_HOME="/home/runner/work/ZK_AUTO_BUILD/ZK_AUTO_BUILD"
+          set -euo pipefail
+          ZK_HOME="/home/runner/work/ZK_AUTO_BUILD/ZK_AUTO_BUILD"
           echo "ZK_HOME=$ZK_HOME" >> $GITHUB_ENV
-          mkdir -p ~/.ssh
+
+          install -d -m 700 ~/.ssh
           echo "${{ secrets.PRIVATE_REPO_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
-          git clone -b lite --depth=1 git@github.com:zuri1503/ZK_AUTO_BUILD.git "$ZK_HOME"
+
+          git clone -b main --depth=1 git@github.com:zuri1503/ZK_AUTO_BUILD.git "$ZK_HOME"
           mv -f "$GITHUB_WORKSPACE/ROM" "$ZK_HOME/ROM"
-          ls "$ZK_HOME/ROM"
           sudo chmod -R +x "$ZK_HOME"
+
       - name: Build ProjectZK ROM
         run: |
-          cd "$ZK_HOME"
-          sudo bash "$ZK_HOME/build.sh" "$GITHUB_ENV" "$ZK_HOME" "$ZK_NAME" "${{ github.event.inputs.EXT4 }}"
+          set -euo pipefail
+          sudo bash "$ZK_HOME/build.sh" \
+            "$GITHUB_ENV" "$ZK_HOME" "$ZK_NAME" \
+            "${{ github.event.inputs.EXT4 }}"
+
       - name: Update super size database
         run: |
-          cd "$GITHUB_WORKSPACE"
-          if [ "$ROM_VER" != "V14" ] && [ -n "$SUPER_SIZE" ] && [ -n "$DEVICE" ]; then
-            super_json="assets/super_size.json"
-            aria2c -o $super_json https://github.com/zuri1503/ZK_BUILDER/releases/latest/download/super_size.json > /dev/null 2>&1
-            if ! jq -e --arg m "$DEVICE" '.[$m]' "$super_json" >/dev/null; then
-              jq --arg m "$DEVICE" --argjson s "$SUPER_SIZE" '. + {($m): {super_size: $s}}' \
-              "${super_json:-/dev/null}" 2>/dev/null > tmp.json && mv tmp.json "$super_json"
-              echo "IS_SUPER_SIZE=true" >> $GITHUB_ENV
+          set -euo pipefail
+          if [ "$ROM_VER" != "V14" ] && [ -n "${SUPER_SIZE:-}" ] && [ -n "${DEVICE:-}" ]; then
+            super_json="$GITHUB_WORKSPACE/assets/super_size.json"
+            if ! jq -e --arg m "$DEVICE" '.[$m]' "$super_json" > /dev/null; then
+              jq --arg m "$DEVICE" --argjson s "$SUPER_SIZE" \
+                '. + {($m): {super_size: $s}}' "$super_json" > tmp.json \
+                && mv tmp.json "$super_json"
               echo "Added $DEVICE to super_size.json"
+              echo "IS_SUPER_SIZE=true" >> $GITHUB_ENV
             fi
-            echo "Super partition size is: $SUPER_SIZE"
+            echo "Super partition size: $SUPER_SIZE"
           fi
+
       - name: Upload ROM to Clouds
         run: |
+          set -euo pipefail
           cd "$ZK_HOME/tools"
+
           echo "${{ secrets.TOKEN_PICKLE2 }}" | base64 -d > token.pickle
-          echo "${{ secrets.UPLOADER }}" | base64 -d > upload.py
-          echo "${{ secrets.SF_SSH_KEY }}" > key
-          sudo chmod 0600 key && sudo chmod 0644 token.pickle && sudo chmod 0644 upload.py
-          upload_sf_file() {
-            local ROM_OUTPUT="$1"
-            local ZK_PATH="$2"
-            if [ "${{ github.event.inputs.SFU }}" = "true" ]; then
-              rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ROM_OUTPUT" \
-              "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/ZK-LITE/$ZK_PATH/" > /dev/null 2>&1 || exit 1
-              echo "Uploaded $1 to Sourceforge"
-            fi
+          echo "${{ secrets.UPLOADER }}"      | base64 -d > upload.py
+          echo "${{ secrets.SF_SSH_KEY }}"               > key
+          chmod 0600 key token.pickle upload.py
+
+          sf_upload() {
+            local src="$1" dest_path="$2"
+            [ "${{ github.event.inputs.SFU }}" = "true" ] || return 0
+            rsync -a --partial -q \
+              -e "ssh -i key -o StrictHostKeyChecking=no" \
+              "$src" \
+              "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/${dest_path}/" \
+              || { echo "::error::rsync failed: $src -> $dest_path"; exit 1; }
+            echo "Uploaded $(basename "$src") -> SF:$dest_path"
           }
-          if [ "$ROM_VER" = "V14" ]; then
-            upload_sf_file "$ROM_OUTPUT" "ZKUI14"
-            python upload.py --folder-id "1w-EisERY7DrdZKLpk65oqfOjHLE2_kZr" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
-            echo "ZK_LINK=https://index.projectzk.online/0:/ZK-LITE/ZKUI14" >> $GITHUB_ENV
-          elif [ "$ROM_VER" = "OS1" ] || [ "$ROM_VER" = "OS1_A13" ]; then
-            upload_sf_file "$ROM_OUTPUT" "ZKOS1"
-            python upload.py --folder-id "1Ke3q3WE5kjLmST63xaea6pos9L_IjBXq" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
-            echo "ZK_LINK=https://index.projectzk.online/0:/ZK-LITE/ZKOS1" >> $GITHUB_ENV
-          elif [ "$ROM_VER" = "OS2" ] || [ "$ROM_VER" = "OS2_A14" ]; then
-            upload_sf_file "$ROM_OUTPUT" "ZKOS2"
-            python upload.py --folder-id "1xQJPeS5yI0Tva5AMOJoz05voJQCmzsBR" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
-            echo "ZK_LINK=https://index.projectzk.online/0:/ZK-LITE/ZKOS2" >> $GITHUB_ENV
-          elif [ "$ROM_VER" = "OS3" ] || [ "$ROM_VER" = "OS3_A15" ]; then
-            case "$DEVICE" in
-              "nezha" | "pandora" | "pudding" | "popsicle" | "myron" | "byron")
-                python upload.py --folder-id "${{ secrets.PRIVATE_DRIVE_ID }}" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
-                ;;
-              *)
-                upload_sf_file "$ROM_OUTPUT" "ZKOS3"
-                python upload.py --folder-id "1I8vRuCzvOkJlJ33qng8xUe7nrD-IkCXl" "$ROM_OUTPUT" > /dev/null 2>&1 || exit 1
-                echo "ZK_LINK=https://index.projectzk.online/0:/ZK-LITE/ZKOS3" >> $GITHUB_ENV
-                ;;
-            esac
-          fi
-          if [ -f "$ZK_HOME/modem_ww.img" ]; then
-            rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ZK_HOME/modem.img" \
-            "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/modem/$DEVICE/" > /dev/null 2>&1 || exit 1
-            rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ZK_HOME/modem_ww.img" \
-            "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/modem/$DEVICE/" > /dev/null 2>&1 || exit 1
-          elif [ -f "$ZK_HOME/modemfirmware_ww.img" ]; then
-            rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ZK_HOME/modemfirmware.img" \
-            "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/modem/$DEVICE/" > /dev/null 2>&1 || exit 1
-            rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ZK_HOME/modemfirmware_ww.img" \
-            "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/modem/$DEVICE/" > /dev/null 2>&1 || exit 1
-          fi
-          [ "$IS_SUPER_SIZE" = "true" ] && python upload.py --folder-id "16mqVvVIN6jB7SaSsl7VRHbGISnM524Fb" \
-          "$GITHUB_WORKSPACE/assets/super_size.json" || true
-          sudo rm -rf "$GITHUB_WORKSPACE"/* "$ZK_HOME"/*
-      - name: Telegram Notification
-        run: |
-          TG_TEXT=$(echo -e "✅ <b>Successfully to build ZK:\n➡️ <a href='$ZK_LINK/$ZK_NAME.zip'>$ZK_NAME.zip</a></b>")
-          PAYLOAD=$(jq -n \
-            --arg chat  "-1002030539146" \
-            --arg text  "$TG_TEXT" \
-            '{
-              chat_id: $chat,
-              text: $text,
-              parse_mode: "HTML"
-            }')
-          case "$DEVICE" in
-              "nezha" | "pandora" | "pudding" | "popsicle" | "myron" | "byron")
-                :
-                ;;
-              *)
-                curl -s -X POST \
-                "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
-                -H "Content-Type: application/json" \
-                -d "$PAYLOAD"
+
+          gd_upload() {
+            local folder_id="$1"
+            python upload.py --folder-id "$folder_id" "$ROM_OUTPUT" > /dev/null 2>&1 \
+              || { echo "::error::GDrive upload failed (folder: $folder_id)"; exit 1; }
+          }
+
+          case "$ROM_VER" in
+            OS1|OS1_A13)
+              sf_upload "$ROM_OUTPUT" "ZK-LITE/ZKOS2"
+              gd_upload "1Ke3q3WE5kjLmST63xaea6pos9L_IjBXq"
+              echo "ZK_LINK=https://index.projectzk.online/0:/ZK-LITE/ZKOS2" >> $GITHUB_ENV
+              ;;
+            OS2|OS2_A14)
+              sf_upload "$ROM_OUTPUT" "ZK-LITE/ZKOS2"
+              gd_upload "1xQJPeS5yI0Tva5AMOJoz05voJQCmzsBR"
+              echo "ZK_LINK=https://index.projectzk.online/0:/ZK-LITE/ZKOS2" >> $GITHUB_ENV
+              ;;
+            *)
+              echo "::warning::Unknown ROM_VER=$ROM_VER, skipping upload"
+              ;;
           esac
+
+          for suffix in "" "_ww"; do
+            for prefix in "modem" "modemfirmware"; do
+              img="$ZK_HOME/${prefix}${suffix}.img"
+              [ -f "$img" ] || continue
+              sf_upload "$img" "ProjectZK/modem/$DEVICE"
+            done
+          done
+
+          if [ "${IS_SUPER_SIZE:-}" = "true" ]; then
+            python upload.py --folder-id "16mqVvVIN6jB7SaSsl7VRHbGISnM524Fb" \
+              "$GITHUB_WORKSPACE/assets/super_size.json" > /dev/null 2>&1 || true
+          fi
+
+          rm -rf "$ZK_HOME/tools/key" "$ZK_HOME/tools/token.pickle" "$ZK_HOME/tools/upload.py"
+
+      - name: Telegram Notification
+        if: env.ZK_LINK != ''
+        run: |
+          set -euo pipefail
+          PAYLOAD=$(jq -n \
+            --arg chat "-1002030539146" \
+            --arg text "✅ <b>Successfully built ZK:\n➡️ <a href='${ZK_LINK}/${ZK_NAME}.zip'>${ZK_NAME}.zip</a></b>" \
+            '{ chat_id: $chat, text: $text, parse_mode: "HTML" }')
+
+          curl -s -X POST \
+            "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD"
