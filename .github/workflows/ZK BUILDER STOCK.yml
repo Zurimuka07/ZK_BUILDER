@@ -164,7 +164,7 @@ jobs:
         run: |
           set -euo pipefail
           cd "$ZK_HOME/tools"
-          echo "${{ secrets.TOKEN_PICKLE2 }}" | base64 -d > token.pickle
+          echo "${{ secrets.TOKEN_PICKLE }}" | base64 -d > token.pickle
           echo "${{ secrets.UPLOADER }}"      | base64 -d > upload.py
           echo "${{ secrets.SF_SSH_KEY }}"               > key
           chmod 0600 key token.pickle upload.py
