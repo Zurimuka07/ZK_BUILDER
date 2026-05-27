@@ -152,7 +152,8 @@ jobs:
                   --split=8 \
                   --max-connection-per-server=8 \
                   --console-log-level=warn \
-                  -o "$DEST_FILE" "${mirror}/${sf_path}?viasf=1"; then
+                  -o "${ZK_NAME}.zip" \
+                  "${mirror}/${sf_path}?viasf=1"; then
                 echo "::endgroup::"
                 return 0
               fi
