@@ -175,9 +175,13 @@ jobs:
             esac
           fi
           if [ -f "$ZK_HOME/modem_ww.img" ]; then
+            rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ZK_HOME/modem.img" \
+            "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/modem/$DEVICE/" > /dev/null 2>&1 || exit 1
             rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ZK_HOME/modem_ww.img" \
             "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/modem/$DEVICE/" > /dev/null 2>&1 || exit 1
           elif [ -f "$ZK_HOME/modemfirmware_ww.img" ]; then
+            rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ZK_HOME/modemfirmware.img" \
+            "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/modem/$DEVICE/" > /dev/null 2>&1 || exit 1
             rsync -a --partial -q -e "ssh -i key -o StrictHostKeyChecking=no" "$ZK_HOME/modemfirmware_ww.img" \
             "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/modem/$DEVICE/" > /dev/null 2>&1 || exit 1
           fi

@@ -44,7 +44,7 @@ jobs:
           sudo timedatectl set-timezone UTC
           sudo apt-get update > /dev/null 2>&1
           sudo apt-get install -y android-sdk-libsparse-utils aria2 device-tree-compiler erofs-utils g++ \
-          gcc git lz4 openjdk-17-jdk openjdk-17-jdk-headless openssh-client p7zip-full python-is-python3 \
+          gcc git lz4 openjdk-17-jdk openjdk-17-jdk-headless openssh-client zipalign p7zip-full python-is-python3 \
           python3 python3-pip xz-utils zip zlib1g-dev > /dev/null 2>&1
           pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib > /dev/null 2>&1
           DATE=$(TZ=UTC date +"%y%m%d")
