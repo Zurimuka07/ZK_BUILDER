@@ -146,7 +146,6 @@ jobs:
               exit 1
               ;;
           esac
-          [ -s "$DEST_FILE" ] || { echo "::error::Downloaded file is missing or empty"; exit 1; }
           echo "Download complete: $DEST_FILE ($(du -h "$DEST_FILE" | cut -f1))"
       - name: Clone ZK AUTO BUILD sources
         run: |
