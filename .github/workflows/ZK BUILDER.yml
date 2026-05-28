@@ -241,7 +241,7 @@ jobs:
         run: |
           set -euo pipefail
           PAYLOAD=$(jq -n \
-            --arg chat "-1002030539146" \
+            --arg chat "-1003777829884" \
             --arg text "✅ <b>NEW BUILD: <a href='${ZK_LINK}/${ZK_NAME}.zip'>${ZK_NAME}.zip</a></b>" \
             '{ chat_id: $chat, text: $text, parse_mode: "HTML" }')
           curl -s -X POST \
