@@ -1,7 +1,7 @@
 {
     "agate": {
         "device_name": "XIAOMI 11T",
-        "soc": "Dimensity 1200 5G",
+        "soc": "Dimensity 1200",
         "ram": "8GB",
         "rom": "128GB / 256GB",
         "display": "AMOLED, 6.67in, 120Hz",
@@ -23,7 +23,7 @@
     },
     "alioth": {
         "device_name": "REDMI K40 / XIAOMI Mi 11X / POCO F3",
-        "soc": "Snapdragon 870 5G",
+        "soc": "Snapdragon 870",
         "ram": "6GB / 8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "Super AMOLED, 6.67in, 120Hz",
@@ -34,7 +34,7 @@
     },
     "amethyst": {
         "device_name": "REDMI Note 14 Pro Plus",
-        "soc": "Snapdragon 7s Gen 3",
+        "soc": "Snapdragon 7sGen3",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB",
         "display": "AMOLED, 6.67in, 120Hz",
@@ -45,7 +45,7 @@
     },
     "annibale": {
         "device_name": "REDMI K90 / POCO F8 Pro",
-        "soc": "Snapdragon 8 Elite",
+        "soc": "Snapdragon 8Elite",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "AMOLED, 6.59in, 120Hz",
@@ -67,7 +67,7 @@
     },
     "ares": {
         "device_name": "REDMI K40 Gaming / POCO F3 GT",
-        "soc": "Dimensity 1200 5G",
+        "soc": "Dimensity 1200",
         "ram": "6GB / 8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "OLED, 6.67in, 120Hz",
@@ -89,7 +89,7 @@
     },
     "aurora": {
         "device_name": "XIAOMI 14 Ultra",
-        "soc": "Snapdragon 8 Gen 3",
+        "soc": "Snapdragon 8Gen3",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "LTPO AMOLED, 6.73in, 120Hz",
@@ -100,7 +100,7 @@
     },
     "babylon": {
         "device_name": "XIAOMI MIX Fold 3",
-        "soc": "Snapdragon 8 Gen 2",
+        "soc": "Snapdragon 8Gen2",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "Foldable LTPO OLED+, 8.03in, 120Hz",
@@ -122,7 +122,7 @@
     },
     "bixi": {
         "device_name": "XIAOMI MIX Flip 2",
-        "soc": "Snapdragon 8 Elite",
+        "soc": "Snapdragon 8Elite",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "Foldable LTPO AMOLED, 6.86in, 120Hz",
@@ -133,7 +133,7 @@
     },
     "breeze": {
         "device_name": "REDMI Note 13R 5G / REDMI 13 5G / POCO M6 Plus 5G",
-        "soc": "Snapdragon 4+ Gen 2",
+        "soc": "Snapdragon 4+Gen2",
         "ram": "6GB / 8GB / 12GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "IPS LCD, 6.79in, 120Hz",
@@ -144,7 +144,7 @@
     },
     "byron": {
         "device_name": "XIAOMI 17 Max",
-        "soc": "Snapdragon 8 Elite Gen 5",
+        "soc": "Snapdragon 8EliteGen5",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB",
         "display": "LTPO AMOLED, 6.9in, 120Hz",
@@ -155,7 +155,7 @@
     },
     "cas": {
         "device_name": "XIAOMI Mi 10 Ultra",
-        "soc": "Snapdragon 865 5G",
+        "soc": "Snapdragon 865",
         "ram": "8GB / 12GB / 16GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "OLED, 6.67in, 120Hz",
@@ -166,7 +166,7 @@
     },
     "cetus": {
         "device_name": "XIAOMI Mi MIX FOLD",
-        "soc": "Snapdragon 888 5G",
+        "soc": "Snapdragon 888",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB",
         "display": "Foldable AMOLED, 8.01in",
@@ -188,7 +188,7 @@
     },
     "chenfeng": {
         "device_name": "XIAOMI Civi 4 Pro / XIAOMI 14 Civi",
-        "soc": "Snapdragon 8s Gen 3",
+        "soc": "Snapdragon 8sGen3",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB",
         "display": "AMOLED, 6.55in, 120Hz",
@@ -199,7 +199,7 @@
     },
     "cmi": {
         "device_name": "XIAOMI Mi 10 Pro",
-        "soc": "Snapdragon 865 5G",
+        "soc": "Snapdragon 865",
         "ram": "8GB / 12GB",
         "rom": "256GB / 512GB",
         "display": "Super AMOLED, 6.67in, 90Hz",
@@ -221,7 +221,7 @@
     },
     "creek": {
         "device_name": "REDMI 15 4G",
-        "soc": "Snapdragon 6s Gen 3",
+        "soc": "Snapdragon 6sGen3",
         "ram": "4GB / 6GB / 8GB",
         "rom": "128GB / 256GB",
         "display": "IPS LCD, 6.9in, 144Hz",
@@ -243,7 +243,7 @@
     },
     "cupid": {
         "device_name": "XIAOMI 12",
-        "soc": "Snapdragon 8 Gen 1",
+        "soc": "Snapdragon 8Gen1",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "AMOLED, 6.28in, 120Hz",
@@ -254,7 +254,7 @@
     },
     "dada": {
         "device_name": "XIAOMI 15",
-        "soc": "Snapdragon 8 Elite",
+        "soc": "Snapdragon 8Elite",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "LTPO OLED, 6.36in, 120Hz",
@@ -331,7 +331,7 @@
     },
     "diting": {
         "device_name": "REDMI K50 Ultra / XIAOMI 12T Pro",
-        "soc": "Snapdragon 8+ Gen 1",
+        "soc": "Snapdragon 8+Gen1",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "OLED, 6.67in, 144Hz",
@@ -375,7 +375,7 @@
     },
     "evergo": {
         "device_name": "REDMI Note 11 5G / 11T 5G",
-        "soc": "Dimensity 810 5G",
+        "soc": "Dimensity 810",
         "ram": "4GB / 6GB / 8GB",
         "rom": "128GB / 256GB",
         "display": "IPS LCD, 6.6in, 90Hz",
@@ -386,7 +386,7 @@
     },
     "evergreen": {
         "device_name": "POCO M4 Pro 5G",
-        "soc": "Dimensity 810 5G",
+        "soc": "Dimensity 810",
         "ram": "4GB / 6GB / 8GB",
         "rom": "64GB / 128GB",
         "display": "IPS LCD, 6.6in, 90Hz",
@@ -408,7 +408,7 @@
     },
     "flame": {
         "device_name": "REDMI 14R 5G / POCO M7 5G",
-        "soc": "Snapdragon 4 Gen 2",
+        "soc": "Snapdragon 4Gen2",
         "ram": "4GB / 6GB / 8GB",
         "rom": "128GB / 256GB",
         "display": "IPS LCD, 6.88in, 120Hz",
@@ -430,7 +430,7 @@
     },
     "flourite": {
         "device_name": "REDMI Note 15 Pro Plus 5G",
-        "soc": "Snapdragon 7s Gen 4",
+        "soc": "Snapdragon 7sGen4",
         "ram": "12GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "AMOLED, 6.83in, 120Hz",
@@ -441,7 +441,7 @@
     },
     "fuxi": {
         "device_name": "XIAOMI 13",
-        "soc": "Snapdragon 8 Gen 2",
+        "soc": "Snapdragon 8Gen2",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "OLED, 6.36in, 120Hz",
@@ -463,7 +463,7 @@
     },
     "garnet": {
         "device_name": "REDMI Note 13 Pro 5G / POCO X6 5G",
-        "soc": "Snapdragon 7s Gen 2",
+        "soc": "Snapdragon 7sGen2",
         "ram": "8GB / 12GB / 16GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "OLED, 6.67in, 120Hz",
@@ -474,7 +474,7 @@
     },
     "goku": {
         "device_name": "XIAOMI MIX Fold 4",
-        "soc": "Snapdragon 8 Gen 3",
+        "soc": "Snapdragon 8Gen3",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "Foldable LTPO AMOLED, 7.98in, 120Hz",
@@ -507,7 +507,7 @@
     },
     "haotian": {
         "device_name": "XIAOMI 15 Pro",
-        "soc": "Snapdragon 8 Elite",
+        "soc": "Snapdragon 8Elite",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "LTPO AMOLED, 6.73in, 120Hz",
@@ -518,7 +518,7 @@
     },
     "haydn": {
         "device_name": "REDMI K40 Pro / Pro Plus / XIAOMI Mi 11i / XIAOMI Mi 11X Pro",
-        "soc": "Snapdragon 888 5G",
+        "soc": "Snapdragon 888",
         "ram": "6GB / 8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "Super AMOLED, 6.67in, 120Hz",
@@ -529,7 +529,7 @@
     },
     "houji": {
         "device_name": "XIAOMI 14",
-        "soc": "Snapdragon 8 Gen 3",
+        "soc": "Snapdragon 8Gen3",
         "ram": "8GB / 12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "LTPO OLED, 6.36in, 120Hz",
@@ -540,7 +540,7 @@
     },
     "ingres": {
         "device_name": "REDMI K50G / POCO F4 GT",
-        "soc": "Snapdragon 8 Gen 1",
+        "soc": "Snapdragon 8Gen1",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "OLED, 6.67in, 120Hz",
@@ -551,7 +551,7 @@
     },
     "ishtar": {
         "device_name": "XIAOMI 13 Ultra",
-        "soc": "Snapdragon 8 Gen 2",
+        "soc": "Snapdragon 8Gen2",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "LTPO3 AMOLED, 6.73in, 120Hz",
@@ -584,7 +584,7 @@
     },
     "kunzite": {
         "device_name": "REDMI Note 15 5G",
-        "soc": "Snapdragon 6 Gen 3",
+        "soc": "Snapdragon 6Gen3",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "AMOLED, 6.77in, 120Hz",
@@ -617,7 +617,7 @@
     },
     "light": {
         "device_name": "REDMI 10 5G / REDMI 11 Prime 5G / REDMI Note 11E / POCO M4 5G",
-        "soc": "Dimensity 700 5G",
+        "soc": "Dimensity 700",
         "ram": "4GB / 6GB",
         "rom": "128GB",
         "display": "IPS LCD, 6.58in, 90Hz",
@@ -639,7 +639,7 @@
     },
     "lisa": {
         "device_name": "XIAOMI Mi 11 LE / XIAOMI 11 Lite 5G NE",
-        "soc": "Snapdragon 778G 5G",
+        "soc": "Snapdragon 778G",
         "ram": "6GB / 8GB",
         "rom": "128GB / 256GB",
         "display": "AMOLED, 6.55in, 90Hz",
@@ -650,7 +650,7 @@
     },
     "luming": {
         "device_name": "XIAOMI Civi 5 Pro",
-        "soc": "Snapdragon 8s Gen 4",
+        "soc": "Snapdragon 8sGen4",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB",
         "display": "AMOLED, 6.55in, 120Hz",
@@ -672,7 +672,7 @@
     },
     "manet": {
         "device_name": "REDMI K70 Pro",
-        "soc": "Snapdragon 8 Gen 3",
+        "soc": "Snapdragon 8Gen3",
         "ram": "12GB / 16GB / 24GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "OLED, 6.67in, 120Hz",
@@ -683,7 +683,7 @@
     },
     "marble": {
         "device_name": "REDMI Note 12 Turbo / POCO F5",
-        "soc": "Snapdragon 7+ Gen 2",
+        "soc": "Snapdragon 7+Gen2",
         "ram": "8GB / 12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "OLED, 6.67in, 120Hz",
@@ -705,7 +705,7 @@
     },
     "mayfly": {
         "device_name": "XIAOMI 12S",
-        "soc": "Snapdragon 8+ Gen 1",
+        "soc": "Snapdragon 8+Gen1",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "AMOLED, 6.28in, 120Hz",
@@ -716,7 +716,7 @@
     },
     "miro": {
         "device_name": "REDMI K80 Pro / POCO F7 Ultra",
-        "soc": "Snapdragon 8 Elite",
+        "soc": "Snapdragon 8Elite",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "OLED, 6.67in, 120Hz",
@@ -727,7 +727,7 @@
     },
     "mona": {
         "device_name": "XIAOMI Civi",
-        "soc": "Snapdragon 778G 5G",
+        "soc": "Snapdragon 778G",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "OLED, 6.55in, 120Hz",
@@ -738,7 +738,7 @@
     },
     "mondrian": {
         "device_name": "REDMI K60 / POCO F5 Pro",
-        "soc": "Snapdragon 8+ Gen 1",
+        "soc": "Snapdragon 8+Gen1",
         "ram": "8GB / 12GB / 16GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "OLED, 6.67in, 120Hz",
@@ -760,7 +760,7 @@
     },
     "moonstone": {
         "device_name": "POCO X5 5G",
-        "soc": "Snapdragon 695 5G",
+        "soc": "Snapdragon 695",
         "ram": "6GB / 8GB",
         "rom": "128GB / 256GB",
         "display": "AMOLED, 6.67in, 120Hz",
@@ -771,7 +771,7 @@
     },
     "munch": {
         "device_name": "REDMI K40S / POCO F4",
-        "soc": "Snapdragon 870 5G",
+        "soc": "Snapdragon 870",
         "ram": "6GB / 8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "AMOLED, 6.67in, 120Hz",
@@ -782,7 +782,7 @@
     },
     "myron": {
         "device_name": "REDMI K90 Pro Max / POCO F8 Ultra",
-        "soc": "Snapdragon 8 Elite Gen 5",
+        "soc": "Snapdragon 8EliteGen5",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "LTPO AMOLED, 6.9in, 120Hz",
@@ -793,7 +793,7 @@
     },
     "nezha": {
         "device_name": "XIAOMI 17 Ultra",
-        "soc": "Snapdragon 8 Elite Gen 5",
+        "soc": "Snapdragon 8EliteGen5",
         "ram": "12GB / 16GB",
         "rom": "512GB / 1TB",
         "display": "LTPO AMOLED, 6.9in, 120Hz",
@@ -804,7 +804,7 @@
     },
     "nuwa": {
         "device_name": "XIAOMI 13 Pro",
-        "soc": "Snapdragon 8 Gen 2",
+        "soc": "Snapdragon 8Gen2",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "LTPO OLED, 6.73in, 120Hz",
@@ -826,7 +826,7 @@
     },
     "odin": {
         "device_name": "MIX 4",
-        "soc": "Snapdragon 888+ 5G",
+        "soc": "Snapdragon 888+",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "AMOLED, 6.67in, 120Hz",
@@ -837,7 +837,7 @@
     },
     "onyx": {
         "device_name": "REDMI Turbo 4 Pro / POCO F7",
-        "soc": "Snapdragon 8s Gen 4",
+        "soc": "Snapdragon 8sGen4",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "AMOLED, 6.83in, 120Hz",
@@ -848,7 +848,7 @@
     },
     "opal": {
         "device_name": "REDMI Note 11S 5G",
-        "soc": "Dimensity 810 5G",
+        "soc": "Dimensity 810",
         "ram": "4GB / 6GB",
         "rom": "64GB / 128GB",
         "display": "IPS LCD, 6.6in, 90Hz",
@@ -859,7 +859,7 @@
     },
     "pandora": {
         "device_name": "XIAOMI 17 Pro",
-        "soc": "Snapdragon 8 Elite Gen 5",
+        "soc": "Snapdragon 8EliteGen5",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "LTPO AMOLED, 6.3in, 120Hz",
@@ -881,7 +881,7 @@
     },
     "peridot": {
         "device_name": "REDMI Turbo 3 / POCO F6",
-        "soc": "Snapdragon 8s Gen 3",
+        "soc": "Snapdragon 8sGen3",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "AMOLED, 6.67in, 120Hz",
@@ -892,7 +892,7 @@
     },
     "pissarro": {
         "device_name": "REDMI Note 11 Pro / Pro Plus / Pro Plus 5G",
-        "soc": "Snapdragon 695 5G",
+        "soc": "Snapdragon 695",
         "ram": "6GB / 8GB",
         "rom": "64GB / 128GB / 256GB",
         "display": "Super AMOLED, 6.67in, 120Hz",
@@ -903,7 +903,7 @@
     },
     "pissarro_in": {
         "device_name": "XIAOMI 11i 5G",
-        "soc": "Snapdragon 695 5G",
+        "soc": "Snapdragon 695",
         "ram": "6GB / 8GB",
         "rom": "64GB / 128GB / 256GB",
         "display": "Super AMOLED, 6.67in, 120Hz",
@@ -925,7 +925,7 @@
     },
     "popsicle": {
         "device_name": "XIAOMI 17 Pro Max",
-        "soc": "Snapdragon 8 Elite Gen 5",
+        "soc": "Snapdragon 8EliteGen5",
         "ram": "12GB / 16GB",
         "rom": "512GB / 1TB",
         "display": "LTPO AMOLED, 6.9in, 120Hz",
@@ -947,7 +947,7 @@
     },
     "psyche": {
         "device_name": "XIAOMI 12X",
-        "soc": "Snapdragon 870 5G",
+        "soc": "Snapdragon 870",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "AMOLED, 6.28in, 120Hz",
@@ -958,7 +958,7 @@
     },
     "pudding": {
         "device_name": "XIAOMI 17",
-        "soc": "Snapdragon 8 Elite Gen 5",
+        "soc": "Snapdragon 8EliteGen5",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB",
         "display": "LTPO AMOLED, 6.3in, 120Hz",
@@ -969,7 +969,7 @@
     },
     "redwood": {
         "device_name": "REDMI Note 12 Pro Speed / POCO X5 Pro 5G",
-        "soc": "Snapdragon 778G 5G",
+        "soc": "Snapdragon 778G",
         "ram": "6GB / 8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "OLED, 6.67in, 120Hz",
@@ -1057,7 +1057,7 @@
     },
     "ruyi": {
         "device_name": "XIAOMI MIX Flip",
-        "soc": "Snapdragon 8 Gen 3",
+        "soc": "Snapdragon 8Gen3",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "Foldable LTPO AMOLED, 6.86in, 120Hz",
@@ -1112,7 +1112,7 @@
     },
     "shennong": {
         "device_name": "XIAOMI 14 Pro / Ti / Satellite",
-        "soc": "Snapdragon 8 Gen 3",
+        "soc": "Snapdragon 8Gen3",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "LTPO AMOLED, 6.73in, 120Hz",
@@ -1123,7 +1123,7 @@
     },
     "sky": {
         "device_name": "REDMI 12 / 12R 5G / REDMI Note 12R / POCO M6 Pro 5G",
-        "soc": "Snapdragon 4 Gen 2",
+        "soc": "Snapdragon 4Gen2",
         "ram": "4GB / 6GB / 8GB",
         "rom": "128GB / 256GB",
         "display": "IPS LCD, 6.79in, 90Hz",
@@ -1134,7 +1134,7 @@
     },
     "socrates": {
         "device_name": "REDMI K60 Pro",
-        "soc": "Snapdragon 8 Gen 2",
+        "soc": "Snapdragon 8Gen2",
         "ram": "8GB / 12GB / 16GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "OLED, 6.67in, 120Hz",
@@ -1189,7 +1189,7 @@
     },
     "spring": {
         "device_name": "REDMI 15 5G / REDMI Note 15R 5G",
-        "soc": "Snapdragon 6s Gen 3",
+        "soc": "Snapdragon 6sGen3",
         "ram": "4GB",
         "rom": "128GB",
         "display": "IPS LCD, 6.9in, 144Hz",
@@ -1200,7 +1200,7 @@
     },
     "star": {
         "device_name": "XIAOMI Mi 11 Pro / Ultra",
-        "soc": "Snapdragon 888 5G",
+        "soc": "Snapdragon 888",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "AMOLED, 6.81in, 120Hz",
@@ -1211,7 +1211,7 @@
     },
     "sunstone": {
         "device_name": "REDMI Note 12 5G / Note 12R Pro",
-        "soc": "Snapdragon 4 Gen 1",
+        "soc": "Snapdragon 4Gen1",
         "ram": "4GB / 6GB / 8GB",
         "rom": "128GB / 256GB",
         "display": "Samsung AMOLED, 6.67in, 120Hz",
@@ -1231,7 +1231,7 @@
         "rear": "108MP + 8MP + 5MP + 2MP",
         "color": "Onyx Gray, Glacier Blue, Gradient Bronze"
     },
-    "sweet_k6a": {
+    "sweetk6a": {
         "device_name": "REDMI Note 12 Pro 4G",
         "soc": "Snapdragon 732G",
         "ram": "6GB / 8GB",
@@ -1255,7 +1255,7 @@
     },
     "taoyao": {
         "device_name": "XIAOMI 12 Lite",
-        "soc": "Snapdragon 778G 5G",
+        "soc": "Snapdragon 778G",
         "ram": "6GB / 8GB",
         "rom": "128GB / 256GB",
         "display": "AMOLED, 6.55in, 120Hz",
@@ -1277,7 +1277,7 @@
     },
     "thor": {
         "device_name": "XIAOMI 12S Ultra",
-        "soc": "Snapdragon 8+ Gen 1",
+        "soc": "Snapdragon 8+Gen1",
         "ram": "8GB / 12GB",
         "rom": "256GB / 512GB",
         "display": "LTPO2 AMOLED, 6.73in, 120Hz",
@@ -1288,7 +1288,7 @@
     },
     "thyme": {
         "device_name": "XIAOMI Mi 10S",
-        "soc": "Snapdragon 870 5G",
+        "soc": "Snapdragon 870",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "AMOLED, 6.67in, 90Hz",
@@ -1321,7 +1321,7 @@
     },
     "umi": {
         "device_name": "XIAOMI Mi 10",
-        "soc": "Snapdragon 865 5G",
+        "soc": "Snapdragon 865",
         "ram": "8GB / 6GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "Super AMOLED, 6.67in, 90Hz",
@@ -1332,7 +1332,7 @@
     },
     "unicorn": {
         "device_name": "XIAOMI 12S Pro",
-        "soc": "Snapdragon 8+ Gen 1",
+        "soc": "Snapdragon 8+Gen1",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "LTPO AMOLED, 6.73in, 120Hz",
@@ -1354,7 +1354,7 @@
     },
     "venus": {
         "device_name": "XIAOMI Mi 11",
-        "soc": "Snapdragon 888 5G",
+        "soc": "Snapdragon 888",
         "ram": "6GB / 8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "AMOLED, 6.81in, 120Hz",
@@ -1365,7 +1365,7 @@
     },
     "vermeer": {
         "device_name": "REDMI K70 / POCO F6 Pro",
-        "soc": "Snapdragon 8 Gen 2",
+        "soc": "Snapdragon 8Gen2",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "OLED, 6.67in, 120Hz",
@@ -1376,7 +1376,7 @@
     },
     "veux": {
         "device_name": "REDMI Note 11 / 11E Pro 5G / POCO X4 Pro 5G",
-        "soc": "Snapdragon 695 5G",
+        "soc": "Snapdragon 695",
         "ram": "6GB / 8GB",
         "rom": "64GB / 128GB",
         "display": "Super AMOLED, 6.67in, 120Hz",
@@ -1398,7 +1398,7 @@
     },
     "vili": {
         "device_name": "XIAOMI 11T Pro",
-        "soc": "Snapdragon 888 5G",
+        "soc": "Snapdragon 888",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "AMOLED, 6.67in, 120Hz",
@@ -1420,7 +1420,7 @@
     },
     "warm": {
         "device_name": "REDMI A4 5G / POCO C75 5G",
-        "soc": "Snapdragon 4s Gen 2",
+        "soc": "Snapdragon 4sGen2",
         "ram": "4GB",
         "rom": "64GB / 128GB",
         "display": "IPS LCD, 6.88in, 120Hz",
@@ -1442,7 +1442,7 @@
     },
     "xuanyuan": {
         "device_name": "XIAOMI 15 Ultra",
-        "soc": "Snapdragon 8 Elite",
+        "soc": "Snapdragon 8Elite",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "LTPO AMOLED, 6.73in, 120Hz",
@@ -1464,7 +1464,7 @@
     },
     "zeus": {
         "device_name": "XIAOMI 12 Pro",
-        "soc": "Snapdragon 8 Gen 1",
+        "soc": "Snapdragon 8Gen1",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "LTPO AMOLED, 6.73in, 120Hz",
@@ -1475,7 +1475,7 @@
     },
     "zijin": {
         "device_name": "XIAOMI Civi 1S",
-        "soc": "Snapdragon 778G+ 5G",
+        "soc": "Snapdragon 778G+",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "OLED, 6.55in, 120Hz",
@@ -1497,7 +1497,7 @@
     },
     "ziyi": {
         "device_name": "XIAOMI Civi 2",
-        "soc": "Snapdragon 7 Gen 1",
+        "soc": "Snapdragon 7Gen1",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "AMOLED, 6.55in, 120Hz",
@@ -1508,7 +1508,7 @@
     },
     "zizhan": {
         "device_name": "XIAOMI MIX Fold 2",
-        "soc": "Snapdragon 8+ Gen 1",
+        "soc": "Snapdragon 8+Gen1",
         "ram": "12GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "Foldable LTPO2 OLED, 8.02in, 120Hz",
@@ -1519,7 +1519,7 @@
     },
     "zorn": {
         "device_name": "REDMI K80 / POCO F7 Pro",
-        "soc": "Snapdragon 8 Gen 3",
+        "soc": "Snapdragon 8Gen3",
         "ram": "12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "OLED, 6.67in, 120Hz",
@@ -1541,7 +1541,7 @@
     },
     "enuma": {
         "device_name": "XIAOMI Pad 5 Pro 5G",
-        "soc": "Snapdragon 870 5G",
+        "soc": "Snapdragon 870",
         "ram": "8GB",
         "rom": "256GB",
         "display": "IPS LCD, 11.0in, 120Hz",
@@ -1552,7 +1552,7 @@
     },
     "elish": {
         "device_name": "XIAOMI Pad 5 Pro Wi-Fi",
-        "soc": "Snapdragon 870 5G",
+        "soc": "Snapdragon 870",
         "ram": "6GB / 8GB",
         "rom": "128GB / 256GB",
         "display": "IPS LCD, 11.0in, 120Hz",
@@ -1563,7 +1563,7 @@
     },
     "dagu": {
         "device_name": "XIAOMI Pad 5 Pro 12.4",
-        "soc": "Snapdragon 870 5G",
+        "soc": "Snapdragon 870",
         "ram": "6GB / 8GB / 12GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "IPS LCD, 12.4in, 120Hz",
@@ -1574,7 +1574,7 @@
     },
     "pipa": {
         "device_name": "XIAOMI Pad 6",
-        "soc": "Snapdragon 870 5G",
+        "soc": "Snapdragon 870",
         "ram": "6GB / 8GB",
         "rom": "128GB / 256GB",
         "display": "IPS LCD, 11.0in, 144Hz",
@@ -1585,7 +1585,7 @@
     },
     "liuqin": {
         "device_name": "XIAOMI Pad 6 Pro",
-        "soc": "Snapdragon 8+ Gen 1",
+        "soc": "Snapdragon 8+Gen1",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "IPS LCD, 11.0in, 144Hz",
@@ -1596,7 +1596,7 @@
     },
     "yudi": {
         "device_name": "XIAOMI Pad 6 Max 14",
-        "soc": "Snapdragon 8+ Gen 1",
+        "soc": "Snapdragon 8+Gen1",
         "ram": "8GB / 12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "IPS LCD, 14.0in, 120Hz",
@@ -1607,7 +1607,7 @@
     },
     "sheng": {
         "device_name": "XIAOMI Pad 6S Pro 12.4",
-        "soc": "Snapdragon 8 Gen 2",
+        "soc": "Snapdragon 8Gen2",
         "ram": "8GB / 12GB / 16GB",
         "rom": "256GB / 512GB / 1TB",
         "display": "IPS LCD, 12.4in, 144Hz",
@@ -1618,7 +1618,7 @@
     },
     "uke": {
         "device_name": "XIAOMI Pad 7 / POCO Pad X1",
-        "soc": "Snapdragon 7+ Gen 3",
+        "soc": "Snapdragon 7+Gen3",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "IPS LCD, 11.2in, 144Hz",
@@ -1629,7 +1629,7 @@
     },
     "muyu": {
         "device_name": "XIAOMI Pad 7 Pro",
-        "soc": "Snapdragon 8s Gen 3",
+        "soc": "Snapdragon 8sGen3",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "IPS LCD, 11.2in, 144Hz",
@@ -1662,7 +1662,7 @@
     },
     "yupei": {
         "device_name": "XIAOMI Pad 8",
-        "soc": "Snapdragon 8s Gen 4",
+        "soc": "Snapdragon 8sGen4",
         "ram": "8GB / 12GB",
         "rom": "128GB / 256GB",
         "display": "IPS LCD, 11.2in, 144Hz",
@@ -1673,7 +1673,7 @@
     },
     "piano": {
         "device_name": "XIAOMI Pad 8 Pro",
-        "soc": "Snapdragon 8 Elite",
+        "soc": "Snapdragon 8Elite",
         "ram": "8GB / 12GB / 16GB",
         "rom": "128GB / 256GB / 512GB",
         "display": "IPS LCD, 11.2in, 144Hz",
@@ -1728,7 +1728,7 @@
     },
     "guitar": {
         "device_name": "REDMI Pad 2 9.8 / SE / POCO Pad C1",
-        "soc": "Snapdragon 6s Gen 2",
+        "soc": "Snapdragon 6sGen2",
         "ram": "6GB",
         "rom": "128GB",
         "display": "IPS LCD, 9.7in, 120Hz",
@@ -1739,7 +1739,7 @@
     },
     "dizi": {
         "device_name": "REDMI Pad Pro / POCO Pad",
-        "soc": "Snapdragon 7s Gen 2",
+        "soc": "Snapdragon 7sGen2",
         "ram": "6GB / 8GB",
         "rom": "128GB / 256GB",
         "display": "IPS LCD, 12.1in, 120Hz",
@@ -1750,7 +1750,7 @@
     },
     "ruan": {
         "device_name": "REDMI Pad Pro 5G / POCO Pad 5G",
-        "soc": "Snapdragon 7s Gen 2",
+        "soc": "Snapdragon 7sGen2",
         "ram": "6GB / 8GB",
         "rom": "128GB / 256GB",
         "display": "IPS LCD, 12.1in, 120Hz",
@@ -1783,7 +1783,7 @@
     },
     "flute": {
         "device_name": "REDMI Pad 2 Pro",
-        "soc": "Snapdragon 7s Gen 3",
+        "soc": "Snapdragon 7sGen3",
         "ram": "6GB / 8GB",
         "rom": "128GB / 256GB",
         "display": "IPS LCD, 12.1in, 120Hz",
@@ -1794,7 +1794,7 @@
     },
     "organ": {
         "device_name": "REDMI Pad 2 Pro 5G",
-        "soc": "Snapdragon 7s Gen 3",
+        "soc": "Snapdragon 7sGen3",
         "ram": "6GB / 8GB",
         "rom": "128GB / 256GB",
         "display": "IPS LCD, 12.1in, 120Hz",
