@@ -172,14 +172,14 @@ jobs:
           }
           case "$ROM_VER" in
             OS1|OS1_A13)
-              sf_upload "$ROM_OUTPUT" "ZK-LITE/ZKOS1"
+              sf_upload "$ROM_OUTPUT" "ZK-EU/ZKOS1"
               gd_upload "1Ke3q3WE5kjLmST63xaea6pos9L_IjBXq"
-              echo "ZK_LINK=https://index.projectzk.online/0:/ZK-LITE/ZKOS1" >> $GITHUB_ENV
+              echo "ZK_LINK=https://index.projectzk.online/0:/ZK-EU/ZKOS1" >> $GITHUB_ENV
               ;;
             OS2|OS2_A14)
-              sf_upload "$ROM_OUTPUT" "ZK-LITE/ZKOS2"
+              sf_upload "$ROM_OUTPUT" "ZK-EU/ZKOS2"
               gd_upload "1xQJPeS5yI0Tva5AMOJoz05voJQCmzsBR"
-              echo "ZK_LINK=https://index.projectzk.online/0:/ZK-LITE/ZKOS2" >> $GITHUB_ENV
+              echo "ZK_LINK=https://index.projectzk.online/0:/ZK-EU/ZKOS2" >> $GITHUB_ENV
               ;;
             *)
               echo "::warning::Unknown ROM_VER=$ROM_VER, skipping upload"
