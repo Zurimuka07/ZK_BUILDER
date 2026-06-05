@@ -3,12 +3,12 @@ on:
   workflow_dispatch:
     inputs:
       URL:
-        description: "OTA ROM URL"
+        description: "OTA PACKAGE URL FOR BUILD"
         required: true
       URL2:
-        description: "FASTBOOT ROM URL (optional, for super size)"
+        description: "FASTBOOT URL FOR SUPER SIZE"
       SFU:
-        description: "SF UPLOADER"
+        description: "SOURCEFORGE UPLOADER"
         type: boolean
         default: 'true'
 jobs:
@@ -38,7 +38,6 @@ jobs:
           remove-cached-tools: 'true'
       - name: Setup build environment
         run: |
-          set -euo pipefail
           sudo timedatectl set-timezone UTC
           sudo apt-get update -qq
           sudo apt-get install -y -qq \
@@ -47,11 +46,11 @@ jobs:
             openjdk-17-jdk openjdk-17-jdk-headless \
             openssh-client p7zip-full \
             python-is-python3 python3 python3-pip \
-            xz-utils zip zipalign zlib1g-dev
+            xz-utils zip zipalign zlib1g-dev > /dev/null 2>&1
           pip install --quiet \
             google-api-python-client \
             google-auth-httplib2 \
-            google-auth-oauthlib
+            google-auth-oauthlib > /dev/null 2>&1
           DATE=$(TZ=UTC date +"%y%m%d")
           ROM_NAME="$(basename "${ROM_URL%%\?*}")"
           DEVICE=""
@@ -89,10 +88,9 @@ jobs:
             echo "ROM_VER=$ROM_VER"
             echo "IS_PRIVATE_DEVICE=$IS_PRIVATE_DEVICE"
           } >> $GITHUB_ENV
-          echo "Parsed → ZK_NAME=$ZK_NAME | DEVICE=${DEVICE,,} | ROM_VER=$ROM_VER | private=$IS_PRIVATE_DEVICE"
+          echo "ZK_NAME=$ZK_NAME | DEVICE=${DEVICE,,} | ROM_VER=$ROM_VER | private=$IS_PRIVATE_DEVICE"
       - name: Download ROM files
         run: |
-          set -euo pipefail
           super_json="$GITHUB_WORKSPACE/assets/super_size.json"
           DEST_DIR="$GITHUB_WORKSPACE/ROM"
           if jq -e --arg m "$DEVICE" '.[$m]' "$super_json" > /dev/null 2>&1; then
@@ -145,7 +143,6 @@ jobs:
           echo "Download complete: $(du -h "$DEST_DIR/${ZK_NAME}.zip" | cut -f1)"
       - name: Clone ZK AUTO BUILD sources
         run: |
-          set -euo pipefail
           ZK_HOME="/home/runner/work/ZK_AUTO_BUILD/ZK_AUTO_BUILD"
           echo "ZK_HOME=$ZK_HOME" >> $GITHUB_ENV
           install -d -m 700 ~/.ssh
@@ -158,15 +155,14 @@ jobs:
           sudo chmod -R +x "$ZK_HOME"
       - name: Build ProjectZK ROM
         run: |
-          set -euo pipefail
-          sudo bash "$ZK_HOME/build.sh" "$GITHUB_ENV" "$ZK_HOME" "$ZK_NAME" "$SUPER_SIZE"
+          sudo bash "$ZK_HOME/build.sh" \
+            "$GITHUB_ENV" "$ZK_NAME" "$SUPER_SIZE"
       - name: Upload ROM to Clouds
         run: |
-          set -euo pipefail
           cd "$ZK_HOME/tools"
           echo "${{ secrets.TOKEN_PICKLE2 }}" | base64 -d > token.pickle
-          echo "${{ secrets.UPLOADER }}"      | base64 -d > upload.py
-          echo "${{ secrets.SF_SSH_KEY }}"               > key
+          echo "${{ secrets.UPLOADER }}" | base64 -d > upload.py
+          echo "${{ secrets.SF_SSH_KEY }}" > key
           chmod 0600 key token.pickle upload.py
           sf_upload() {
             local src="$1" dest_path="$2"
@@ -205,9 +201,8 @@ jobs:
       - name: Telegram Notification
         if: env.IS_PRIVATE_DEVICE != 'true' && env.ZK_LINK != ''
         run: |
-          set -euo pipefail
           PAYLOAD=$(jq -n \
-            --arg chat "-1003777829884" \
+            --arg chat "5397836232" \
             --arg text "✅ <b>NEW BUILD: <a href='${ZK_LINK}/${ZK_NAME}.zip'>${ZK_NAME}.zip</a></b>" \
             '{ chat_id: $chat, text: $text, parse_mode: "HTML" }')
           curl -s -X POST \

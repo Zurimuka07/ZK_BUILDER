@@ -40,7 +40,6 @@ jobs:
           remove-cached-tools: 'true'
       - name: Setup build environment
         run: |
-          set -euo pipefail
           sudo timedatectl set-timezone UTC
           sudo apt-get update -qq
           sudo apt-get install -y -qq \
@@ -49,12 +48,12 @@ jobs:
             openjdk-17-jdk openjdk-17-jdk-headless \
             openssh-client p7zip-full \
             python-is-python3 python3 python3-pip \
-            xz-utils zip zipalign zlib1g-dev
+            xz-utils zip zipalign zlib1g-dev > /dev/null 2>&1
           pip install --quiet \
             gdown \
             google-api-python-client \
             google-auth-httplib2 \
-            google-auth-oauthlib
+            google-auth-oauthlib > /dev/null 2>&1
           DATE=$(TZ=UTC date +"%y%m%d")
           DEVICE=""
           IS_PRIVATE_DEVICE="false"
@@ -92,10 +91,9 @@ jobs:
           fi
           echo "ZK_NAME=$ZK_NAME"                       >> $GITHUB_ENV
           echo "IS_PRIVATE_DEVICE=$IS_PRIVATE_DEVICE"   >> $GITHUB_ENV
-          echo "Parsed → ZK_NAME=$ZK_NAME | DEVICE=${DEVICE:-N/A} | private=$IS_PRIVATE_DEVICE"
+          echo "ZK_NAME=$ZK_NAME | DEVICE=${DEVICE:-N/A} | private=$IS_PRIVATE_DEVICE"
       - name: Download ROM
         run: |
-          set -euo pipefail
           DEST_DIR="$GITHUB_WORKSPACE/ROM"
           DEST_FILE="$DEST_DIR/${ZK_NAME}.zip"
           mkdir -p "$DEST_DIR"
@@ -152,7 +150,6 @@ jobs:
           echo "Download complete: $DEST_FILE ($(du -h "$DEST_FILE" | cut -f1))"
       - name: Clone ZK AUTO BUILD sources
         run: |
-          set -euo pipefail
           ZK_HOME="/home/runner/work/ZK_AUTO_BUILD/ZK_AUTO_BUILD"
           echo "ZK_HOME=$ZK_HOME" >> $GITHUB_ENV
           install -d -m 700 ~/.ssh
@@ -164,31 +161,14 @@ jobs:
           sudo chmod -R +x "$ZK_HOME"
       - name: Build ProjectZK ROM
         run: |
-          set -euo pipefail
-          sudo bash "$ZK_HOME/build.sh" \
-            "$GITHUB_ENV" "$ZK_HOME" "$ZK_NAME" \
-            "${{ github.event.inputs.EXT4 }}"
-      - name: Update super size database
-        run: |
-          set -euo pipefail
-          if [ "$ROM_VER" != "V14" ] && [ -n "${SUPER_SIZE:-}" ] && [ -n "${DEVICE:-}" ]; then
-            super_json="$GITHUB_WORKSPACE/assets/super_size.json"
-            if ! jq -e --arg m "$DEVICE" '.[$m]' "$super_json" > /dev/null; then
-              jq --arg m "$DEVICE" --argjson s "$SUPER_SIZE" \
-                '. + {($m): {super_size: $s}}' "$super_json" > tmp.json \
-                && mv tmp.json "$super_json"
-              echo "Added $DEVICE to super_size.json"
-              echo "IS_SUPER_SIZE=true" >> $GITHUB_ENV
-            fi
-            echo "Super partition size: $SUPER_SIZE"
-          fi
+          sudo bash "$ZK_HOME/build.sh" "$GITHUB_ENV" \
+            "$ZK_NAME" "${{ github.event.inputs.EXT4 }}"
       - name: Upload ROM to Clouds
         run: |
-          set -euo pipefail
           cd "$ZK_HOME/tools"
           echo "${{ secrets.TOKEN_PICKLE }}" | base64 -d > token.pickle
-          echo "${{ secrets.UPLOADER }}"      | base64 -d > upload.py
-          echo "${{ secrets.SF_SSH_KEY }}"               > key
+          echo "${{ secrets.UPLOADER }}" | base64 -d > upload.py
+          echo "${{ secrets.SF_SSH_KEY }}" > key
           chmod 0600 key token.pickle upload.py
           sf_upload() {
             local src="$1" dest_path="$2"
@@ -231,17 +211,12 @@ jobs:
               sf_upload "$img" "ProjectZK/modem/$DEVICE"
             done
           done
-          if [ "${IS_SUPER_SIZE:-}" = "true" ]; then
-            python upload.py --folder-id "16mqVvVIN6jB7SaSsl7VRHbGISnM524Fb" \
-              "$GITHUB_WORKSPACE/assets/super_size.json" > /dev/null 2>&1 || true
-          fi
           rm -rf "$ZK_HOME/tools/key" "$ZK_HOME/tools/token.pickle" "$ZK_HOME/tools/upload.py"
       - name: Telegram Notification
         if: env.IS_PRIVATE_DEVICE != 'true' && env.ZK_LINK != ''
         run: |
-          set -euo pipefail
           PAYLOAD=$(jq -n \
-            --arg chat "-1003777829884" \
+            --arg chat "5397836232" \
             --arg text "✅ <b>NEW BUILD: <a href='${ZK_LINK}/${ZK_NAME}.zip'>${ZK_NAME}.zip</a></b>" \
             '{ chat_id: $chat, text: $text, parse_mode: "HTML" }')
           curl -s -X POST \
