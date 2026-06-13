@@ -166,7 +166,7 @@ jobs:
       - name: Upload ROM to Clouds
         run: |
           cd "$ZK_HOME/tools"
-          echo "${{ secrets.TOKEN_PICKLE }}" | base64 -d > token.pickle
+          echo "${{ secrets.TOKEN_PICKLE2 }}" | base64 -d > token.pickle
           echo "${{ secrets.UPLOADER }}" | base64 -d > upload.py
           echo "${{ secrets.SF_SSH_KEY }}" > key
           chmod 0600 key token.pickle upload.py
@@ -190,6 +190,16 @@ jobs:
               sf_upload "$ROM_OUTPUT" "ZK-EU/ZKUI14"
               gd_upload "1a2O_DmmxH6o4szRJaBQjSfYXjYvdlRUO"
               echo "ZK_LINK=https://index.projectzk.online/0:/ZK-EU/ZKUI14" >> $GITHUB_ENV
+              ;;
+            OS1|OS1_A13)
+              sf_upload "$ROM_OUTPUT" "ZK-EU/ZKOS1"
+              gd_upload "1Ke3q3WE5kjLmST63xaea6pos9L_IjBXq"
+              echo "ZK_LINK=https://index.projectzk.online/0:/ZK-EU/ZKOS1" >> $GITHUB_ENV
+              ;;
+            OS2|OS2_A14)
+              sf_upload "$ROM_OUTPUT" "ZK-EU/ZKOS2"
+              gd_upload "1xQJPeS5yI0Tva5AMOJoz05voJQCmzsBR"
+              echo "ZK_LINK=https://index.projectzk.online/0:/ZK-EU/ZKOS2" >> $GITHUB_ENV
               ;;
             OS3|OS3_A15)
               if [ "$IS_PRIVATE_DEVICE" = "true" ]; then
