@@ -61,7 +61,25 @@ jobs:
             ZK_NAME="ZK_XIAOMI_EU${DATE}"
           else
             ROM_NAME="$(basename "${ROM_URL%/download}")"
-            if [[ "$ROM_NAME" == *_OS* ]]; then
+            if [[ "$ROM_NAME" == *_OS1* ]]; then
+              if [[ "$ROM_NAME" =~ ^xiaomi\.eu_([^_]+)_(OS[0-9.]+)\.([A-Z0-9]+)_([0-9]+)\.zip$ ]]; then
+                DEVICE="${BASH_REMATCH[1]^^}"
+                OS_VER="${BASH_REMATCH[2]}"
+                REGION="${BASH_REMATCH[3]}"
+                ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_LITE${DATE}"
+              else
+                ZK_NAME="ZKOS_XIAOMI_LITE${DATE}"
+              fi
+            elif [[ "$ROM_NAME" == *_OS2* ]]; then
+              if [[ "$ROM_NAME" =~ ^xiaomi\.eu_([^_]+)_(OS[0-9.]+)\.([A-Z0-9]+)_([0-9]+)\.zip$ ]]; then
+                DEVICE="${BASH_REMATCH[1]^^}"
+                OS_VER="${BASH_REMATCH[2]}"
+                REGION="${BASH_REMATCH[3]}"
+                ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_LITE${DATE}"
+              else
+                ZK_NAME="ZKOS_XIAOMI_LITE${DATE}"
+              fi
+            elif [[ "$ROM_NAME" == *_OS3* ]]; then
               if [[ "$ROM_NAME" =~ ^xiaomi\.eu_([^_]+)_(OS[0-9.]+)\.([A-Z0-9]+)_([0-9]+)\.zip$ ]]; then
                 DEVICE="${BASH_REMATCH[1]^^}"
                 OS_VER="${BASH_REMATCH[2]}"
@@ -156,7 +174,7 @@ jobs:
           echo "${{ secrets.PRIVATE_REPO_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan github.com >> ~/.ssh/known_hosts 2>/dev/null
-          git clone -b main --depth=1 git@github.com:zuri1503/ZK_AUTO_BUILD.git "$ZK_HOME"
+          git clone -b eu --depth=1 git@github.com:zuri1503/ZK_AUTO_BUILD.git "$ZK_HOME"
           mv -f "$GITHUB_WORKSPACE/ROM" "$ZK_HOME/ROM"
           sudo chmod -R +x "$ZK_HOME"
       - name: Build ProjectZK ROM
