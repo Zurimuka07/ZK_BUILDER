@@ -47,7 +47,7 @@ jobs:
             openssh-client p7zip-full \
             python-is-python3 python3 python3-pip \
             xz-utils zip zipalign zlib1g-dev > /dev/null 2>&1
-          pip install --quiet \
+          pip install --quiet protobuf \
             google-api-python-client \
             google-auth-httplib2 \
             google-auth-oauthlib > /dev/null 2>&1
@@ -91,41 +91,7 @@ jobs:
           echo "ZK_NAME=$ZK_NAME | DEVICE=${DEVICE,,} | ROM_VER=$ROM_VER | private=$IS_PRIVATE_DEVICE"
       - name: Download ROM files
         run: |
-          super_json="$GITHUB_WORKSPACE/assets/super_size.json"
           DEST_DIR="$GITHUB_WORKSPACE/ROM"
-          if jq -e --arg m "$DEVICE" '.[$m]' "$super_json" > /dev/null 2>&1; then
-            echo "Using cached super_size from super_size.json"
-            super_size=$(jq -r --arg m "$DEVICE" '.[$m].super_size' "$super_json")
-          elif [ -n "${{ github.event.inputs.URL2 }}" ]; then
-            echo "::group::Downloading FASTBOOT ROM for super size"
-            timeout 9000 aria2c \
-              -s16 -x16 -j"$(nproc)" -c \
-              -U "Mozilla/5.0" \
-              --console-log-level=warn \
-              -d "$GITHUB_WORKSPACE" \
-              -o "FASTBOOT.tgz" \
-              "${{ github.event.inputs.URL2 }}" \
-              || { echo "::error::FASTBOOT download failed"; exit 1; }
-            echo "::endgroup::"
-            [ -s "$GITHUB_WORKSPACE/FASTBOOT.tgz" ] \
-              || { echo "::error::FASTBOOT.tgz is empty"; exit 1; }
-            mkdir -p FASTBOOT
-            tar -xzf FASTBOOT.tgz -C FASTBOOT > /dev/null 2>&1
-            rm -f FASTBOOT.tgz
-            simg2img FASTBOOT/*/images/super.img FASTBOOT/super.img \
-              || { echo "::error::simg2img failed"; exit 1; }
-            super_size=$(stat -c %s FASTBOOT/super.img)
-            rm -rf FASTBOOT
-            jq --arg m "$DEVICE" --argjson s "$super_size" \
-              '. + {($m): {super_size: $s}}' "$super_json" > tmp.json \
-              && mv tmp.json "$super_json"
-            echo "IS_SUPER_SIZE=true" >> $GITHUB_ENV
-            echo "Added $DEVICE -> super_size=$super_size to super_size.json"
-          else
-            SUPER_SIZE="9126805504"
-          fi
-          echo "SUPER_SIZE=$super_size" >> $GITHUB_ENV
-          echo "Super partition size: $super_size"
           echo "::group::Downloading OTA ROM"
           mkdir -p "$DEST_DIR"
           timeout 9000 aria2c \
@@ -154,12 +120,11 @@ jobs:
           sudo chmod -R +x "$ZK_HOME"
       - name: Build ProjectZK ROM
         run: |
-          sudo bash "$ZK_HOME/build.sh" \
-            "$GITHUB_ENV" "$ZK_NAME" "$SUPER_SIZE"
+          sudo bash "$ZK_HOME/build.sh" "$GITHUB_ENV" "$ZK_NAME"
       - name: Upload ROM to Clouds
         run: |
           cd "$ZK_HOME/tools"
-          echo "${{ secrets.TOKEN_PICKLE2 }}" | base64 -d > token.pickle
+          echo "${{ secrets.TOKEN_PICKLE }}" | base64 -d > token.pickle
           echo "${{ secrets.UPLOADER }}" | base64 -d > upload.py
           echo "${{ secrets.SF_SSH_KEY }}" > key
           chmod 0600 key token.pickle upload.py
@@ -192,16 +157,12 @@ jobs:
             gd_upload "$GD_FOLDER"
             echo "ZK_LINK=https://index.projectzk.online/0:/${SF_PATH}" >> $GITHUB_ENV
           fi
-          if [ "${IS_SUPER_SIZE:-}" = "true" ]; then
-            python upload.py --folder-id "16mqVvVIN6jB7SaSsl7VRHbGISnM524Fb" \
-              "$GITHUB_WORKSPACE/assets/super_size.json" > /dev/null 2>&1 || true
-          fi
           rm -f key token.pickle upload.py
       - name: Telegram Notification
         if: env.IS_PRIVATE_DEVICE != 'true' && env.ZK_LINK != ''
         run: |
           PAYLOAD=$(jq -n \
-            --arg chat "5397836232" \
+            --arg chat "-1002030539146" \
             --arg text "✅ <b>NEW BUILD: <a href='${ZK_LINK}/${ZK_NAME}.zip'>${ZK_NAME}.zip</a></b>" \
             '{ chat_id: $chat, text: $text, parse_mode: "HTML" }')
           curl -s -X POST \
