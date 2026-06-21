@@ -203,6 +203,10 @@ jobs:
             python upload.py --folder-id "$folder_id" "$ROM_OUTPUT" > /dev/null 2>&1 \
               || { echo "::error::GDrive upload failed (folder: $folder_id)"; exit 1; }
           }
+          pd_upload() {
+            local file="$1"
+            curl -u ":${{ secrets.PIXELDRAIN_API }}" -X PUT -T "$file" "https://pixeldrain.com/api/file/${ZK_NAME}.zip"
+          }
           case "$ROM_VER" in
             V14)
               sf_upload "$ROM_OUTPUT" "ZK-EU/ZKUI14"
@@ -222,6 +226,7 @@ jobs:
             OS3|OS3_A15)
               if [ "$IS_PRIVATE_DEVICE" = "true" ]; then
                 gd_upload "${{ secrets.PRIVATE_DRIVE_ID }}"
+                pd_upload "$ROM_OUTPUT"
               else
                 sf_upload "$ROM_OUTPUT" "ZK-EU/ZKOS3"
                 gd_upload "1fFNVQDoS4qnOIZP1xyoAiPYGUK2lUUNu"
