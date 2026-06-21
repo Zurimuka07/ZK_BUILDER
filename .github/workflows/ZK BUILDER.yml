@@ -232,13 +232,6 @@ jobs:
               echo "::warning::Unknown ROM_VER=$ROM_VER, skipping upload"
               ;;
           esac
-          for suffix in "" "_ww"; do
-            for prefix in "modem" "modemfirmware"; do
-              img="$ZK_HOME/${prefix}${suffix}.img"
-              [ -f "$img" ] || continue
-              sf_upload "$img" "ProjectZK/modem/$DEVICE"
-            done
-          done
           rm -rf "$ZK_HOME/tools/key" "$ZK_HOME/tools/token.pickle" "$ZK_HOME/tools/upload.py"
       - name: Telegram Notification
         if: env.IS_PRIVATE_DEVICE != 'true' && env.ZK_LINK != ''
