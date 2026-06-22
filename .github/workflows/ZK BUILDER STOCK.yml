@@ -122,7 +122,7 @@ jobs:
       - name: Upload ROM to Clouds
         run: |
           cd "$ZK_HOME/tools"
-          echo "${{ secrets.TOKEN_PICKLE }}" | base64 -d > token.pickle
+          echo "${{ secrets.TOKEN_PICKLE3 }}" | base64 -d > token.pickle
           echo "${{ secrets.UPLOADER }}" | base64 -d > upload.py
           echo "${{ secrets.SF_SSH_KEY }}" > key
           chmod 0600 key token.pickle upload.py
@@ -145,7 +145,7 @@ jobs:
             local file="$1"
             curl -u ":${{ secrets.PIXELDRAIN_API }}" -X PUT -T "$file" "https://pixeldrain.com/api/file/${ZK_NAME}.zip"
           }
-          if [ -f "$ZK_HOME/is_global" ]; then
+          if [ "$IS_GLOBAL" = "true" ]; then
             SF_PATH="ZK-MI"
             GD_FOLDER="1-xoy6G1nutYrKzT4Lc0dGsmEQUJRhJFN"
           else
