@@ -1244,25 +1244,25 @@
   },
   "sapphire": {
     "battery": "5000mAh - 33W",
-    "color": "Graphite black (Stealth Black), Arctic White, Ocean Teal, Prism Gold",
+    "color": "Midnight Black, Mint Green, Ice Blue, Ocean Sunset",
     "device_name": "REDMI Note 13 4G",
     "display": "AMOLED, 6.67in, 120Hz",
     "front": "16MP",
     "ram": "6GB / 8GB / 12GB",
     "rear": "108MP + 8MP + 2MP",
-    "rom": "128GB / 256GB",
-    "soc": "Dimensity 6080"
+    "rom": "128GB / 256GB / 512GB",
+    "soc": "Snapdragon 680"
   },
   "sapphiren": {
     "battery": "5000mAh - 33W",
-    "color": "Graphite black (Stealth Black), Arctic White, Ocean Teal, Prism Gold",
+    "color": "Midnight Black, Mint Green, Ice Blue, Ocean Sunset",
     "device_name": "REDMI Note 13 NFC",
     "display": "AMOLED, 6.67in, 120Hz",
     "front": "16MP",
     "ram": "6GB / 8GB / 12GB",
     "rear": "108MP + 8MP + 2MP",
-    "rom": "128GB / 256GB",
-    "soc": "Dimensity 6080"
+    "rom": "128GB / 256GB / 512GB",
+    "soc": "Snapdragon 680"
   },
   "sea": {
     "battery": "5000mAh - 33W",
