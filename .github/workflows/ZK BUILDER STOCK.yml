@@ -154,12 +154,12 @@ jobs:
           fi
           if [ "$IS_PRIVATE_DEVICE" = "true" ]; then
             gd_upload "${{ secrets.PRIVATE_DRIVE_ID }}"
+            pd_upload "$ROM_OUTPUT"
           else
             sf_upload "$ROM_OUTPUT" "$SF_PATH"
             gd_upload "$GD_FOLDER"
             echo "ZK_LINK=https://index.projectzk.online/0:/${SF_PATH}" >> $GITHUB_ENV
           fi
-          pd_upload "$ROM_OUTPUT"
           rm -f key token.pickle upload.py
       - name: Telegram Notification
         if: env.IS_PRIVATE_DEVICE != 'true' && env.ZK_LINK != ''

@@ -226,6 +226,7 @@ jobs:
             OS3|OS3_A15)
               if [ "$IS_PRIVATE_DEVICE" = "true" ]; then
                 gd_upload "${{ secrets.PRIVATE_DRIVE_ID }}"
+                pd_upload "$ROM_OUTPUT"
               else
                 sf_upload "$ROM_OUTPUT" "ZK-EU/ZKOS3"
                 gd_upload "1fFNVQDoS4qnOIZP1xyoAiPYGUK2lUUNu"
@@ -236,7 +237,6 @@ jobs:
               echo "::warning::Unknown ROM_VER=$ROM_VER, skipping upload"
               ;;
           esac
-          pd_upload "$ROM_OUTPUT"
           rm -rf "$ZK_HOME/tools/key" "$ZK_HOME/tools/token.pickle" "$ZK_HOME/tools/upload.py"
       - name: Telegram Notification
         if: env.IS_PRIVATE_DEVICE != 'true' && env.ZK_LINK != ''
