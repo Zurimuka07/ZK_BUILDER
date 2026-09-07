@@ -58,25 +58,7 @@ jobs:
             ZK_NAME="ZK_XIAOMI_EU${DATE}"
           else
             ROM_NAME="$(basename "${ROM_URL%/download}")"
-            if [[ "$ROM_NAME" == *_OS1* ]]; then
-              if [[ "$ROM_NAME" =~ ^xiaomi\.eu_([^_]+)_(OS[0-9.]+)\.([A-Z0-9]+)_([0-9]+)\.zip$ ]]; then
-                DEVICE="${BASH_REMATCH[1]^^}"
-                OS_VER="${BASH_REMATCH[2]}"
-                REGION="${BASH_REMATCH[3]}"
-                ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_LITE${DATE}"
-              else
-                ZK_NAME="ZKOS_XIAOMI_LITE${DATE}"
-              fi
-            elif [[ "$ROM_NAME" == *_OS2* ]]; then
-              if [[ "$ROM_NAME" =~ ^xiaomi\.eu_([^_]+)_(OS[0-9.]+)\.([A-Z0-9]+)_([0-9]+)\.zip$ ]]; then
-                DEVICE="${BASH_REMATCH[1]^^}"
-                OS_VER="${BASH_REMATCH[2]}"
-                REGION="${BASH_REMATCH[3]}"
-                ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_LITE${DATE}"
-              else
-                ZK_NAME="ZKOS_XIAOMI_LITE${DATE}"
-              fi
-            elif [[ "$ROM_NAME" == *_OS3* ]]; then
+            if [[ "$ROM_NAME" == *_OS* ]]; then
               if [[ "$ROM_NAME" =~ ^xiaomi\.eu_([^_]+)_(OS[0-9.]+)\.([A-Z0-9]+)_([0-9]+)\.zip$ ]]; then
                 DEVICE="${BASH_REMATCH[1]^^}"
                 OS_VER="${BASH_REMATCH[2]}"
@@ -100,7 +82,7 @@ jobs:
             fi
             echo "DEVICE=${DEVICE,,}" >> $GITHUB_ENV
           fi
-          echo "ZK_NAME=$ZK_NAME"                       >> $GITHUB_ENV
+          echo "ZK_NAME=$ZK_NAME" >> $GITHUB_ENV
           echo "ZK_NAME=$ZK_NAME | DEVICE=${DEVICE:-N/A}"
       - name: Download ROM
         run: |
@@ -171,8 +153,7 @@ jobs:
           sudo chmod -R +x "$ZK_HOME"
       - name: Build ProjectZK ROM
         run: |
-          sudo bash "$ZK_HOME/build.sh" "$GITHUB_ENV" \
-            "$ZK_NAME" "${{ github.event.inputs.EXT4 }}"
+          sudo bash "$ZK_HOME/build.sh" "$GITHUB_ENV" "$ZK_NAME" "${{ github.event.inputs.EXT4 }}"
       - name: Upload ROM to Clouds
         run: |
           cd "$ZK_HOME/tools"
@@ -189,6 +170,7 @@ jobs:
               "zuri1503@frs.sourceforge.net:/home/frs/project/projectzk/ProjectZK/${dest_path}/" \
               || { echo "::error::rsync failed: $src -> $dest_path"; exit 1; }
             echo "Uploaded $(basename "$src") -> SF:$dest_path"
+            echo "ZK_LINK=https://sourceforge.net/projects/projectzk/files/ProjectZK/$dest_path" >> $GITHUB_ENV
           }
           gd_upload() {
             local folder_id="$1"
@@ -203,22 +185,18 @@ jobs:
             V14)
               sf_upload "$ROM_OUTPUT" "ZK-EU/ZKUI14"
               gd_upload "1a2O_DmmxH6o4szRJaBQjSfYXjYvdlRUO"
-              echo "ZK_LINK=https://index.projectzk.online/ZK-EU/ZKUI14" >> $GITHUB_ENV
               ;;
             OS1|OS1_A13)
               sf_upload "$ROM_OUTPUT" "ZK-EU/ZKOS1"
               gd_upload "1Ke3q3WE5kjLmST63xaea6pos9L_IjBXq"
-              echo "ZK_LINK=https://index.projectzk.online/ZK-EU/ZKOS1" >> $GITHUB_ENV
               ;;
             OS2|OS2_A14)
               sf_upload "$ROM_OUTPUT" "ZK-EU/ZKOS2"
               gd_upload "1xQJPeS5yI0Tva5AMOJoz05voJQCmzsBR"
-              echo "ZK_LINK=https://index.projectzk.online/ZK-EU/ZKOS2" >> $GITHUB_ENV
               ;;
             OS3|OS3_A15)
               sf_upload "$ROM_OUTPUT" "ZK-EU/ZKOS3"
               gd_upload "1fFNVQDoS4qnOIZP1xyoAiPYGUK2lUUNu"
-              echo "ZK_LINK=https://index.projectzk.online/ZK-EU/ZKOS3" >> $GITHUB_ENV
               ;;
             *)
               echo "::warning::Unknown ROM_VER=$ROM_VER, skipping upload"
