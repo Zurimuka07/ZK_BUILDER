@@ -1,4 +1,92 @@
 {
+  "athens": {
+    "battery": "8580mAh - 100W",
+    "color": "Black, White, Glowing Firefly, Cabernet Red",
+    "device_name": "REDMI K100 Pro / POCO F9 Pro",
+    "display": "AMOLED, 6.59in, 185Hz, 1156x2510",
+    "front": "32MP",
+    "ram": "12GB / 16GB",
+    "rear": "200MP + 50MP + 8MP",
+    "rom": "256GB / 512GB",
+    "soc": "Snapdragon 8EliteGen5 V Series"
+  },
+  "brussels": {
+    "battery": "10000mAh - 100W",
+    "color": "Black, Blue, Purple, Cloud White",
+    "device_name": "REDMI Note 17 Pro Max 5G",
+    "display": "AMOLED, 6.83in, 120Hz, 1280x2772",
+    "front": "32MP",
+    "ram": "8GB / 12GB",
+    "rear": "50MP + 8MP",
+    "rom": "128GB / 256GB / 512GB",
+    "soc": "Snapdragon 6Gen5"
+  },
+  "leedsa": {
+    "battery": "7500mAh - 45W",
+    "color": "Black, Deep Blue, Lotus Purple, Oak Green",
+    "device_name": "REDMI 17 / POCO C95 Pro",
+    "display": "IPS LCD, 6.9in, 120Hz, 720x1600",
+    "front": "8MP",
+    "ram": "4GB / 6GB",
+    "rear": "50MP",
+    "rom": "128GB / 256GB",
+    "soc": "Helio G91 Ultra"
+  },
+  "lhasa": {
+    "battery": "6000mAh - 67W",
+    "color": "Gray, Silver, Red, Rose Gold",
+    "device_name": "XIAOMI 18 Fold",
+    "display": "Foldable LTPO AMOLED, 7.58in, 120Hz, 1672x2364",
+    "front": "16MP + 16MP cover",
+    "ram": "12GB / 16GB",
+    "rear": "200MP + 50MP + 50MP",
+    "rom": "256GB / 512GB / 1TB",
+    "soc": "XIAOMI XRing O3"
+  },
+  "songyuan": {
+    "battery": "9070mAh - 100W",
+    "color": "Black, Flowing Gold White, Chasing Wind Blue, Cabernet Red",
+    "device_name": "REDMI K100 Pro Max / POCO F9 Ultra",
+    "display": "AMOLED, 6.9in, 185Hz, 1200x2608",
+    "front": "32MP",
+    "ram": "12GB / 16GB",
+    "rear": "200MP + 50MP + 50MP",
+    "rom": "256GB / 512GB / 1TB",
+    "soc": "Snapdragon 8EliteGen5"
+  },
+  "steppe": {
+    "battery": "7500mAh - 45W",
+    "color": "Black, Deep Blue, Vivid Orange",
+    "device_name": "REDMI M100 / REDMI 17 5G / POCO M8x 5G",
+    "display": "IPS LCD, 6.9in, 120Hz, 720x1600",
+    "front": "8MP",
+    "ram": "4GB / 6GB / 8GB",
+    "rear": "50MP",
+    "rom": "128GB / 256GB",
+    "soc": "Snapdragon 4Gen5"
+  },
+  "yingtian": {
+    "battery": "12000mAh - 120W",
+    "color": "Gray, Silver, Burgundy Red",
+    "device_name": "XIAOMI Pad 9 Pro Max",
+    "display": "IPS LCD, 13.3in, 144Hz, 2272x3408",
+    "front": "32MP",
+    "ram": "8GB / 12GB / 16GB",
+    "rear": "50MP",
+    "rom": "256GB / 512GB / 1TB",
+    "soc": "XIAOMI XRing O3"
+  },
+  "zephyr": {
+    "battery": "7700mAh - 45W",
+    "color": "Black, Sky Teal, Celestial Purple",
+    "device_name": "REDMI Note 17 4G",
+    "display": "AMOLED, 6.99in, 120Hz, 1080x2396",
+    "front": "16MP",
+    "ram": "4GB / 6GB / 8GB",
+    "rear": "50MP",
+    "rom": "128GB / 256GB",
+    "soc": "Snapdragon 6s 4G Gen2"
+  },
   "agate": {
     "battery": "5000mAh - 67W",
     "color": "Meteorite Gray, Moonlight White, Celestial Blue",
