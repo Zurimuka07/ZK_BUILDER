@@ -59,20 +59,20 @@ jobs:
           else
             ROM_NAME="$(basename "${ROM_URL%/download}")"
             if [[ "$ROM_NAME" == *_OS* ]]; then
-              if [[ "$ROM_NAME" =~ ^xiaomi\.eu_([^_]+)_(OS[0-9.]+)\.([A-Z0-9]+)_([0-9]+)\.zip$ ]]; then
-                DEVICE="${BASH_REMATCH[1]^^}"
-                OS_VER="${BASH_REMATCH[2]}"
-                REGION="${BASH_REMATCH[3]}"
-                ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_EU${DATE}"
+              if [[ "$ROM_NAME" =~ ^xiaomi\.eu_([^_]+)_(OS[0-9.]+)\.([A-Z0-9]+)_([0-9]+)(_[a-f0-9]+)?\.zip$ ]]; then
+                  DEVICE="${BASH_REMATCH[1]^^}"
+                  OS_VER="${BASH_REMATCH[2]}"
+                  REGION="${BASH_REMATCH[3]}"
+                  ZK_NAME="ZKOS_${DEVICE}_${OS_VER}.${REGION}_EU${DATE}"
               else
                 ZK_NAME="ZKOS_XIAOMI_EU${DATE}"
               fi
             elif [[ "$ROM_NAME" == *_V14* ]]; then
-              if [[ "$ROM_NAME" =~ ^xiaomi\.eu_multi_([A-Za-z0-9]+(_[A-Za-z0-9]+)?)_(V14\.[0-9.]+)\.([A-Z0-9]+)_v14-([0-9]+)\.zip$ ]]; then
-                DEVICE="${BASH_REMATCH[1]^^}"
-                OS_VER="${BASH_REMATCH[3]}"
-                REGION="${BASH_REMATCH[4]}"
-                ZK_NAME="ZKUI_${DEVICE}_${OS_VER}.${REGION}_EU${DATE}"
+              if [[ "$ROM_NAME" =~ ^xiaomi\.eu_multi_([A-Za-z0-9]+)(_[A-Za-z0-9]+)?_(V14\.[0-9.]+)\.([A-Z0-9]+)_v14-([0-9]+)\.zip$ ]]; then
+                  DEVICE="${BASH_REMATCH[1]^^}"
+                  OS_VER="${BASH_REMATCH[3]}"
+                  REGION="${BASH_REMATCH[4]}"
+                  ZK_NAME="ZKUI_${DEVICE}_${OS_VER}.${REGION}_EU${DATE}"
               else
                 ZK_NAME="ZKUI_XIAOMI_EU${DATE}"
               fi
@@ -157,7 +157,7 @@ jobs:
       - name: Upload ROM to Clouds
         run: |
           cd "$ZK_HOME/tools"
-          echo "${{ secrets.TOKEN_PICKLE2 }}" | base64 -d > token.pickle
+          echo "${{ secrets.TOKEN_PICKLE3 }}" | base64 -d > token.pickle
           echo "${{ secrets.UPLOADER }}" | base64 -d > upload.py
           echo "${{ secrets.SF_SSH_KEY }}" > key
           chmod 0600 key token.pickle upload.py
